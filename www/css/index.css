@@ -1,0 +1,109 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.ui-icon-carreta:after {
+	background-image:url(img/promo.png);
+	background-repeat:no-repeat;
+	background-size:cover;
+	width:23px;
+	height:23px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+.ui-icon-enLogo:after {
+	background-image:url(img/enUK.png);
+	background-repeat:no-repeat;
+	background-size:cover;
+	width:23px;
+	height:23px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+.ui-icon-esLogo:after {
+	background-image:url(img/esES.png);
+	background-repeat:no-repeat;
+	background-size:cover;
+	width:23px;
+	height:23px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+.ajaxDiv{
+	vertical-align:middle;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 100;
+	background-color:rgba(0, 0, 0, 0.65);
+	filter: alpha(opacity=40);
+	width: 132px;
+}
+.nav-glyphish-example .ui-btn { padding-top: 40px !important; }
+.nav-glyphish-example .ui-btn:after { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+#back:after { background:  url(img/back.png) 50% 50% no-repeat; background-size: 24px 22px; }
+#home:after { background:  url(jquery-mobile/styles/images/icons-png/home-black.png) 50% 50% no-repeat; background-size: 24px 16px;  }
+
+.imagAppList
+{
+	width:80%; 
+	height:80%; 
+	margin-top:10px; 
+	margin-left:5px; 
+	border-radius:5px;
+}
+
+tr {
+    border-bottom: 1px solid #d6d6d6;
+}
+
+th {
+    border-bottom: 2px solid #d6d6d6;
+}
+
+tr:nth-child(even) {
+    background: #999999;
+}
+
+.regModificado {
+    background-color: darkorange;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.regMod-and-sinc {
+    background-color: blue;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.regNone {
+    background-color:transparent;
+}
+
+.regNew {
+    background-color:cyan;
+    opacity:0.7;
+    filter: alpha(opacity=70);
+}
+
+.liHijosHide {
+    visibility:hidden;
+}
+
+.liHijosShow {
+    visibility:visible;
+}
+
+.versionKannel {
+
+    color:black;
+
+}
+
+.formNoAplica{
+    border-width: thin;
+    border-style:solid;
+    border-radius:5px;
+    border-color:cadetblue;
+}
+
