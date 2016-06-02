@@ -8,7 +8,7 @@ var failTablesList = "";
 
 var onSuccess = function (position) {
 
-    'use strict'
+    'use strict';
     var GPSLong = position.coords.longitude,
         GPSLat = position.coords.latitude,
         GPSAlti = position.coords.altitude;
@@ -1956,7 +1956,7 @@ $(document).ready(function (e)
         $("#btnTraslate")._t("English");
     });
 
-    var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel"];
+    var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel", "#msgCerrarSecion"];
 
     $("#loadingAJAX").hide();
 
@@ -1998,8 +1998,31 @@ $(document).on("pagecreate", "#IndexPage", function()
 
         $("#btnLogOut").click(function (e)
         {
-            window.sessionStorage.clear();
-            db.TRUNCATE("movil_User");
+            var txtMsg = $("#msgCerrarSecion").text();
+
+		    new Messi(txtMsg,
+				{
+				    title: 'Kannel Mobil',
+				    titleClass: 'anim warning',
+				    buttons:
+						[
+							{ id: 0, label: 'Yes', val: 'Y' },
+							{ id: 1, label: 'Cancel', val: 'C' }
+						],
+				    modal: true,
+				    width: (window.innerWidth - 25),
+				    callback: function (val)
+				    {
+				        if (val == 'Y')
+                        {
+                            window.sessionStorage.clear();
+                            window.location = "#page-home";
+                            //db.TRUNCATE("movil_User");
+                        }
+				    }
+				});
+           
+            
         });
 		
         $("#btnDBDown").click(function(e) 

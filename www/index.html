@@ -54,7 +54,7 @@
                     <td><button class="ui-btn ui-shadow ui-corner-all ui-icon-esLogo ui-btn-icon-notext" >Espa&ntilde;ol</button></td>
                 </tr>
             </table>-->
-            <label class="left versionKannel">Ver 1.5.0</label>
+            <label class="left versionKannel">Ver 1.5.2</label>
             <a class="ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-right" data-transition="flip" href="#LogInDialog">Iniciar Sesion</a>
             <h1>Kannel Mobil App</h1>
             
@@ -113,7 +113,7 @@
           	<li><a href="#IndexPage" data-rel="close" id="btnDBDown" class="ui-btn ui-shadow ui-icon-arrow-d ui-btn-icon-right">Descargar Base de Datos</a></li>
             <li><a class="messi-titlebox anim error ui-btn ui-shadow ui-icon-delete ui-btn-icon-right" style="border-radius:0; font-size:17px; color:#FFFFFF" href="#IndexPage" data-rel="close" id="btnViewCat">"Drop Data Base"</a></li>
             <li><a href="#IndexPage" data-rel="close" id="btnUpdateData" class="ui-btn ui-shadow ui-icon-cloud ui-btn-icon-right">Sincronizar</a></li>
-            <li><a href="#page-home" data-rel="close" id="btnLogOut" class="ui-btn ui-shadow ui-icon-power ui-btn-icon-right">Cerrar Seccion</a></li>
+            <li><a href="#" data-rel="close" id="btnLogOut" class="ui-btn ui-shadow ui-icon-power ui-btn-icon-right">Cerrar Sesion</a></li>
             <li><a href="#DLGEncuesta" data-rel="close"class="ui-btn ui-shadow ui-icon-star ui-btn-icon-right" id="btn_NewEncuestaDLG">Encuesta Nueva</a></li>  
             <!--<li><a onclick="tomarFoto(1, 'tempFoto');" data-rel="close" class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right">Foto</a></li>-->
           </ul>
@@ -159,8 +159,8 @@
             <h2>Men&uacute;</h2>
             <ul data-role="listview" id="ulSideMenu_PageBuilder">
                 <li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left"  href="#IndexPage" onClick="window.location = '#IndexPage'; RemoveSessionVar(); location.reload();" id="btn_Home">Inicio</a></li>
-                <!--<li><a href="#PageBuilder" data-rel="close" id="btnSaveData" class="ui-btn ui-shadow ui-icon-check ui-btn-icon-notext ui-btn-icon-left" onclick="ClickEvent_btnSaveData();">Guardar</a></li>-->
-                <li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left ui-btn-icon-notext">Nuevo</a></li>
+                <!--<li><a href="#PageBuilder" data-rel="close" id="btnSaveData" class="ui-btn ui-shadow ui-icon-check ui-btn-icon-notext ui-btn-icon-left" onclick="ClickEvent_btnSaveData();">Guardar</a></li>
+                <li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left ui-btn-icon-notext">Nuevo</a></li>-->
                 <li><a href="#PageBuilder" data-rel="back" id="btnGeoPos" class="ui-btn ui-shadow ui-icon-location ui-btn-icon-left" onclick="ClickEvent_btnGeoPos();">Obtener GPS</a></li>
             </ul>
             
@@ -170,8 +170,8 @@
             
             
             <div class="left">
-                <button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-b ui-btn-inline" id="btnVC_Atras">Atras</button>
-                <button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-b ui-btn-inline" id="btn_backH" onclick="ClickEvent_btn_backH();">Atras</button>
+                <button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline" id="btnVC_Atras">Atras</button>
+                <button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline" id="btn_backH" onclick="ClickEvent_btn_backH();">Atras</button>
             </div>
             
             <div class = "right">
@@ -266,6 +266,7 @@
     <label id="msgSendData">Esta Accion Envia los datos modificados a la base de datos, Asegurese de tener coneccion a internet.</label>
     <label id="msgDBSincOK">Proceso terminado con exito, [Tablas Aculizadas: </label>
     <label id="msgErrortabel">Estas tablas no se puedieron descargar. [</label>
+    <label id="msgCerrarSecion">Desea Cerrar la Sesion Actual?</label>
     
 </body>
-</html>   
+</html>
