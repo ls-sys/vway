@@ -55,7 +55,7 @@
                 </tr>
             </table>-->
             <label class="left versionKannel">Ver 1.4.2</label>
-            <a class="ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-left ui-btn-a ui-btn-inline ui-btn-right" data-transition="flip" href="#LogInDialog">Iniciar Sesion</a>
+            <a class="ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-right" data-transition="flip" href="#LogInDialog">Iniciar Sesion</a>
             <h1>Kannel Mobil App</h1>
             
         </div>
@@ -120,7 +120,7 @@
         </div>
         
     	<div data-role="header" data-position="fixed">
-        	<a href="#pMenu" class="ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-a ui-btn-inline ui-btn-left">Menu</a>
+        	<a href="#pMenu" class="ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-left">Menu</a>
         	<h1>Inicio Sistema</h1>
             <div class="ui-btn-right ui-btn-inline">
                 <label id="lUserName" style="font-size:12px">Usuario: </label>
@@ -159,17 +159,23 @@
             <h2>Men&uacute;</h2>
             <ul data-role="listview" id="ulSideMenu_PageBuilder">
                 <li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left"  href="#IndexPage" onClick="window.location = '#IndexPage'; RemoveSessionVar(); location.reload();" id="btn_Home">Inicio</a></li>
-                <li><a href="#PageBuilder" data-rel="close" id="btnSaveData" class="ui-btn ui-shadow ui-icon-check ui-btn-icon-left" onclick="ClickEvent_btnSaveData();">Guardar</a></li>
-                <li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left">Nuevo</a></li>
+                <!--<li><a href="#PageBuilder" data-rel="close" id="btnSaveData" class="ui-btn ui-shadow ui-icon-check ui-btn-icon-notext ui-btn-icon-left" onclick="ClickEvent_btnSaveData();">Guardar</a></li>-->
+                <li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left ui-btn-icon-notext">Nuevo</a></li>
                 <li><a href="#PageBuilder" data-rel="back" id="btnGeoPos" class="ui-btn ui-shadow ui-icon-location ui-btn-icon-left" onclick="ClickEvent_btnGeoPos();">Obtener GPS</a></li>
             </ul>
             
         </div>
 
     	<div data-role="header" data-position="fixed">
-            <a href="#pMenu_PageBuilder" class="ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-a ui-btn-inline ui-btn-right">Menu</a>
-        	<button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-a ui-btn-inline  ui-btn-left" id="btnVC_Atras">Atras</button>
-            <button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-a ui-btn-inline  ui-btn-left" id="btn_backH" onclick="ClickEvent_btn_backH();">Atras</button>
+            
+            <div class = "right">
+                <a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-b ui-btn-inline">Nuevo</a>
+                <a href="#PageBuilder" data-rel="close" id="btnSaveData" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-b ui-btn-inline" onclick="ClickEvent_btnSaveData();">Guardar</a>
+                <a href="#pMenu_PageBuilder" class="ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-b ui-btn-inline">Menu</a>
+            </div>
+            
+        	<button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline  ui-btn-left" id="btnVC_Atras">Atras</button>
+            <button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline  ui-btn-left" id="btn_backH" onclick="ClickEvent_btn_backH();">Atras</button>
         	<h1 id="lHForma">Listado de Grupos</h1> <!-- Nombre de la forma-->
         </div>
         
@@ -196,9 +202,9 @@
     <!--Encuesta (pagina especial.)-->
     <div id="EncuentaBuilder" data-role="page"data-theme="b">
         <div data-role="header">
-            <a data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-a ui-btn-inline  ui-btn-left">Atras</a>
+            <a data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline  ui-btn-left">Atras</a>
             <h1 id="lHEncuestaB">Encuesta</h1>
-            <a class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-left ui-btn-a ui-btn-inline ui-btn-right" onclick="saveEncuesta();">Guardar</a>
+            <a class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-right" onclick="saveEncuesta();">Guardar</a>
         </div>
 
         <div data-role="content">

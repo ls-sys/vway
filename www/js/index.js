@@ -754,12 +754,11 @@ function BuildMantenimineto(tableName, proj_Id, obj_Id)
 	$('#ulSideMenu_PageBuilder').html
         (
             '<li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left" href="#IndexPage" onClick="' + temptextOn + '">Inicio</a></li>' +
-            '<li><a href="#PageBuilder" data-rel="close" id="btnSaveData" class="ui-btn ui-shadow ui-icon-check ui-btn-icon-left" onclick="ClickEvent_btnSaveData();" >Guardar</a></li>' +
-            '<li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left" onclick="ClickEvent_btnNewReg(' + NewRegParams + ')">Nuevo</a></li>' +
+            //'<li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left" onclick="ClickEvent_btnNewReg(' + NewRegParams + ')">Nuevo</a></li>' +
             '<li><a href="#PageBuilder" data-rel="close" id="btnGeoPos" class="ui-btn ui-shadow ui-icon-location ui-btn-icon-left" onclick="ClickEvent_btnGeoPos();">Obtener GPS</a></li>'
         );
 
-	
+	$('#btnNewReg').attr("onclick", "ClickEvent_btnNewReg(" + NewRegParams + ")");
 
 	var subMods = db.SELECT("Object_Movil", function (row)
 	{
@@ -925,7 +924,7 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 
 		        $('<td>')
                     .attr({ 'class': regClass })
-                    .html("<a class='btnVer ui-btn ui-shadow ui-corner-all ui-icon-action ui-btn-icon-notext ui-btn-a' data-transition='slide' href='#PageBuilder' onclick='BuildFormMobil(" + params + ")' >Ir.</a>")
+                    .html("<a class='btnVer ui-btn ui-shadow ui-corner-all ui-icon-action ui-btn-icon-notext ui-btn-b' data-transition='slide' href='#PageBuilder' onclick='BuildFormMobil(" + params + ")' >Ir.</a>")
                     .appendTo(tempID);
                 
 		        $jqRS.each(function (index, ele1)
