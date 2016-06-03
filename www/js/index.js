@@ -8,7 +8,7 @@ var failTablesList = "";
 
 var onSuccess = function (position) {
 
-    'use strict';
+    
     var GPSLong = position.coords.longitude,
         GPSLat = position.coords.latitude,
         GPSAlti = position.coords.altitude;
@@ -272,6 +272,8 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 					DataInsert += "]";
 					
 					DataInsert = DataInsert.replace("[ ,{", "[{");
+                    
+                    DataInsert = DataInsert.replace(/NaN/g, "null");
 					
 					objDataInsert = JSON.parse(DataInsert);
 
@@ -1885,8 +1887,8 @@ var onSuccessGPSPormotor = function (position)
     var GpsLatAnt = window.sessionStorage.GPSLatAnt;
     var GpsLonAnt = window.sessionStorage.GPSLongAnt;
 
-    GpsLatAnt = GpsLatAnt == undefined ? 0 : GpsLatAnt;
-    GpsLonAnt = GpsLonAnt == undefined ? 0 : GpsLonAnt;
+    GpsLatAnt = (GpsLatAnt == undefined || GpsLatAnt == "null") ? 0 : GpsLatAnt;
+    GpsLonAnt = (GpsLonAnt == undefined || GpsLonAnt == "null") ? 0 : GpsLonAnt;
 
     var difLong = Math.abs(Math.abs(GPSLong * 1) - Math.abs(GpsLonAnt * 1));
     var difLat = Math.abs(Math.abs(GPSLat * 1) - Math.abs(GpsLatAnt * 1));
