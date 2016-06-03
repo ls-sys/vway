@@ -59,7 +59,7 @@ function Mensage(texto) {
 	$("#ajaxgif").hide();*/
     new Messi(texto,
 	{
-	    title: 'Kannel Mobil',
+	    title: 'Volcafe Way',
 	    width: (window.innerWidth - 25),
         modal: true,
 	    callback: function (val) {
@@ -296,7 +296,7 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 					        var txtMsg = $("#msgErrortabel").text() + failTablesList + "]";
 					        new Messi(txtMsg,
                             {
-                                title: 'Kannel Mobil',
+                                title: 'Volcafe Way',
                                 titleClass: 'anim error',
                                 buttons:
                                     [
@@ -333,7 +333,7 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 			                var txtMsg = $("#msgErrortabel").text();
 			                new Messi(txtMsg,
                             {
-                                title: 'Kannel Mobil',
+                                title: 'Volcafe Way',
                                 titleClass: 'anim error',
                                 buttons:
                                     [
@@ -903,9 +903,9 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 
 		        var tempID = "row_" + index;
 
-		        $('<tr>').attr({ 'id': tempID }).appendTo("#PageBuilder_Tabla tbody");
-
 		        var params = '"' + tableName + '", ' + proj_Id + ", " + obj_Id + ", " + element.id;
+                
+		        $('<tr>').attr({ 'id': tempID, 'onclick':"BuildFormMobil(" + params + ")" }).appendTo("#PageBuilder_Tabla tbody");
 
 		        var regClass = "";
 		        if (element.modifica == "1")
@@ -2004,7 +2004,7 @@ $(document).on("pagecreate", "#IndexPage", function()
 
 		    new Messi(txtMsg,
 				{
-				    title: 'Kannel Mobil',
+				    title: 'Volcafe Way',
 				    titleClass: 'anim warning',
 				    buttons:
 						[
@@ -2101,7 +2101,7 @@ $(document).on("pagecreate", "#IndexPage", function()
 
 		    new Messi(txtMsg,
 				{
-				    title: 'Kannel Mobil',
+				    title: 'Volcafe Way',
 				    titleClass: 'anim success',
 				    buttons:
 						[
@@ -2123,7 +2123,7 @@ $(document).on("pagecreate", "#IndexPage", function()
 			var txtMsg = $("#msgDropDB").text();
 			new Messi(txtMsg, 
 				{
-					title: 'Kannel Mobil', 
+					title: 'Volcafe Way', 
 					titleClass: 'anim warning', 
 					buttons: 
 						[
@@ -2167,7 +2167,7 @@ $(document).on("pagecreate", "#GridCatalog", function ()
                 var txtMsg = $("#lNoData").text();
                 new Messi(txtMsg,
 						{
-						    title: 'Kannel Mobil',
+						    title: 'Volcafe Way',
 						    titleClass: 'anim error',
 						    buttons:
 								[
