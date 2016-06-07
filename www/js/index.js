@@ -1231,20 +1231,24 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
 		                    {
 		                        var Dia = FechaSplit[0] * 1;
 		                        var Mes = (FechaSplit[1] * 1) - 1;
-		                        var Anio = (FechaSplit[2] * 1);
+		                        var Anio = (FechaSplit[2] * 1) % 100;
 
-		                        Anio = Anio < 2000 ? Anio + 2000 : Anio;
+		                        Anio = Anio > 50 ? Anio + 1900 : Anio + 2000;
 
 		                        var fecha = new Date(Anio, Mes, Dia);
                                 
-		                        InputValue = fecha.getFullYear() + "-" + pad((fecha.getMonth() + 1) + "",2) + "-" + fecha.getDate();
+		                        InputValue = fecha.getFullYear() + "-" + pad((fecha.getMonth() + 1) + "",2) + "-" + pad(fecha.getDate() + "", 2);
 		                    }
 
                             
 		                    $('<input>')
-                                .attr({ 'type': 'date', 'data-clear-btn': 'true', 'disabled': disableVar, 'id': ele.id_obj, 'value': InputValue, 'onblur': 'saveTemVal("#' + ele.id_obj + '", "");' })
+                                .attr({ 'type': 'date', 'data-clear-btn': 'true', 'disabled': disableVar, 'id': ele.id_obj, 'onblur': 'saveTemVal("#' + ele.id_obj + '", "");' })
                                 .appendTo(IDObjDiv);
+                            $(idJQ).val(InputValue);
 		                    $(idJQ).textinput();
+                            
+                            
+                            
 		                    break;
 		            }
 		            break;
