@@ -1729,10 +1729,18 @@ function ClickEvent_btnSaveData()
                         InValue = $("#" + ObjID).val(),
                         InputType = $("#" + ObjID).attr('type');
                     
+                                        
                     if (ele.sql_pk == "P" && (InValue == undefined || InValue == null || InValue.trim() == "Empty"))
                     {
-                        Mensage("El campo '" + ele.label + "' Es requerido.");
-                        throw "El campo '" + ele.label + "' Es requerido.";
+                        var bakInitVal = window.sessionStorage.getItem("#P_" + ObjID.toLowerCase() + "$");
+                        
+                        if (bakInitVal != null)
+                            InValue = bakInitVal;
+                        else
+                        {
+                            Mensage("El campo '" + ele.label + "' Es requerido.");
+                            throw "El campo '" + ele.label + "' Es requerido.";  
+                        }
                     }
 
                     if (InputType == "checkbox")
