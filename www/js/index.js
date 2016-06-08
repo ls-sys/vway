@@ -367,6 +367,9 @@ function DropDataBase(name)
     var tablas = "LocalStorageDB-" + name + "-::tables::";
     var rs = db.SELECT("movil_User", { userName: window.sessionStorage.UserLogin });
     
+    window.sessionStorage.removeItem("GPSLatAnt");
+    window.sessionStorage.removeItem("GPSLongAnt");
+    
     var tempPws = "";
 
     if (rs.length > 0)
