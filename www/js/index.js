@@ -94,7 +94,8 @@ function CreateDB(name)
 			data_source_movil: '',
 			pk_pos: "0",
 			enabled: '',
-            visible: ''
+            visible: '',
+            action_movil: ''
 		});
 		
 		db.CREATE("Object_Movil",
@@ -1175,6 +1176,12 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
 
 		    var disableVar = null;
 		    var VisibleVar = (ele.sql_colnum == 0) ? "hidden" : "visible";
+            
+            if (ele.enabled == "N")
+            {
+                disableVar = 'disabled';
+            }
+                
 
 		    if (ele.sql_pk == "P")
 		    {
@@ -1294,8 +1301,10 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
 		            window.sessionStorage.removeItem("#PKDisable");
 		            break;
 		    }
-
-		   
+          //Add extra Evenets.  
+            var ActionCode = ele.action_movil + "";
+            ActionCode = ActionCode.replace(/~/g,'"');
+		    $.globalEval(ActionCode);
 
 		});
 
@@ -1532,6 +1541,9 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
                     break;
             }
             //$(idJQ).css("visibility", VisibleVar);
+            var ActionCode = ele.action_movil + "";
+            ActionCode = ActionCode.replace(/~/g,'"');
+		    $.globalEval(ActionCode);
         });
 
         var rsTabla = db.SELECT("ListMod", function (row) {
