@@ -116,3 +116,9 @@ tr:nth-child(even) {
     float: right;
     display: inline-block;
 }
+
+.centerContent{
+    width: 50%;
+    margin: 0 auto; 
+    text-align: center;
+}

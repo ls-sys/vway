@@ -1300,6 +1300,14 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
 		            window.sessionStorage.removeItem("#initValue$");
 		            window.sessionStorage.removeItem("#PKDisable");
 		            break;
+                case "X":
+                    $("<img>")
+                        .attr({'id':  ele.id_obj + "_img", 'src':'img/logo.png', 'style':'width: 170px; height: 200px;display: block;margin-left: auto;margin-right: auto'})
+                        .appendTo(IDObjDiv);
+                    $("<input>").attr({'id':  ele.id_obj, 'type': 'hidden', 'value': InputValue}).appendTo(IDObjDiv);
+                    
+                    $(IDObjDiv).addClass("centerContent");
+                    break;
 		    }
           //Add extra Evenets.  
             var ActionCode = ele.action_movil + "";
