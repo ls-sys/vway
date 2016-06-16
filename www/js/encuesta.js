@@ -1,4 +1,4 @@
-﻿function CreateListaChequeo(idFormulario, idEncuesta)
+function CreateListaChequeo(idFormulario, idEncuesta)
 {
     $("#SC_Grupos").empty();
 
@@ -168,6 +168,15 @@
                     $('<input>')
                         .attr({ 'id': 'q_respuesta_linea_foto_' + IDRes, 'type': 'hidden', 'value': rsRespuestas[iP].linea_foto })
                         .appendTo("#" + IDRes + '_noAplicaForm_2');
+                    
+                    var fotoBAse64 = db.SELECT("vc_foto", {linea: rsRespuestas[iP].linea_foto});
+                    
+                    if (fotoBAse64.length > 0)
+                    {
+                        $('<img>')
+                            .attr({ 'id': "q_respuesta_img" + IDRes, 'src': "data:image/png;base64," + fotoBAse64[0].foto_base64 })
+                            .appendTo("#" + IDRes + '_noAplicaForm_2');
+                    }
 
                     $('#BTN_tomarFoto_' + IDRes).button();
 
