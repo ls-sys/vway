@@ -148,6 +148,38 @@ function CreateDB(name)
         });
 }
 
+
+function ReDowloadFoto()
+{
+    var rs = db.SELECT("vc_foto");
+    
+    if (rs.length > 0)
+    {
+        $("#loadingAJAX").show();
+        $(rs).each(function (index, val)
+        {
+            $.post(uriServer, 
+            {
+                "cmd": "getFotos",
+                "Empresa": window.sessionStorage.getItem("UserEmpresa"),
+                "User": window.sessionStorage.getItem("UserLogin"),
+                "Linea": val.linea
+                
+            },
+            function (data) 
+            {
+                $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
+                db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
+                
+                if (index == (rs.length - 1))
+                {
+                    $("#loadingAJAX").delay(2000).slideUp(500);
+                }
+            }, "json");
+        });
+    }
+}
+
 function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, PageTitle)
 {
 	var rs = db.SELECT("ListMod", function (row)
@@ -314,7 +346,11 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
                             });
 					    }
 					    else
-					        $("#loadingAJAX").delay(2000).slideUp(500);
+                        {
+                            //ReDowloadFoto();
+                            $("#loadingAJAX").delay(2000).slideUp(500);
+                        }
+					        
 					}
 
 				}, "xml")
@@ -1236,7 +1272,7 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
 		                case "DT":
 		                    InputValue = InputValue + "";
 
-		                    var FechaSplit = InputValue.split("-");
+		                    var FechaSplit = InputValue.split("/");
 		                    if (FechaSplit.length > 0 && FechaSplit[0].length == 2)
 		                    {
 		                        var Dia = FechaSplit[0] * 1;
@@ -2104,7 +2140,7 @@ $(document).on("pagecreate", "#IndexPage", function()
                         DownLoadDataSave(55, 45, "", "VC_VARIEDAD", 0, "");
                         //DownLoadDataSave(55, 100, "", "VC_ACTIVIDAD_PROMOTOR", 0, "");
 
-
+                        
                     }, "json")
                         .fail(function (qXHR, textStatus, errorThrown) {
                             Mensage("No Coneccion.");
@@ -2127,7 +2163,8 @@ $(document).on("pagecreate", "#IndexPage", function()
 		
 		$("#btnLoadModules").click(function(e) 
 		{
-         	RefreshIndex();   
+         	RefreshIndex();  
+            ReDowloadFoto();
 		});
 
 		$("#btnUpdateData").click(function (e)

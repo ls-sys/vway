@@ -97,7 +97,7 @@ function CreateListaChequeo(idFormulario, idEncuesta)
 
                     var FechaPlazo = rsRespuestas[iP].accion_fecha + "";
 
-                    var FechaSplit = FechaPlazo.split("-");
+                    var FechaSplit = FechaPlazo.split("/");
                     if (FechaSplit.length > 0 && FechaSplit[0].length == 2)
                     {
                         var Dia = FechaSplit[0] * 1;
@@ -173,9 +173,16 @@ function CreateListaChequeo(idFormulario, idEncuesta)
                     
                     if (fotoBAse64.length > 0)
                     {
+                        
+                        /*alert(fotoBAse64[0].foto_base64.length)
+                        var temp = fotoBAse64[0].foto_base64 + "";
+                        temp = temp.replace(/-/g, "/");
+                        fotoBAse64[0].foto_base64 = temp;
+                        alert(fotoBAse64[0].foto_base64.length)*/
                         $('<img>')
-                            .attr({ 'id': "q_respuesta_img" + IDRes, 'src': "data:image/png;base64," + fotoBAse64[0].foto_base64 })
+                            .attr({ 'id': "q_respuesta_img" + IDRes, 'src': "data:image/jpg;base64," + fotoBAse64[0].foto_base64 })
                             .appendTo("#" + IDRes + '_noAplicaForm_2');
+                        temp = null;
                     }
 
                     $('#BTN_tomarFoto_' + IDRes).button();
