@@ -158,7 +158,7 @@ function ReDowloadFoto()
         $("#loadingAJAX").show();
         $(rs).each(function (index, val)
         {
-            $.post(uriServer, 
+            setTimeout($.post(uriServer, 
             {
                 "cmd": "getFotos",
                 "User": window.sessionStorage.getItem("UserLogin"),
@@ -174,7 +174,10 @@ function ReDowloadFoto()
                 {
                     $("#loadingAJAX").delay(2000).slideUp(500);
                 }
-            }, "json");
+            }, "json"), 1000);
+            
+            
+            
         });
     }
 }
