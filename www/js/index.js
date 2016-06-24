@@ -174,11 +174,19 @@ function ReDowloadFoto()
                 {
                     $("#loadingAJAX").delay(2000).slideUp(500);
                 }
-            }, "json"), 1000);
+            }, "json")
+            .fail(function (a,b,c)
+            {
+                alert(b)   
+            }), 1000);
             
             
             
         });
+    }
+    else
+    {
+        alert("no reg.")
     }
 }
 
