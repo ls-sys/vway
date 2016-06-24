@@ -169,7 +169,7 @@ function ReDowloadFoto()
             $("#loadingAJAX").show();
             $(rs).each(function (index, val)
             {
-                setTimeout($.post(uriServer, 
+                $.post(uriServer, 
                 {
                     "cmd": "getFotos",
                     "User": window.sessionStorage.getItem("UserLogin"),
@@ -189,7 +189,7 @@ function ReDowloadFoto()
                 .fail(function (a,b,c)
                 {
                     alert(b)   
-                }), 1000);
+                });
 
 
 
