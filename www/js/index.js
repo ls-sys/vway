@@ -151,43 +151,58 @@ function CreateDB(name)
 
 function ReDowloadFoto()
 {
-    var rs = db.SELECT("vc_foto");
     
-    if (rs.length > 0)
+    db.TRUNCATE("vc_foto");
+    
+    $.post(uriServer,
     {
-        $("#loadingAJAX").show();
-        $(rs).each(function (index, val)
+        "cmd": "getListaFotos",
+        "User": window.sessionStorage.getItem("UserLogin")
+    },function (data1)
+    {
+        db.INSERT_INTO("vc_foto", data1);
+        
+        var rs = db.SELECT("vc_foto");
+    
+        if (rs.length > 0)
         {
-            setTimeout($.post(uriServer, 
+            $("#loadingAJAX").show();
+            $(rs).each(function (index, val)
             {
-                "cmd": "getFotos",
-                "User": window.sessionStorage.getItem("UserLogin"),
-                "Linea": val.linea
-                
-            },
-            function (data) 
-            {
-                $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
-                db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
-                
-                if (index == (rs.length - 1))
+                setTimeout($.post(uriServer, 
                 {
-                    $("#loadingAJAX").delay(2000).slideUp(500);
-                }
-            }, "json")
-            .fail(function (a,b,c)
-            {
-                alert(b)   
-            }), 1000);
-            
-            
-            
-        });
-    }
-    else
-    {
-        alert("no reg.")
-    }
+                    "cmd": "getFotos",
+                    "User": window.sessionStorage.getItem("UserLogin"),
+                    "Linea": val.linea
+
+                },
+                function (data) 
+                {
+                    $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
+                    db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
+
+                    if (index == (rs.length - 1))
+                    {
+                        $("#loadingAJAX").delay(2000).slideUp(500);
+                    }
+                }, "json")
+                .fail(function (a,b,c)
+                {
+                    alert(b)   
+                }), 1000);
+
+
+
+            });
+        }
+        else
+        {
+            alert("no reg.")
+        }
+        
+    },"json");
+    
+    
 }
 
 function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, PageTitle)
