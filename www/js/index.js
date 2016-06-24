@@ -161,7 +161,6 @@ function ReDowloadFoto()
             $.post(uriServer, 
             {
                 "cmd": "getFotos",
-                "Empresa": window.sessionStorage.getItem("UserEmpresa"),
                 "User": window.sessionStorage.getItem("UserLogin"),
                 "Linea": val.linea
                 
