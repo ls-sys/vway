@@ -125,11 +125,21 @@ function CreateListaChequeo(idFormulario, idEncuesta)
                     var pctCumple = rsRespuestas[iP].pct_cumplimiento * 1;
 
                     pctCumple = (pctCumple == undefined || pctCumple == NaN) ? null : pctCumple;
+                    
+                    $("<select>").attr({'id': 'q_respuesta_pct_cumplimiento_' + IDRes }).appendTo("#" + IDRes + '_noAplicaForm_1');
+                    $("<option>").attr({ 'value': 'Empty' }).html("Choose one...").appendTo('#q_respuesta_pct_cumplimiento_' + IDRes);
+                    $("<option>").attr({ 'value': '0' }).html("0%").appendTo('#q_respuesta_pct_cumplimiento_' + IDRes);
+                    $("<option>").attr({ 'value': '25' }).html("25%").appendTo('#q_respuesta_pct_cumplimiento_' + IDRes);
+                    $("<option>").attr({ 'value': '50' }).html("50%").appendTo('#q_respuesta_pct_cumplimiento_' + IDRes);
+                    $("<option>").attr({ 'value': '75' }).html("75%").appendTo('#q_respuesta_pct_cumplimiento_' + IDRes);
 
-                    $('<input>')
+                    /*$('<input>')
                        .attr({ 'type': 'number', 'value': pctCumple, 'id': 'q_respuesta_pct_cumplimiento_' + IDRes, 'name': 'q_respuesta_pct_cumplimiento_' + IDRes })
                        .appendTo("#" + IDRes + '_noAplicaForm_1');
-                    $('#q_respuesta_pct_cumplimiento_' + IDRes).textinput();
+                    $('#q_respuesta_pct_cumplimiento_' + IDRes).textinput();*/
+                    $('#q_respuesta_pct_cumplimiento_' + IDRes).selectmenu();
+                    
+                    $('#q_respuesta_pct_cumplimiento_' + IDRes).val(pctCumple);
 
                     //AccionCorectivca
                     $('<label>')
