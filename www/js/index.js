@@ -1475,14 +1475,17 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
 
     var ListKey = GetPrimaryKey(tableName, project_id, object_id);
 
-    var NextRowID = db.MAX_TABLE(tableName);
+    //var NextRowID = db.MAX_TABLE(tableName);
     
-    var rsLastReg = db.SELECT(tableName, { id: NextRowID - 1 });
+    var pkJson = window.sessionStorage.getItem("#TableWhere");
+    pkJson = JSON.parse(pkJson);
+    
+    var rsLastReg = db.SELECT(tableName, pkJson).MAX(ListKey[ListKey.length-1]);
 
     var Max_1 = 0;
 
-    if (rsLastReg.length > 0) {
-        Max_1 = (rsLastReg[0][ListKey[ListKey.length - 1]] * 1) + 1;
+    if (rsLastReg > 0) {
+        Max_1 = rsLastReg + 1;
     }
     else
         Max_1 = 1;
