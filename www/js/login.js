@@ -157,7 +157,7 @@ function ValEntrada ()
 				}
 				else
 				{
-					var txtMsg = $("#tErrorLogin").text() + " [Offline] " + xhr.responseText;
+					var txtMsg = $("#tErrorLogin").text() + " [Offline] " ;
 					new Messi(txtMsg, 
 						{
 							title: 'Volcafe Way', 
