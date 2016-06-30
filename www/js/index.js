@@ -163,7 +163,7 @@ function ReDowloadFoto()
         db.INSERT_INTO("vc_foto", data1);
         
         var rs = db.SELECT("vc_foto");
-    
+        var forotsError = 0;
         if (rs.length > 0)
         {
             $("#loadingAJAX").show();
@@ -179,11 +179,21 @@ function ReDowloadFoto()
                 function (data) 
                 {
                     $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
-                    db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
+                    
+                    var serverLeng = data[0].largo * 1;
+                    var downloadLeng = data[0].foto_base64 + "";
+                    downloadLeng = downloadLeng.length;
+                    
+                    if (serverLeng == downloadLeng)
+                        db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
+                    else
+                       forotsError += 1; 
 
                     if (index == (rs.length - 1))
                     {
                         $("#loadingAJAX").delay(2000).slideUp(500);
+                        if (forotsError > 0)
+                            Mensage("Photos Error = " + forotsError);
                     }
                 }, "json")
                 .fail(function (a,b,c)
