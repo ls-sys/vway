@@ -147,7 +147,7 @@ function CreateListaChequeo(idFormulario, idEncuesta)
                         .html('Accion Correctiva:')
                         .appendTo("#" + IDRes + '_noAplicaForm_1');
                     $('<input>')
-                       .attr({ 'type': 'text', 'value': rsRespuestas[iP].accion_correctiva, 'id': 'q_respuesta_accion_correctiva_' + IDRes, 'name': 'q_respuesta_accion_correctiva_' + IDRes })
+                       .attr({ 'type': 'text', 'value': rsRespuestas[iP].accion_correctiva, 'id': 'q_respuesta_accion_correctiva_' + IDRes})
                        .appendTo("#" + IDRes + '_noAplicaForm_1');
                     $('#q_respuesta_accion_correctiva_' + IDRes).textinput();
 
