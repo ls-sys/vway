@@ -96,7 +96,7 @@ function CreateDB(name)
 			enabled: '',
             visible: '',
             action_movil: '',
-            require: '',
+            required: '',
             limit: 0
 		});
 		
@@ -149,7 +149,6 @@ function CreateDB(name)
             obj_order: 0
         });
 }
-
 
 function ReDowloadFoto()
 {
@@ -1157,7 +1156,7 @@ function RE_BuildForm(tableName, project_id, object_id)
             
             var Etiqueta = ele.label;
             
-            if (ele.require == 'S')
+            if (ele.required == 'S')
                 Etiqueta = "*" + Etiqueta;
             
 		    $('<label>').attr({ 'for': ele.id_obj }).html(Etiqueta).appendTo(IDObjDiv);
@@ -1168,8 +1167,14 @@ function RE_BuildForm(tableName, project_id, object_id)
 		            switch (ele.sql_datatype) {
 		                case "IN":
 		                case "DE":
+                            var tempMaxValue = "";
+                            for (var i = 0; i < ele.limit; i++)
+                            {
+                                tempMaxValue += "9";
+                            }
+                                
 		                    $('<input>')
-                                .attr({ 'type': 'number', 'id': ele.id_obj, 'disabled': disableVar, 'value': InputValue, 'maxlength': ele.limit, 'onblur': 'saveTemVal("#' + ele.id_obj + '", "' + ele.sql_datatype + '");' })
+                                .attr({ 'type': 'number', 'id': ele.id_obj, 'disabled': disableVar, 'value': InputValue, 'max': tempMaxValue, 'onblur': 'saveTemVal("#' + ele.id_obj + '", "' + ele.sql_datatype + '");' })
                                 .appendTo(IDObjDiv);
 		                    
 		                    $(idJQ).textinput();
@@ -1443,7 +1448,8 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
             {
                 disableVar = 'disabled';
             }
-                
+            
+            var Etiqueta = ele.label;
 
 		    if (ele.sql_pk == "P")
 		    {
@@ -1454,6 +1460,8 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
 		        window.sessionStorage.setItem("#P_" + temp + "$", InputValue);
 
 		        listOFKeys.push("#P_" + temp + "$");
+                
+                Etiqueta = "*" + Etiqueta;
 		    }
 		    else
 		    {
@@ -1472,10 +1480,8 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                 .appendTo("#PageBuilder_From");
 		    if (ele.visible == "N")
 		        $(IDObjDiv).hide();
-
-		    var Etiqueta = ele.label;
             
-            if (ele.require == 'S')
+            if (ele.required == 'S')
                 Etiqueta = "*" + Etiqueta;
             
 		    $('<label>').attr({ 'for': ele.id_obj }).html(Etiqueta).appendTo(IDObjDiv);
@@ -1486,8 +1492,13 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
 		            switch (ele.sql_datatype) {
 		                case "IN":
 		                case "DE":
+                            var tempMaxValue = ""
+                            for (var i = 0; i < ele.limit; i++)
+                            {
+                                tempMaxValue += "9";
+                            }
 		                    $('<input>')
-                                .attr({ 'type': 'number', 'id': ele.id_obj, 'disabled': disableVar, 'value': InputValue, 'maxlength': ele.limit, 'onblur': 'saveTemVal("#' + ele.id_obj + '", "' + ele.sql_datatype + '");' })
+                                .attr({ 'type': 'number', 'id': ele.id_obj, 'disabled': disableVar, 'value': InputValue, 'max': tempMaxValue, 'onblur': 'saveTemVal("#' + ele.id_obj + '", "' + ele.sql_datatype + '");' })
                                 .appendTo(IDObjDiv);
 		                    
 		                    $(idJQ).textinput();
@@ -1740,6 +1751,8 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
             var VisibleVar = (ele.sql_colnum == 0) ? "hidden" : "visible";
             
             var InputValue = window.sessionStorage.getItem(idJQ.toLowerCase() + "$");
+            
+            var Etiqueta = ele.label;
 
             if (ele.sql_pk == "P")
             {
@@ -1749,6 +1762,8 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
                 else
                     DisableVar = 'disabled';
                 InputValue = temp;
+                
+                Etiqueta = "*" + Etiqueta;
             }
 
             var IDObjDiv = "#" + ele.id_obj + "_div";
@@ -1759,9 +1774,9 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
             if (ele.visible == "N")
                 $(IDObjDiv).hide();
 
-            var Etiqueta = ele.label;
             
-            if (ele.require == 'S')
+            
+            if (ele.required == 'S')
                 Etiqueta = "*" + Etiqueta;
             
 		    $('<label>').attr({ 'for': ele.id_obj }).html(Etiqueta).appendTo(IDObjDiv);
@@ -1771,7 +1786,13 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
                     switch (ele.sql_datatype) {
                         case "IN":
                         case "DE":
-                            $('<input>').attr({ 'type': 'number', 'id': ele.id_obj, 'disabled': DisableVar, 'value': InputValue, 'maxlength': ele.limit, 'onblur': 'saveTemVal("#' + ele.id_obj + '", "' + ele.sql_datatype + '");' }).appendTo(IDObjDiv);
+                            var tempMaxValue = "";
+                            for (var i = 0; i < ele.limit; i++)
+                            {
+                                tempMaxValue += "9";
+                            }
+                            
+                            $('<input>').attr({ 'type': 'number', 'id': ele.id_obj, 'disabled': DisableVar, 'value': InputValue, 'max': tempMaxValue, 'onblur': 'saveTemVal("#' + ele.id_obj + '", "' + ele.sql_datatype + '");' }).appendTo(IDObjDiv);
                             $(idJQ).textinput();
                             break;
                         case "VA":
@@ -2028,14 +2049,14 @@ function ClickEvent_btnSaveData()
                         InValue = $("#" + ObjID).val(),
                         InputType = $("#" + ObjID).attr('type');
                     
-                    if (ele.require == "S" && (InValue == undefined || InValue == null || InValue.trim() == "Empty"))
+                    if (ele.required == "S" && (InValue == undefined || InValue == null || InValue.trim() == "Empty" || InValue.trim() == ""))
                     {
                         Mensage("El campo '" + ele.label + "' Es requerido.");
                         throw "El campo '" + ele.label + "' Es requerido.";
                     }
                     
                                         
-                    if (ele.sql_pk == "P" && (InValue == undefined || InValue == null || InValue.trim() == "Empty"))
+                    if (ele.sql_pk == "P" && (InValue == undefined || InValue == null || InValue.trim() == "Empty" || InValue.trim() == ""))
                     {
                         var bakInitVal = window.sessionStorage.getItem("#P_" + ObjID.toLowerCase() + "$");
                         
@@ -2566,6 +2587,3 @@ $(document).on("pagecreate", "#page-home", function ()
     }
     
 });
-
-
-
