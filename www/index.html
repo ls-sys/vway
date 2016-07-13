@@ -53,8 +53,9 @@
                 	<td><button class="ui-btn ui-shadow ui-corner-all ui-icon-enLogo ui-btn-icon-notext" id="btnTraslate">English</button></td>
                     <td><button class="ui-btn ui-shadow ui-corner-all ui-icon-esLogo ui-btn-icon-notext" >Espa&ntilde;ol</button></td>
                 </tr>
-            </table>-->
-            <label class="left versionKannel">Ver 1.6.1</label>
+            </table>
+<label class="left versionKannel">Ver 1.6.1</label>-->
+            
             <a class="ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-right" data-transition="flip" href="#LogInDialog">Iniciar Sesion</a>
             <h1>Volcafe Way App</h1>
             
@@ -117,6 +118,7 @@
             <li><a href="#IndexPage" data-rel="close" id="btnUpdateData" class="ui-btn ui-shadow ui-icon-cloud ui-btn-icon-right">Sincronizar</a></li>
             <li><a href="#" data-rel="close" id="btnLogOut" class="ui-btn ui-shadow ui-icon-power ui-btn-icon-right">Cerrar Sesion</a></li>
             <li><a href="#DLGEncuesta" data-rel="close"class="ui-btn ui-shadow ui-icon-star ui-btn-icon-right" id="btn_NewEncuestaDLG">Encuesta Nueva</a></li>  
+            <li><a class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right" href="#pGaleriaFotos">Photo Gallery</a></li>  
             <!--<li><a onclick="tomarFoto(1, 'tempFoto');" data-rel="close" class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right">Foto</a></li>-->
           </ul>
         </div>
@@ -128,7 +130,8 @@
         	<h1>Inicio Sistema</h1>
             <div class="ui-btn-right ui-btn-inline">
                 <label id="lUserName" style="font-size:12px">Usuario: </label>
-                <label id="lUserEmpresa" style="font-size:12px">Empresa: </label>
+                <label id="lUserEmpresa" style="font-size:12px">Empresa: </label> 
+                <label style="font-size:12px">Ver 1.6.2</label>
             </div>
         </div>
         
@@ -260,6 +263,20 @@
             <input type="hidden" id="Q_ENCUESTA_ESTADO" value="1" />
         </div>
     </div>
+    
+    <!--Galeria de Fotos-->
+    <div id="pGaleriaFotos" data-role="page" data-theme="b" >
+        <div data-role="header">
+            <a class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-icon-notext" id="btnHome" style="width:50px; height:50px; border-radius:100%" href="#IndexPage">Atras</a>
+            <h1>Photo Gallery Kannel Movil</h1>
+        </div>
+        <div data-role="content">
+            <div data-role="collapsibleset" data-content-theme="b" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" id="GF_set">
+                
+            </div>
+        </div>
+    </div>
+    
 
 	<label id="Texto1">Todos los campos Requeridos</label>
     <label id="tErrorLogin">Error... Usuario y Contra&ntilde;a incorrectos</label>

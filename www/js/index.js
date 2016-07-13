@@ -97,7 +97,8 @@ function CreateDB(name)
             visible: '',
             action_movil: '',
             required: '',
-            limit: 0
+            limit: 0,
+            object_functions_movil: ''
 		});
 		
 		db.CREATE("Object_Movil",
@@ -948,7 +949,7 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
     lastHist = lastHist.pop();
 	
 	tableName = tableName.toLowerCase();
-	
+    
 	var rs = db.SELECT("def_tables_movil", function (row)
 	{
 		var numCol = row.sql_colnum * 1;
@@ -966,6 +967,16 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 		    $('<th>').attr({ 'data-priority': (index + 1) }).html(ele1.label).appendTo("#PageBuilder_Tabla tr:first");
 		});
 				
+        /*if (rs[0].object_functions_movil.length > 0)
+        {
+            $.globalEval(rs[0].object_functions_movil);
+        }*/
+        
+        if (proj_Id == 55 && obj_Id == 66)
+        {
+            Owhere["opcion"] = 2;
+        }
+        
 		var DataRs = db.SELECT(tableName, Owhere).LIMIT(1000); // max Data to display
 		
 		if (DataRs.length > 0)
@@ -1121,6 +1132,8 @@ function RE_BuildForm(tableName, project_id, object_id)
 		    var disableVar = null;
 		    var VisibleVar = (ele.sql_colnum == 0) ? "hidden" : "visible";
             
+            var Etiqueta = ele.label;
+            
             if (ele.enabled == "N")
             {
                 disableVar = 'disabled';
@@ -1136,6 +1149,8 @@ function RE_BuildForm(tableName, project_id, object_id)
 		        temp = temp.toLocaleLowerCase();
                 
                 InputValue = window.sessionStorage.getItem("#P_" + temp + "$");
+                
+                Etiqueta = "*" + Etiqueta;
 		    }
 		    else
 		    {
@@ -1154,7 +1169,7 @@ function RE_BuildForm(tableName, project_id, object_id)
 		    if (ele.visible == "N")
 		        $(IDObjDiv).hide();
             
-            var Etiqueta = ele.label;
+            
             
             if (ele.required == 'S')
                 Etiqueta = "*" + Etiqueta;
@@ -2111,7 +2126,7 @@ function ClickEvent_btnSaveData()
 
                     if (tableName == "q_encuesta") 
                     {
-                        var arrColl = ["empresa", "formulario", "grupo", "pregunta"];
+                        var arrColl = ["empresa", "formulario", "grupo", "pregunta", "accion_correctiva"];
 
                         var triggerRS = db.SELECT("q_pregunta", function (row) {
                             return row.empresa == window.sessionStorage.getItem("UserEmpresa")
@@ -2586,4 +2601,32 @@ $(document).on("pagecreate", "#page-home", function ()
         window.location = "#IndexPage";
     }
     
+});
+
+$(document).on("pagecreate", "#pGaleriaFotos", function()
+{
+    var rs = db.SELECT("vc_foto");
+    
+    if (rs.length > 0)
+    {
+        $(rs).each(function(i, ele)
+        {
+            $('<fieldset>')
+                .attr({ 'data-role': 'collapsible', 'id': 'foto_' + ele.linea })
+                .html('<legend> Photo #' + ele.linea + '</legend>')
+                .appendTo("#GF_set");
+            
+            var tempID = "#foto_" + ele.linea;
+            
+            $('<div>').attr({'class':"centerContent", 'id': 'div_foto' + ele.linea}).appendTo(tempID);
+            
+            $('<img>')
+                .attr({'src': "data:image/jpg;base64," + ele.foto_base64})
+                .appendTo("#div_foto" + ele.linea);
+            
+             $(tempID).collapsible();
+            
+            
+        });
+    }
 });
