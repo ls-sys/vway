@@ -155,6 +155,8 @@ function ReDowloadFoto()
 {
     
     db.TRUNCATE("vc_foto");
+    var count = 0;
+    var Leng = 0;
     
     $.post(uriServer,
     {
@@ -167,10 +169,11 @@ function ReDowloadFoto()
         var rs = db.SELECT("vc_foto");
         var forotsError = 0;
         var ban = true;
-        var count = 0;
         
         if (rs.length > 0)
         {
+            
+            Leng = rs.length ;
             $("#loadingAJAX").show();
             $(rs).each(function (index, val)
             {
@@ -197,13 +200,7 @@ function ReDowloadFoto()
                     else
                        forotsError += 1; 
                     
-                    if (count == (rs.length - 1))
-                    {
-                        $("#loadingAJAX").delay(2000).slideUp(500);
-                            if (forotsError > 0)
-                                Mensage("Photos Error = " + forotsError);
-                        clearInterval(intervalID);
-                    }
+                    
                     
                 }, "json")
                 .fail(function (a,b,c)
@@ -219,6 +216,15 @@ function ReDowloadFoto()
         
     },"json");
     
+    
+    while(true)
+    {
+        if (count == Leng)
+        {
+            $("#loadingAJAX").slideUp(500);
+            break;
+        }
+    }
     
 }
 
