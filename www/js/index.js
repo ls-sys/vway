@@ -186,7 +186,7 @@ function ReDowloadFoto()
                 },
                 function (data) 
                 {
-                    $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
+                    //$("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
                     
                     var serverLeng = data[0].largo * 1;
                     var downloadLeng = data[0].foto_base64 + "";
