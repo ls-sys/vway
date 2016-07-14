@@ -224,6 +224,10 @@ function ReDowloadFoto()
             $("#loadingAJAX").slideUp(500);
             break;
         }
+        else
+        {
+            $("#AJAXLoadLabel").text("Download Photos " + count + ": "+ Leng);
+        }
     }
     
 }
