@@ -186,7 +186,7 @@ function ReDowloadFoto()
                 },
                 function (data) 
                 {
-                    //$("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
+                    $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
                     
                     var serverLeng = data[0].largo * 1;
                     var downloadLeng = data[0].foto_base64 + "";
@@ -199,7 +199,12 @@ function ReDowloadFoto()
                     }
                     else
                        forotsError += 1; 
-                    
+                     if (index == (rs.length - 1))
+                        {
+                            $("#loadingAJAX").delay(2000).slideUp(500);
+                            if (forotsError > 0)
+                                Mensage("Photos Error = " + forotsError);
+                        }
                     
                     
                 }, "json")
@@ -217,7 +222,7 @@ function ReDowloadFoto()
     },"json");
     
     
-    while(true)
+    /*while(true)
     {
         if (count == Leng)
         {
@@ -228,7 +233,7 @@ function ReDowloadFoto()
         {
             $("#AJAXLoadLabel").text("Download Photos " + count + ": "+ Leng);
         }
-    }
+    }*/
     
 }
 
