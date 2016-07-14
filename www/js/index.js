@@ -166,6 +166,9 @@ function ReDowloadFoto()
         
         var rs = db.SELECT("vc_foto");
         var forotsError = 0;
+        var ban = true;
+        var count = 0;
+        
         if (rs.length > 0)
         {
             $("#loadingAJAX").show();
@@ -187,30 +190,32 @@ function ReDowloadFoto()
                     downloadLeng = downloadLeng.length;
                     
                     if (serverLeng == downloadLeng)
+                    {
                         db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
+                        count++;
+                    }
                     else
                        forotsError += 1; 
-
-                    if (index == (rs.length - 1))
+                    
+                    if (count == (rs.length - 1))
                     {
                         $("#loadingAJAX").delay(2000).slideUp(500);
-                        if (forotsError > 0)
-                            Mensage("Photos Error = " + forotsError);
+                            if (forotsError > 0)
+                                Mensage("Photos Error = " + forotsError);
+                        clearInterval(intervalID);
                     }
+                    
                 }, "json")
                 .fail(function (a,b,c)
                 {
                     alert(b)   
                 });
 
-
-
             });
+            
+            
         }
-        else
-        {
-            alert("no reg.")
-        }
+        
         
     },"json");
     
