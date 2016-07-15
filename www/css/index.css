@@ -122,3 +122,10 @@ tr:nth-child(even) {
     margin: 0 auto; 
     text-align: center;
 }
+
+#GPS_Alert{
+    z-index: 99999;
+    display:block;
+    position: fixed;
+    width: 100%
+}

@@ -49,9 +49,17 @@ function pad(str, max) {
     return str.length < max ? pad("0" + str, max) : str;
 }
 
-function onError(error) {
-    Mensage('code: ' + error.code + '\n' +
-          'message: ' + error.message + '\n');
+function onError(err) 
+{
+    if(err.code == 1) 
+    {
+       Mensage("Error: Access is denied!");
+    }
+    else 
+        if( err.code == 2) 
+        {
+            Mensage("Error: Position is unavailable!; Check if the GPS is on! ");
+        }
 }
 
 function Mensage(texto) {
@@ -2303,15 +2311,23 @@ var onSuccessGPSPormotor = function (position)
     }
 };
 
+function onFaliProdGPS(error)
+{
+    $("#GPS_Alert").slideDown(500).delay(5000).slideUp(500);
+}
+
 $(document).ready(function (e) 
 {
-
+    $("#GPS_Alert").show();
+    $("#GPS_Alert").slideUp(500);
+    
+    
     var TimeGpsInterval = 60 * 1000;//3600 * 1000;
 
     var idGPSTRack = setInterval(function ()
     {
         if (window.sessionStorage.UserPromotor && db.EXISTS_TABLE("promotor_gps"))
-            navigator.geolocation.getCurrentPosition(onSuccessGPSPormotor, onError);
+            navigator.geolocation.getCurrentPosition(onSuccessGPSPormotor,onFaliProdGPS);
     }, TimeGpsInterval);
 
     if (window.localStorage.getItem("LocalStorageDB-KannelMovil-::tables::") == undefined) {

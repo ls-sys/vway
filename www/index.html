@@ -111,7 +111,7 @@
     <!--Index system page-->
     <div id="IndexPage" data-role="page" data-theme="b" class="ui-responsive-panel">
     	<div data-role="panel" id="pMenu"  data-display="overlay">
-          <h2>Men&uacute;</h2>
+          <h2>Menu</h2>
           <ul data-role="listview" id="ulSideMenu">
           	<li><a href="#IndexPage" data-rel="close" id="btnDBDown" class="ui-btn ui-shadow ui-icon-arrow-d ui-btn-icon-right">Descargar Base de Datos</a></li>
             <li><a class="messi-titlebox anim error ui-btn ui-shadow ui-icon-delete ui-btn-icon-right" style="border-radius:0; font-size:17px; color:#FFFFFF" href="#IndexPage" data-rel="close" id="btnViewCat">"Drop Data Base"</a></li>
@@ -124,6 +124,11 @@
         </div>
         
     	<div data-role="header" data-position="fixed" >
+            <div id="GPS_Alert" class="messi-wrapper">
+            	<div class="messi-titlebox anim error">
+                	<span class="messi-title">Position is unavailable!; Check if the GPS is on!</span>
+                </div>
+            </div>
             <div class="left">
         	   <a href="#pMenu" class="ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-left" style="width:50px; height:50px; border-radius:100%;">Menu</a>
             </div>
@@ -131,7 +136,7 @@
             <div class="ui-btn-right ui-btn-inline">
                 <label id="lUserName" style="font-size:12px">Usuario: </label>
                 <label id="lUserEmpresa" style="font-size:12px">Empresa: </label> 
-                <label style="font-size:12px">Ver 1.6.2</label>
+                <label style="font-size:12px">Ver 1.6.3</label>
             </div>
         </div>
         
