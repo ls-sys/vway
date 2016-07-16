@@ -33,10 +33,11 @@
 	position: absolute;
 	left: 0px;
 	top: 0px;
-	z-index: 100;
+	z-index: 99999;;
 	background-color:rgba(0, 0, 0, 0.65);
 	filter: alpha(opacity=40);
 	width: 132px;
+    display:block; 
 }
 .nav-glyphish-example .ui-btn { padding-top: 40px !important; }
 .nav-glyphish-example .ui-btn:after { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
@@ -123,9 +124,9 @@ tr:nth-child(even) {
     text-align: center;
 }
 
-#GPS_Alert{
+.GPS_Alert{
     z-index: 99999;
     display:block;
     position: fixed;
-    width: 100%
+    width: inherit;
 }

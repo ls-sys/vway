@@ -2313,13 +2313,13 @@ var onSuccessGPSPormotor = function (position)
 
 function onFaliProdGPS(error)
 {
-    $("#GPS_Alert").slideDown(500).delay(5000).slideUp(500);
+    $(".GPS_Alert").slideDown(500).delay(5000).slideUp(500);
 }
 
 $(document).ready(function (e) 
 {
-    $("#GPS_Alert").show();
-    $("#GPS_Alert").slideUp(500);
+    $(".GPS_Alert").show();
+    $(".GPS_Alert").slideUp(500);
     
     
     var TimeGpsInterval = 60 * 1000;//3600 * 1000;

@@ -124,7 +124,7 @@
         </div>
         
     	<div data-role="header" data-position="fixed" >
-            <div id="GPS_Alert" class="messi-wrapper">
+            <div id="" class="GPS_Alert messi-wrapper">
             	<div class="messi-titlebox anim error">
                 	<span class="messi-title">Position is unavailable!; Check if the GPS is on!</span>
                 </div>
@@ -136,7 +136,7 @@
             <div class="ui-btn-right ui-btn-inline">
                 <label id="lUserName" style="font-size:12px">Usuario: </label>
                 <label id="lUserEmpresa" style="font-size:12px">Empresa: </label> 
-                <label style="font-size:12px">Ver 1.6.3</label>
+                <label style="font-size:12px">Ver 1.7.0</label>
             </div>
         </div>
         
@@ -179,22 +179,26 @@
             
         </div>
 
-    	<div data-role="header" data-position="fixed">
-            
+    	<div data-role="header" data-position="fixed" style="height: 45.38px">
+            <div id="" class="GPS_Alert messi-wrapper">
+            	<div class="messi-titlebox anim error">
+                	<span class="messi-title">Position is unavailable!; Check if the GPS is on!</span>
+                </div>
+            </div>
             
             <div class="left">
                 <button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-icon-notext" id="btnVC_Atras" style="width:50px; height:50px; border-radius:100%">Atras</button>
                 <button class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-icon-notext" id="btn_backH" onclick="ClickEvent_btn_backH();" style="width:50px; height:50px; border-radius:100%">Atras</button>
             </div>
             
-            <div class = "right">
+            <h1 id="lHForma">Listado de Grupos</h1> <!-- Nombre de la forma-->
+            
+            <div class="ui-btn-right ui-btn-inline">
                 <a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-corner-all ui-icon-plus ui-btn-icon-notext ui-btn-b ui-btn-inline" style="width:50px; height:50px; border-radius:100%">Nuevo</a>
                 <a href="#PageBuilder" data-rel="close" id="btnSaveData" class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-b ui-btn-inline" onclick="ClickEvent_btnSaveData();" style="width:50px; height:50px; border-radius:100%" >Guardar</a>
                 <a href="#pMenu_PageBuilder" class="ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-b ui-btn-inline" style="width:50px; height:50px; border-radius:100%">Menu</a>
             </div>
             
-        	
-        	<h1 id="lHForma">Listado de Grupos</h1> <!-- Nombre de la forma-->
         </div>
         
         <div data-role="content" id="divContent">
@@ -219,10 +223,15 @@
 
     <!--Encuesta (pagina especial.)-->
     <div id="EncuentaBuilder" data-role="page"data-theme="b">
-        <div data-role="header">
-            <a data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline  ui-btn-left">Atras</a>
+        <div data-role="header" data-position="fixed" style="height: 45.38px">
+            <div id="" class="GPS_Alert messi-wrapper">
+            	<div class="messi-titlebox anim error">
+                	<span class="messi-title">Position is unavailable!; Check if the GPS is on!</span>
+                </div>
+            </div>
+            <a data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-icon-notext" style="width:50px; height:50px; border-radius:100%">Atras</a>
             <h1 id="lHEncuestaB">Encuesta</h1>
-            <a class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-right" onclick="saveEncuesta();">Guardar</a>
+            <a class="ui-btn ui-shadow ui-corner-all ui-icon-check ui-btn-icon-notext ui-btn-b ui-btn-inline" onclick="saveEncuesta();" style="width:50px; height:50px; border-radius:100%">Guardar</a>
         </div>
 
         <div data-role="content">
@@ -244,6 +253,11 @@
     <!--Dialogo para la crear encuesta -->
     <div id="DLGEncuesta" data-role="page" data-dialog="true" data-theme="b" data-close-btn="right">
         <div data-role="header">
+            <div id="" class="GPS_Alert messi-wrapper">
+            	<div class="messi-titlebox anim error">
+                	<span class="messi-title">Position is unavailable!; Check if the GPS is on!</span>
+                </div>
+            </div>
             <h1>Nueva Encuesta</h1>
         </div>
         <div data-role="content">
@@ -272,6 +286,11 @@
     <!--Galeria de Fotos-->
     <div id="pGaleriaFotos" data-role="page" data-theme="b" >
         <div data-role="header">
+            <div id="" class="GPS_Alert messi-wrapper">
+            	<div class="messi-titlebox anim error">
+                	<span class="messi-title">Position is unavailable!; Check if the GPS is on!</span>
+                </div>
+            </div>
             <a class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-left ui-btn-b ui-btn-inline ui-btn-icon-notext" id="btnHome" style="width:50px; height:50px; border-radius:100%" href="#IndexPage">Atras</a>
             <h1>Photo Gallery Kannel Movil</h1>
         </div>
