@@ -69,10 +69,10 @@
                 	<td style="width:50%">
                         <h4 id="tInicio">Visi&oacute;n:</h4>
                         <p id="pTextInfo">
-                        Una filosofia global y holistica que respalda la estrategia de negocios de Volcafe, 
+                        Una filosof&iacute;a global y hol&iacute;stica que respalda la estrategia de negocios de Volcafe, 
                         agrega valor a la cadena comercial y 
                         genera una mayor prosperidad en la calidad de vida 
-                        de los productores que suplen nuestro cafe.
+                        de los productores que suplen nuestro caf&eacute;.
                         </p>
             		</td>
                     <td style="width:50%">
@@ -94,7 +94,7 @@
     <!--Page for Login-->
     <div id="LogInDialog" data-role="page" data-theme="b" data-dialog="true" data-close-btn="right">
     	<div data-role="header">
-        	<h1>Iniciar Sesion</h1>
+        	<h1>Iniciar Sesi&oacute;n</h1>
         </div>
         
         <div data-role="content">
@@ -116,7 +116,7 @@
           	<li><a href="#IndexPage" data-rel="close" id="btnDBDown" class="ui-btn ui-shadow ui-icon-arrow-d ui-btn-icon-right">Descargar Base de Datos</a></li>
             <li><a class="messi-titlebox anim error ui-btn ui-shadow ui-icon-delete ui-btn-icon-right" style="border-radius:0; font-size:17px; color:#FFFFFF" href="#IndexPage" data-rel="close" id="btnViewCat">"Drop Data Base"</a></li>
             <li><a href="#IndexPage" data-rel="close" id="btnUpdateData" class="ui-btn ui-shadow ui-icon-cloud ui-btn-icon-right">Sincronizar</a></li>
-            <li><a href="#" data-rel="close" id="btnLogOut" class="ui-btn ui-shadow ui-icon-power ui-btn-icon-right">Cerrar Sesion</a></li>
+            <li><a href="#" data-rel="close" id="btnLogOut" class="ui-btn ui-shadow ui-icon-power ui-btn-icon-right">Cerrar Sesi&oacute;n</a></li>
             <li><a href="#DLGEncuesta" data-rel="close"class="ui-btn ui-shadow ui-icon-star ui-btn-icon-right" id="btn_NewEncuestaDLG">Encuesta Nueva</a></li>  
             <li><a class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right" href="#pGaleriaFotos">Photo Gallery</a></li>  
             <!--<li><a onclick="tomarFoto(1, 'tempFoto');" data-rel="close" class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right">Foto</a></li>-->
@@ -136,7 +136,7 @@
             <div class="ui-btn-right ui-btn-inline">
                 <label id="lUserName" style="font-size:12px">Usuario: </label>
                 <label id="lUserEmpresa" style="font-size:12px">Empresa: </label> 
-                <label style="font-size:12px">Ver 1.7.0</label>
+                <label style="font-size:12px">Ver 1.7.1</label>
             </div>
         </div>
         
@@ -145,14 +145,14 @@
             	<div class="messi-titlebox anim error">
                 	<span class="messi-title">Volcafe Way</span>
                 </div>
-                <div class="messi-content" style="padding: 10px; height: auto;" id="ldMessageNoDB">La base datos Local esta vacia <br/> Descarge la ultima version del Servidor. </div>
+                <div class="messi-content" style="padding: 10px; height: auto;" id="ldMessageNoDB">La base datos Local esta vac&iacute;a <br/> Descargue la &uacute;ltima versi&oacute;n del Servidor. </div>
             </div>
             <div id="dMessageBDDone" class="messi-wrapper">
             	<div class="messi-titlebox anim success">
                 	<span class="messi-title">Volcafe Way</span>
                 </div>
                 <div class="messi-content" style="padding: 10px; height: auto;">
-                	<button class="ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-left" id="btnLoadModules">Cargar Modulos y Descarga Fotos</button>
+                	<button class="ui-btn ui-shadow ui-corner-all ui-icon-refresh ui-btn-icon-left" id="btnLoadModules">Cargar M&oacute;dulos y Descarga Fotos</button>
                 </div>
             </div>
             <div id="divUlModList">
@@ -249,7 +249,7 @@
             <img src="" id="ImgTempDisplay" />
         </div>
     </div>
-
+    
     <!--Dialogo para la crear encuesta -->
     <div id="DLGEncuesta" data-role="page" data-dialog="true" data-theme="b" data-close-btn="right">
         <div data-role="header">
@@ -261,13 +261,13 @@
             <h1>Nueva Encuesta</h1>
         </div>
         <div data-role="content">
-            <label for="Q_ENCUESTA_FORMULARIO">Formulario</label>
+            <label for="Q_ENCUESTA_FORMULARIO">*Formulario</label>
             <select name="Q_ENCUESTA_FORMULARIO" id="Q_ENCUESTA_FORMULARIO"></select>
-            <label for="Q_ENCUESTA_PRODUCTOR">Productor</label>
-            <select name="Q_ENCUESTA_PRODUCTOR" id="Q_ENCUESTA_PRODUCTOR"></select>
-            <label for="Q_ENCUESTA_FINCA">Finca</label>
+            <label for="Q_ENCUESTA_PRODUCTOR">*Productor</label>
+            <select name="Q_ENCUESTA_PRODUCTOR" id="Q_ENCUESTA_PRODUCTOR" data-native-menu="false"></select>
+            <label for="Q_ENCUESTA_FINCA">*Finca</label>
             <select name="Q_ENCUESTA_FINCA" id="Q_ENCUESTA_FINCA"></select>
-            <label for="Q_ENCUESTA_ENCUESTA">No. Encuesta</label>
+            <label for="Q_ENCUESTA_ENCUESTA">*No. Encuesta</label>
             <input type="number" disabled="disabled" id="Q_ENCUESTA_ENCUESTA"/>
             <label for="Q_ENCUESTA_COSECHA">Cosecha</label>
             <select name="Q_ENCUESTA_COSECHA" id="Q_ENCUESTA_COSECHA"></select>
@@ -304,15 +304,15 @@
 
 	<label id="Texto1">Todos los campos Requeridos</label>
     <label id="tErrorLogin">Error... Usuario y Contra&ntilde;a incorrectos</label>
-    <label id="tLogIn">Bienvendo a la Aplicacion Volcafe Way</label>
-    <label id="tNoInternet">Error... Sin Conneccion a Internet</label>
+    <label id="tLogIn">Bienvendo a la Aplicaci&oacute;n Volcafe Way</label>
+    <label id="tNoInternet">Error... Sin Conexi&oacute;n a Internet</label>
     <label id="lLoading">Cargando</label>
-    <label id="lNoData">La tabal que intenta buscar, no existe o no tiene datos</label>
-    <label id="msgDropDB">Al Efecturar esta accion todos los datos, Seran Borrados; Grabe y Sincronise antes de Realizar esta accion</label>
-    <label id="msgSendData">Esta Accion Envia los datos modificados a la base de datos, Asegurese de tener coneccion a internet.</label>
-    <label id="msgDBSincOK">Proceso terminado con exito, [Tablas Aculizadas: </label>
-    <label id="msgErrortabel">Estas tablas no se puedieron descargar. [</label>
-    <label id="msgCerrarSecion">Desea Cerrar la Sesion Actual?</label>
+    <label id="lNoData">La tabla que intenta buscar, no existe o no tiene datos</label>
+    <label id="msgDropDB">Al Efectuar esta acci&oacute;n todos los datos, Ser&aacute;n Borrados; Grabe y Sincronice antes de realizar esta acci&oacute;n</label>
+    <label id="msgSendData">Esta Acci&oacute;n Env&iacute;a los datos modificados a la base de datos, Asegurese de tener conexi&oacute;n a internet.</label>
+    <label id="msgDBSincOK">Proceso terminado con &eacute;xito, [Tablas Actualizadas: </label>
+    <label id="msgErrortabel">Estas tablas no se pudieron descargar. [</label>
+    <label id="msgCerrarSecion">Desea Cerrar la Sesi&oacute;n Actual?</label>
     
 </body>
 </html>

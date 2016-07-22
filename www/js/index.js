@@ -3,6 +3,7 @@ var uriServer = "http://200.30.150.165:8080/webservidor2/mediador.php";
 var maxTrans = 0;
 var DownCount = 0;
 var failTablesList = "";
+var AddWhere = {};
 
 
 
@@ -71,7 +72,7 @@ function Mensage(texto) {
 	    width: (window.innerWidth - 25),
         modal: true,
 	    callback: function (val) {
-	        alert(val);
+	        
 	        $("#loadingAJAX").hide();
 	        $("#ajaxgif").show();
 	    }
@@ -215,11 +216,11 @@ function ReDowloadFoto()
                         }
                     
                     
-                }, "json")
-                .fail(function (a,b,c)
+                }, "json");
+                /*.fail(function (a,b,c)
                 {
                     alert(b)   
-                });
+                })*/
 
             });
             
@@ -753,10 +754,18 @@ function testEval ()
 
 function refreshGrid(tableName, proj_Id, obj_Id)
 {
-    window.sessionStorage.setItem("#HijoKannel", "1");
-    BuildMantenimineto(tableName, proj_Id, obj_Id);
-    window.sessionStorage.removeItem("#HijoKannel");
-    RemoveSessionVar();
+    var Modo = window.sessionStorage.getItem("#FromMode");
+    if (Modo == "U")
+    {
+        window.sessionStorage.setItem("#HijoKannel", "1");
+        BuildMantenimineto(tableName, proj_Id, obj_Id);
+        window.sessionStorage.removeItem("#HijoKannel");
+        RemoveSessionVar();
+    }
+    else 
+    {
+        Mensage("Grabe los cambios, para pasar a la siguiente pantalla. / Save the changes, to move to the next screen.")
+    }
 }
 
 function BuildMantenimineto(tableName, proj_Id, obj_Id)
@@ -914,7 +923,7 @@ function BuildMantenimineto(tableName, proj_Id, obj_Id)
 	    $("#btn_backH").show();
 	    $("#btnSaveData").hide();
 	    $("#btnGeoPos").hide();
-	    $("#btnNewReg").show();
+	    //$("#btnNewReg").show();
 
 	    window.sessionStorage.removeItem("#RowID");
 	    window.sessionStorage.removeItem("#TableName");
@@ -957,6 +966,11 @@ function GetPrimaryKey(tableName, proj_Id, obj_Id)
 	return salida;
 }
 
+function extraWhere (jsonData)
+{
+   AddWhere = jsonData;
+}
+
 function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 {
     var ComeFForm = window.sessionStorage.getItem("#tf$");
@@ -994,11 +1008,9 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 		{
 		    $('<th>').attr({ 'data-priority': (index + 1) }).html(ele1.label).appendTo("#PageBuilder_Tabla tr:first");
 		});
-				
-        /*if (rs[0].object_functions_movil.length > 0)
-        {
-            $.globalEval(rs[0].object_functions_movil);
-        }*/
+        
+        var Code = rs[0].object_functions_movil + "";
+        Code = Code.replace(/~/g, '"');  
         
         if (proj_Id == 55 && obj_Id == 66)
         {
@@ -1090,7 +1102,12 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 		$("#btnSaveData").hide();
 		$("#btnNewReg").show();
 		$("#btnGeoPos").hide();
-
+        
+        if (Code.length > 0)
+        {
+            $.globalEval(Code);
+        }
+        
 		var PathTable = lastHist.path + "";
 		PathTable = PathTable.split("/");
 		PathTable = PathTable.pop();
@@ -1133,11 +1150,56 @@ function FillComboQuery(tableName, OWhere, ColumnName, initVal)
                 else
                     $("<option>").attr({ 'value': ele[colVal] }).html(ele[colLabel]).appendTo(tempID);
             });
+            
+            $(tempID).selectmenu();
+            
+            $(tempID + "-menu").on("listviewcreate", function(e)
+            {
+                var IDH = "#" + e.target.id;
+                
+                IDH = IDH.replace("-menu", "");
+                
+                var input,
+                    listbox = $( tempID + "-listbox" ),
+                    form = listbox.jqmData( "filter-form" ),
+                    listview = $( e.target );
+                // We store the generated form in a variable attached to the popup so we
+                // avoid creating a second form/input field when the listview is
+                // destroyed/rebuilt during a refresh.
+                if ( !form ) {
+                    input = $( "<input data-type='search'></input>" );
+                    form = $( "<form></form>" ).append( input );
+                    input.textinput();
+                    $( tempID + "-listbox" )
+                        .prepend( form )
+                        .jqmData( "filter-form", form );
+                }
+                // Instantiate a filterable widget on the newly created listview and
+                // indicate that the generated input is to be used for the filtering.
+                listview.filterable({ input: input });
+            })
+            .on( "pagebeforeshow pagehide", function(e) 
+            {
+                $(this).addClass("ui-page-theme-b").removeClass("ui-page-theme-a");
 
-            $('select').selectmenu();
+                var form = $( tempID + "-listbox" ).jqmData( "filter-form" ),
+                    placeInDialog = ( e.type === "pagebeforeshow" ),
+                    destination = placeInDialog ? $( e.target ).find( ".ui-content" ) : $( tempID + "-listbox" );
+                form
+                    .find( "input" )
+                    // Turn off the "inset" option when the filter input is inside a dialog
+                    // and turn it back on when it is placed back inside the popup, because
+                    // it looks better that way.
+                    .textinput( "option", "inset", !placeInDialog )
+                    .end()
+                    .prependTo( destination );
+
+                $(".ui-body-a").addClass("ui-body-b").removeClass("ui-body-a");
+            });
         }
     }
 }
+
 
 function RE_BuildForm(tableName, project_id, object_id)
 {
@@ -2666,3 +2728,54 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
         });
     }
 });
+
+$.mobile.document
+    // "Q_ENCUESTA_PRODUCTOR-menu" is the ID generated for the listview when it is created
+    // by the custom selectmenu plugin. Upon creation of the listview widget we
+    // want to prepend an input field to the list to be used for a filter.
+    .on( "listviewcreate", "#Q_ENCUESTA_PRODUCTOR-menu", function( e ) {
+        var input,
+            listbox = $( "#Q_ENCUESTA_PRODUCTOR-listbox" ),
+            form = listbox.jqmData( "filter-form" ),
+            listview = $( e.target );
+        // We store the generated form in a variable attached to the popup so we
+        // avoid creating a second form/input field when the listview is
+        // destroyed/rebuilt during a refresh.
+        if ( !form ) {
+            input = $( "<input data-type='search'></input>" );
+            form = $( "<form></form>" ).append( input );
+            input.textinput();
+            $( "#Q_ENCUESTA_PRODUCTOR-listbox" )
+                .prepend( form )
+                .jqmData( "filter-form", form );
+        }
+        // Instantiate a filterable widget on the newly created listview and
+        // indicate that the generated input is to be used for the filtering.
+        listview.filterable({ input: input });
+    })
+    // The custom select list may show up as either a popup or a dialog,
+    // depending how much vertical room there is on the screen. If it shows up
+    // as a dialog, then the form containing the filter input field must be
+    // transferred to the dialog so that the user can continue to use it for
+    // filtering list items.
+    //
+    // After the dialog is closed, the form containing the filter input is
+    // transferred back into the popup.
+    .on( "pagebeforeshow pagehide", "#Q_ENCUESTA_PRODUCTOR-dialog", function( e ) {
+    
+        $(this).addClass("ui-page-theme-b").removeClass("ui-page-theme-a");
+        
+        var form = $( "#Q_ENCUESTA_PRODUCTOR-listbox" ).jqmData( "filter-form" ),
+            placeInDialog = ( e.type === "pagebeforeshow" ),
+            destination = placeInDialog ? $( e.target ).find( ".ui-content" ) : $( "#Q_ENCUESTA_PRODUCTOR-listbox" );
+        form
+            .find( "input" )
+            // Turn off the "inset" option when the filter input is inside a dialog
+            // and turn it back on when it is placed back inside the popup, because
+            // it looks better that way.
+            .textinput( "option", "inset", !placeInDialog )
+            .end()
+            .prependTo( destination );
+    
+        $(".ui-body-a").addClass("ui-body-b").removeClass("ui-body-a");
+    });

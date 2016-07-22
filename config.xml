@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.ls.vway" version="1.7.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.ls.vway" version="1.7.1">
   <name>Volcafe Way</name>
   <description>Aplicacion para visitas a l Exterior</description>
   <author href="http://phonegap.com" email="gs@ls-sy.com">ls-sys</author>

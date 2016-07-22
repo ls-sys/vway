@@ -418,6 +418,8 @@ $(document).on("pagecreate", "#DLGEncuesta", function ()
         });
 
         $("#Q_ENCUESTA_PRODUCTOR").selectmenu("refresh");
+        
+        
     }
 
     var rsC = db.SELECT("cosecha").ORDER_BY("cosecha DESC");
@@ -499,20 +501,37 @@ $(document).on("pagecreate", "#DLGEncuesta", function ()
 
     $("#btn_CrearEncuestaSC").on("click", function ()
     {
+        var formulario = $("#Q_ENCUESTA_FORMULARIO").val();
+        var prod = $("#Q_ENCUESTA_PRODUCTOR").val();
+        var finca = $("#Q_ENCUESTA_FINCA").val();
+        
+        formulario = (formulario == "Empty")?null:formulario;
+        prod = (prod == "Empty")?null:prod;
+        finca = (finca == "Empty")?null:finca;
+        
+        var rowMax = db.MAX_TABLE("q_encuesta");
+        
+        window.sessionStorage.setItem("#RowID",rowMax);
+        window.sessionStorage.setItem("#TableName","q_encuesta");
+        window.sessionStorage.setItem("#FromMode","I");
+        
+        if (formulario == null || prod == null || finca == null)
+        {
+            Mensage("El campos con * son requeridos.");
+            throw "El campos con * son requeridos.";
+        }
+        
         $("body").css("cursor", "wait");
         $("#loadingAJAX").show();
         $("#AJAXLoadLabel").text("Guardando Datos");
+        
+        ClickEvent_btnSaveData();
+        window.location = "#EncuentaBuilder";
+        CreateListaChequeo(window.sessionStorage.getItem("#P_q_encuesta_formulario$"), window.sessionStorage.getItem("#P_q_encuesta_encuesta$"));
 
-        setTimeout(function ()
-        {
-            ClickEvent_btnSaveData();
-            window.location = "#EncuentaBuilder";
-            CreateListaChequeo(window.sessionStorage.getItem("#P_q_encuesta_formulario$"), window.sessionStorage.getItem("#P_q_encuesta_encuesta$"));
-
-            $("#loadingAJAX").slideUp(500);
-            $("#AJAXLoadLabel").text("");
-            $("body").css("cursor", "default");
-        }, 10);
+        $("#loadingAJAX").slideUp(500);
+        $("#AJAXLoadLabel").text("");
+        $("body").css("cursor", "default");
     });
     
 });
