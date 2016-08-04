@@ -1200,7 +1200,6 @@ function FillComboQuery(tableName, OWhere, ColumnName, initVal)
     }
 }
 
-
 function RE_BuildForm(tableName, project_id, object_id)
 {
     $("#PageBuilder_From").empty();
