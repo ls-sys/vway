@@ -211,7 +211,7 @@ function ReDowloadFoto()
                             cordova.base64ToGallery(data[0].foto_base64,
                             {
                                 prefix: 'img_vw_',
-                                mediaScanner: true
+                                mediaScanner: false
                             },
                             function (path)
                             {
@@ -233,7 +233,7 @@ function ReDowloadFoto()
                                     Mensage("Photos Error = " + forotsError);
                                 if (allErrors.length > 0)
                                     alert(allErrors);
-                                alert(allPaths);
+                                Mensage(allPaths);
                             }
 
 
