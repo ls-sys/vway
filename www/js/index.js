@@ -166,69 +166,93 @@ function ReDowloadFoto()
     db.TRUNCATE("vc_foto");
     var count = 0;
     var Leng = 0;
+    var allPaths = "";
+    var allErrors = "";
     
-    $.post(uriServer,
+    if (window.cordova)
     {
-        "cmd": "getListaFotos",
-        "User": window.sessionStorage.getItem("UserLogin")
-    },function (data1)
-    {
-        db.INSERT_INTO("vc_foto", data1);
-        
-        var rs = db.SELECT("vc_foto");
-        var forotsError = 0;
-        var ban = true;
-        
-        if (rs.length > 0)
+        alert("Save photo to galery Loaded");
+        $.post(uriServer,
         {
-            
-            Leng = rs.length ;
-            $("#loadingAJAX").show();
-            $(rs).each(function (index, val)
+            "cmd": "getListaFotos",
+            "User": window.sessionStorage.getItem("UserLogin")
+        },function (data1)
+        {
+            db.INSERT_INTO("vc_foto", data1);
+
+            var rs = db.SELECT("vc_foto");
+            var forotsError = 0;
+            var ban = true;
+
+            if (rs.length > 0)
             {
-                $.post(uriServer, 
-                {
-                    "cmd": "getFotos",
-                    "User": window.sessionStorage.getItem("UserLogin"),
-                    "Linea": val.linea
 
-                },
-                function (data) 
+                Leng = rs.length ;
+                $("#loadingAJAX").show();
+                $(rs).each(function (index, val)
                 {
-                    $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
-                    
-                    var serverLeng = data[0].largo * 1;
-                    var downloadLeng = data[0].foto_base64 + "";
-                    downloadLeng = downloadLeng.length;
-                    
-                    if (serverLeng == downloadLeng)
+                    $.post(uriServer, 
                     {
-                        db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
-                        count++;
-                    }
-                    else
-                       forotsError += 1; 
-                     if (index == (rs.length - 1))
-                        {
-                            $("#loadingAJAX").delay(2000).slideUp(500);
-                            if (forotsError > 0)
-                                Mensage("Photos Error = " + forotsError);
-                        }
-                    
-                    
-                }, "json");
-                /*.fail(function (a,b,c)
-                {
-                    alert(b)   
-                })*/
+                        "cmd": "getFotos",
+                        "User": window.sessionStorage.getItem("UserLogin"),
+                        "Linea": val.linea
 
-            });
-            
-            
-        }
-        
-        
-    },"json");
+                    },
+                    function (data) 
+                    {
+                        $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
+
+                        var serverLeng = data[0].largo * 1;
+                        var downloadLeng = data[0].foto_base64 + "";
+                        downloadLeng = downloadLeng.length;
+
+                        if (serverLeng == downloadLeng)
+                        {
+                            cordova.base64ToGallery(data[0].foto_base64,
+                            {
+                                prefix: 'img_vw_',
+                                mediaScanner: true
+                            },
+                            function (path)
+                            {
+                                allPaths += path + "(" + val.linea + ")\n";
+                            },
+                            function(err)
+                            {
+                                allErrors += err + " | "; 
+                            });  
+                            //db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
+                            count++;
+                        }
+                        else
+                           forotsError += 1; 
+                         if (index == (rs.length - 1))
+                            {
+                                $("#loadingAJAX").delay(2000).slideUp(500);
+                                if (forotsError > 0)
+                                    Mensage("Photos Error = " + forotsError);
+                                if (allErrors.length > 0)
+                                    alert(allErrors);
+                                alert(allPaths);
+                            }
+
+
+                    }, "json");
+                    /*.fail(function (a,b,c)
+                    {
+                        alert(b)   
+                    })*/
+
+                });
+
+
+            }
+
+
+        },"json");
+    }
+    
+    
     
     
     /*while(true)
@@ -2381,6 +2405,7 @@ $(document).ready(function (e)
 {
     $(".GPS_Alert").show();
     $(".GPS_Alert").slideUp(500);
+    
     
     
     var TimeGpsInterval = 60 * 1000;//3600 * 1000;
