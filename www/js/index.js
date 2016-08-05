@@ -169,7 +169,7 @@ function ReDowloadFoto()
     var allPaths = "";
     var allErrors = "";
     
-    if (window.cordova)
+    if (true)
     {
         //alert("Save photo to galery Loaded");
         $.post(uriServer,
@@ -205,10 +205,25 @@ function ReDowloadFoto()
                         var serverLeng = data[0].largo * 1;
                         var downloadLeng = data[0].foto_base64 + "";
                         downloadLeng = downloadLeng.length;
+                        var params = {data: base64String, prefix: 'myPrefix_', format: 'JPG', quality: 80, mediaScanner: true};
 
                         if (serverLeng == downloadLeng)
                         {
-                            cordova.base64ToGallery(data[0].foto_base64,
+                            window.imageSaver.saveBase64Image(params,
+                            function (filePath) 
+                            {
+                                allPaths += filePath + "(" + val.linea + ")\n";
+                                $("#AJAXLoadLabel").text(filePath + "(" + val.linea + ")");
+                              console.log('File saved on ' + filePath);
+                            },
+                            function (msg) 
+                            {
+                                allErrors += msg + " | "; 
+                                $("#AJAXLoadLabel").text(msg);
+                              console.error(msg);
+                            });
+                            
+                            /*cordova.base64ToGallery(data[0].foto_base64,
                             function (path)
                             {
                                 allPaths += path + "(" + val.linea + ")\n";
@@ -218,7 +233,7 @@ function ReDowloadFoto()
                             {
                                 allErrors += err + " | "; 
                                 $("#AJAXLoadLabel").text(err);
-                            });  
+                            });  */
                             //db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
                             count++;
                         }
