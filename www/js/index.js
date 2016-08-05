@@ -5,7 +5,89 @@ var DownCount = 0;
 var failTablesList = "";
 var AddWhere = {};
 
+var FILENAME = 'database.db',
+    failCB = function (msg) {
+        return function () {
+            alert('[FAIL] ' + msg);
+        }
+    },
+    file = {
+        writer: { available: false },
+        reader: { available: false }
+    },
+    dbEntries = [];
+document.addEventListener('deviceready', function () 
+{
+    try
+    {
+        var fail = failCB('requestFileSystem');
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+    }
+    catch(err)
+    {
+        alert(err.message);
+    }
+}, false);
 
+function gotFS(fs) 
+{
+    var fail = failCB('getFile');
+    fs.root.getFile(FILENAME, {create: true, exclusive: false}, gotFileEntry, fail);
+}
+
+function gotFileEntry(fileEntry) 
+{
+    var fail = failCB('createWriter');
+    file.entry = fileEntry;
+    fileEntry.createWriter(gotFileWriter, fail);
+    readText();
+}
+
+function gotFileWriter(fileWriter) 
+{
+    file.writer.available = true;
+    file.writer.object = fileWriter;
+}
+
+function saveText(e) 
+{
+    var name = "Hola mundo",
+        desc = "es una demo",
+        fail;
+    dbEntries.push('<dt>' + name + '</dt><dd>' + desc + '</dd>')
+    /*$('name').value = '';
+    $('desc').value = '';
+    $('definitions').innerHTML = dbEntries.join('');*/
+    if (file.writer.available) {
+        file.writer.available = false;
+        file.writer.object.onwriteend = function (evt) {
+            file.writer.available = true;
+            file.writer.object.seek(0);
+        }
+        file.writer.object.write(dbEntries.join("\n"));
+    }
+    
+}
+
+function readText() 
+{
+    if (file.entry) 
+    {
+        file.entry.file(function (dbFile) 
+        {
+            var reader = new FileReader();
+            reader.onloadend = function (evt) 
+            {
+                var textArray = evt.target.result.split("\n");
+                dbEntries = textArray.concat(dbEntries);
+                Mensage(dbEntries.toString());
+                //$('definitions').innerHTML = dbEntries.join('');
+            }
+            reader.readAsText(dbFile);
+        }, failCB("FileReader"));
+    }
+    return false;
+}
 
 var onSuccess = function (position) {
 

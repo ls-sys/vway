@@ -24,6 +24,7 @@
   <preference name="StatusBarBackgroundColor" value="#000000" />
   <preference name="StatusBarStyle" value="lightcontent" />
   <preference name="CameraUsesGeolocation" value="false" />
+  <preference name="iosPersistentFileLocation" value="Library" />
   
   <preference name="permissions" value="true" />
 	<feature name="File">
