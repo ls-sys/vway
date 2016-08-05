@@ -204,9 +204,9 @@ function ReDowloadFoto()
 
                         var serverLeng = data[0].largo * 1;
                         var downloadLeng = data[0].foto_base64 + "";
+                        
+                        var params = {data: downloadLeng, prefix: 'myPrefix_', format: 'JPG', quality: 80, mediaScanner: true};
                         downloadLeng = downloadLeng.length;
-                        var params = {data: base64String, prefix: 'myPrefix_', format: 'JPG', quality: 80, mediaScanner: true};
-
                         if (serverLeng == downloadLeng)
                         {
                             window.imageSaver.saveBase64Image(params,
@@ -222,8 +222,8 @@ function ReDowloadFoto()
                                 $("#AJAXLoadLabel").text(msg);
                               console.error(msg);
                             });
-                            
-                            /*cordova.base64ToGallery(data[0].foto_base64,
+                            /*
+                            cordova.base64ToGallery(data[0].foto_base64,
                             function (path)
                             {
                                 allPaths += path + "(" + val.linea + ")\n";
@@ -234,7 +234,8 @@ function ReDowloadFoto()
                                 allErrors += err + " | "; 
                                 $("#AJAXLoadLabel").text(err);
                             });  */
-                            //db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
+                            
+                            db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
                             count++;
                         }
                         else
