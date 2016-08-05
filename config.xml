@@ -55,7 +55,7 @@
 		<param name="ios-package" value="CDVCapture" />
 	</feature>
 
-  <gap:plugin name="cordova-save-image-gallery" source="npm"/>   
+  <!--<gap:plugin name="cordova-save-image-gallery" source="npm"/>   -->
   <gap:plugin name="cordova-plugin-app-version" version="0.1.7" source="npm"/>
   <plugin name="org.apache.cordova.battery-status" source="pgb" spec="0.2.11" />
   <gap:plugin name="cordova-plugin-camera"/>
