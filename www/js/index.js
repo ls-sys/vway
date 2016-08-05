@@ -49,7 +49,7 @@ function gotFileWriter(fileWriter)
     file.writer.object = fileWriter;
 }
 
-function saveText(e) 
+function saveText() 
 {
     var name = "Hola mundo",
         desc = "es una demo",
@@ -80,7 +80,7 @@ function readText()
             {
                 var textArray = evt.target.result.split("\n");
                 dbEntries = textArray.concat(dbEntries);
-                Mensage(dbEntries.toString());
+                Mensage("file: \n" + dbEntries.toString());
                 //$('definitions').innerHTML = dbEntries.join('');
             }
             reader.readAsText(dbFile);
