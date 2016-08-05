@@ -171,7 +171,7 @@ function ReDowloadFoto()
     
     if (window.cordova)
     {
-        alert("Save photo to galery Loaded");
+        //alert("Save photo to galery Loaded");
         $.post(uriServer,
         {
             "cmd": "getListaFotos",
@@ -209,10 +209,6 @@ function ReDowloadFoto()
                         if (serverLeng == downloadLeng)
                         {
                             cordova.base64ToGallery(data[0].foto_base64,
-                            {
-                                prefix: 'img_vw_',
-                                mediaScanner: false
-                            },
                             function (path)
                             {
                                 allPaths += path + "(" + val.linea + ")\n";
@@ -221,6 +217,7 @@ function ReDowloadFoto()
                             function(err)
                             {
                                 allErrors += err + " | "; 
+                                $("#AJAXLoadLabel").text(err);
                             });  
                             //db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
                             count++;
