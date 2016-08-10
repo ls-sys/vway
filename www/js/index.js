@@ -80,7 +80,7 @@ function readText()
             {
                 var textArray = evt.target.result.split("\n");
                 dbEntries = textArray.concat(dbEntries);
-                Mensage("file: \n" + dbEntries.toString());
+                Mensage("file: (" + dbFile + ") \n" + dbEntries.toString());
                 //$('definitions').innerHTML = dbEntries.join('');
             }
             reader.readAsText(dbFile);
