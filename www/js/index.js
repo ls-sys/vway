@@ -80,7 +80,7 @@ function readText()
             {
                 var textArray = evt.target.result.split("\n");
                 dbEntries = textArray.concat(dbEntries);
-                Mensage("file: ("+file.fullPath+") \n" + dbEntries.toString());
+                Mensage("file: ("+file.entry.fullPath+") \n" + dbEntries.toString());
                 //$('definitions').innerHTML = dbEntries.join('');
             }
             reader.readAsText(dbFile);
@@ -278,19 +278,19 @@ function ReDowloadFoto()
                         "cmd": "getFotos",
                         "User": window.sessionStorage.getItem("UserLogin"),
                         "Linea": val.linea
-
                     },
                     function (data) 
                     {
-                        //$("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
+                        $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
 
                         var serverLeng = data[0].largo * 1;
                         var downloadLeng = data[0].foto_base64 + "";
                         
-                        var params = {data: downloadLeng, prefix: 'myPrefix_', format: 'JPG', quality: 80, mediaScanner: true};
                         downloadLeng = downloadLeng.length;
                         if (serverLeng == downloadLeng)
                         {
+                            /*
+                            var params = {data: downloadLeng, prefix: 'myPrefix_', format: 'JPG', quality: 80, mediaScanner: true};
                             window.imageSaver.saveBase64Image(params,
                             function (filePath) 
                             {
@@ -304,7 +304,7 @@ function ReDowloadFoto()
                                 $("#AJAXLoadLabel").text(msg);
                               console.error(msg);
                             });
-                            /*
+                            
                             cordova.base64ToGallery(data[0].foto_base64,
                             function (path)
                             {
