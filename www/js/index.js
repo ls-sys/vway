@@ -32,7 +32,17 @@ document.addEventListener('deviceready', function ()
 function gotFS(fs) 
 {
     var fail = failCB('getFile');
-    fs.root.getFile(FILENAME, {create: true, exclusive: false}, gotFileEntry, fail);
+    fs.root.getFile(FILENAME, {create: true, exclusive: false}, function (fileEntry)
+    {
+        var fail = failCB('createWriter');
+        file.entry = fileEntry;
+        fileEntry.createWriter(function (fileWriter) 
+        {
+            file.writer.available = true;
+            file.writer.object = fileWriter;    
+        }, fail);
+        readText();   
+    }, fail);
 }
 
 function gotFileEntry(fileEntry) 
@@ -288,51 +298,22 @@ function ReDowloadFoto()
                         
                         downloadLeng = downloadLeng.length;
                         if (serverLeng == downloadLeng)
-                        {
-                            /*
-                            var params = {data: downloadLeng, prefix: 'myPrefix_', format: 'JPG', quality: 80, mediaScanner: true};
-                            window.imageSaver.saveBase64Image(params,
-                            function (filePath) 
-                            {
-                                allPaths += filePath + "(" + val.linea + ")\n";
-                                $("#AJAXLoadLabel").text(filePath + "(" + val.linea + ")");
-                              console.log('File saved on ' + filePath);
-                            },
-                            function (msg) 
-                            {
-                                allErrors += msg + " | "; 
-                                $("#AJAXLoadLabel").text(msg);
-                              console.error(msg);
-                            });
-                            
-                            cordova.base64ToGallery(data[0].foto_base64,
-                            function (path)
-                            {
-                                allPaths += path + "(" + val.linea + ")\n";
-                                $("#AJAXLoadLabel").text(path + "(" + val.linea + ")");
-                            },
-                            function(err)
-                            {
-                                allErrors += err + " | "; 
-                                $("#AJAXLoadLabel").text(err);
-                            });  */
-                            
+                        {                        
                             db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
                             count++;
                         }
                         else
                            forotsError += 1; 
-                         if (index == (rs.length - 1))
-                            {
-                                $("#loadingAJAX").delay(2000).slideUp(500);
-                                if (forotsError > 0)
-                                    Mensage("Photos Error = " + forotsError);
-                                if (allErrors.length > 0)
-                                    alert(allErrors);
-                                Mensage(allPaths);
-                            }
-                        else
-                            Mensage("error");
+                        
+                        if (index == (rs.length - 1))
+                        {
+                            $("#loadingAJAX").delay(2000).slideUp(500);
+                            if (forotsError > 0)
+                                Mensage("Photos Error = " + forotsError);
+                            if (allErrors.length > 0)
+                                alert(allErrors);
+                            Mensage(allPaths);
+                        }
 
 
                     }, "json");
