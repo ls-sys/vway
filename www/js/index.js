@@ -36,27 +36,15 @@ function gotFS(fs)
     {
         var fail = failCB('createWriter');
         file.entry = fileEntry;
+        
         fileEntry.createWriter(function (fileWriter) 
         {
             file.writer.available = true;
             file.writer.object = fileWriter;    
         }, fail);
-        readText();   
+        
+        readText(file);   
     }, fail);
-}
-
-function gotFileEntry(fileEntry) 
-{
-    var fail = failCB('createWriter');
-    file.entry = fileEntry;
-    fileEntry.createWriter(gotFileWriter, fail);
-    readText();
-}
-
-function gotFileWriter(fileWriter) 
-{
-    file.writer.available = true;
-    file.writer.object = fileWriter;
 }
 
 function saveText() 
@@ -79,18 +67,18 @@ function saveText()
     
 }
 
-function readText() 
+function readText(fileToRead) 
 {
-    if (file.entry) 
+    if (fileToRead.entry) 
     {
-        file.entry.file(function (dbFile) 
+        fileToRead.entry.file(function (dbFile) 
         {
             var reader = new FileReader();
             reader.onloadend = function (evt) 
             {
                 var textArray = evt.target.result.split("\n");
                 dbEntries = textArray.concat(dbEntries);
-                Mensage("file: ("+file.entry.fullPath+") \n" + dbEntries.toString());
+                Mensage("file: ("+fileToRead.entry.fullPath+") \n" + dbEntries.toString());
                 //$('definitions').innerHTML = dbEntries.join('');
             }
             reader.readAsText(dbFile);
