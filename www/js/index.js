@@ -2866,7 +2866,10 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
                                 var textArray = evt.target.result.split("\n");
                                 
                                 dbEntries = textArray.concat(dbEntries);
-                                $('<label>').html(dbEntries.length + " - " ).appendTo("#div_foto" + ele.linea)
+                                $('<label>').html(dbEntries[0].length + " - " ).appendTo("#div_foto" + ele.linea);
+                                $('<img>')
+                                    .attr({'src': "data:image/jpg;base64," + dbEntries[0]})
+                                    .appendTo("#div_foto" + ele.linea);
                                 //$('definitions').innerHTML = dbEntries.join('');
                             }
                             reader.readAsText(dbFile);
