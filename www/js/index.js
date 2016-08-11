@@ -2845,7 +2845,13 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
             {
                 var fail = failCB('getFile');
-                fs.root.getFile(ele.foto_base64, {create: true, exclusive: false}, function (fileEntry)
+                var file = 
+                        {
+                            writer: { available: false },
+                            reader: { available: false }
+                        }, FileName = ele.foto_base64 + "", dbEntries = [];
+                
+                fs.root.getFile(FileName, {create: true, exclusive: false}, function (fileEntry)
                 {
                     var fail = failCB('createWriter');
                     file.entry = fileEntry;
