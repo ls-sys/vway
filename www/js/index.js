@@ -301,7 +301,7 @@ function ReDowloadFoto()
                                         file.writer.available = true;
                                         file.writer.object = fileWriter;  
                                         
-                                        dbEntries.push('<dt>' + val.linea + '</dt><dd>' + data[0].foto_base64 + '</dd>');
+                                        dbEntries.push(data[0].foto_base64);
                                         if (file.writer.available) 
                                         {
                                             file.writer.available = false;
@@ -2866,7 +2866,7 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
                                 var textArray = evt.target.result.split("\n");
                                 
                                 dbEntries = textArray.concat(dbEntries);
-                                $('<label>').html(dbEntries.toString()).appendTo("#div_foto" + ele.linea)
+                                $('<label>').html(dbEntries.length + " - " ).appendTo("#div_foto" + ele.linea)
                                 //$('definitions').innerHTML = dbEntries.join('');
                             }
                             reader.readAsText(dbFile);
