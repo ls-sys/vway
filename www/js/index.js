@@ -2841,7 +2841,38 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
             
             $('<div>').attr({'class':"centerContent", 'id': 'div_foto' + ele.linea}).appendTo(tempID);
             
-            $('<label>').html(ele.foto_base64).appendTo("#div_foto" + ele.linea)
+            var fail = failCB('requestFileSystem');
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+            {
+                var fail = failCB('getFile');
+                fs.root.getFile(ele.foto_base64, {create: true, exclusive: false}, function (fileEntry)
+                {
+                    var fail = failCB('createWriter');
+                    file.entry = fileEntry;
+                    
+                    if (file.entry) 
+                    {
+                        file.entry.file(function (dbFile) 
+                        {
+                            var reader = new FileReader();
+                            reader.onloadend = function (evt) 
+                            {
+                                var textArray = evt.target.result.split("\n");
+                                $('<label>').html(textArray.toString()).appendTo("#div_foto" + ele.linea)
+                                /*dbEntries = textArray.concat(dbEntries);
+                                Mensage("file: ("+file.entry.fullPath+") \n" + dbEntries.toString());*/
+                                //$('definitions').innerHTML = dbEntries.join('');
+                            }
+                            reader.readAsText(dbFile);
+                            
+                        }, failCB("FileReader"));
+                    }
+                     
+                }, fail);
+                
+            }, fail);
+            
+            
             
             /*$('<img>')
                 .attr({'src': "data:image/jpg;base64," + ele.foto_base64})
