@@ -2864,9 +2864,9 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
                             reader.onloadend = function (evt) 
                             {
                                 var textArray = evt.target.result.split("\n");
-                                $('<label>').html(textArray.toString()).appendTo("#div_foto" + ele.linea)
-                                /*dbEntries = textArray.concat(dbEntries);
-                                Mensage("file: ("+file.entry.fullPath+") \n" + dbEntries.toString());*/
+                                
+                                dbEntries = textArray.concat(dbEntries);
+                                $('<label>').html(dbEntries.toString()).appendTo("#div_foto" + ele.linea)
                                 //$('definitions').innerHTML = dbEntries.join('');
                             }
                             reader.readAsText(dbFile);
