@@ -10,13 +10,8 @@ var FILENAME = 'database.db',
         return function () {
             alert('[FAIL] ' + msg);
         }
-    },
-    file = {
-        writer: { available: false },
-        reader: { available: false }
-    },
-    dbEntries = [];
-document.addEventListener('deviceready', function () 
+    };
+/*document.addEventListener('deviceready', function () 
 {
     try
     {
@@ -27,7 +22,7 @@ document.addEventListener('deviceready', function ()
     {
         alert(err.message);
     }
-}, false);
+}, false);*/
 
 function gotFS(fs) 
 {
@@ -283,11 +278,48 @@ function ReDowloadFoto()
 
                         var serverLeng = data[0].largo * 1;
                         var downloadLeng = data[0].foto_base64 + "";
+                        var file = 
+                        {
+                            writer: { available: false },
+                            reader: { available: false }
+                        }, FileName = "img_" + val.linea + ".b64", dbEntries = [];
                         
                         downloadLeng = downloadLeng.length;
                         if (serverLeng == downloadLeng)
-                        {                        
-                            db.UPDATE("vc_foto", {'foto_base64': data[0].foto_base64}, {'linea': val.linea});
+                        {     
+                            var fail = failCB('requestFileSystem');
+                            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+                            {
+                                var fail = failCB('getFile');
+                                fs.root.getFile(FileName, {create: true, exclusive: false}, function (fileEntry)
+                                {
+                                    var fail = failCB('createWriter');
+                                    file.entry = fileEntry;
+
+                                    fileEntry.createWriter(function (fileWriter) 
+                                    {
+                                        file.writer.available = true;
+                                        file.writer.object = fileWriter;  
+                                        
+                                        dbEntries.push('<dt>' + val.linea + '</dt><dd>' + data[0].foto_base64 + '</dd>');
+                                        if (file.writer.available) 
+                                        {
+                                            file.writer.available = false;
+                                            file.writer.object.onwriteend = function (evt) 
+                                            {
+                                                file.writer.available = true;
+                                                file.writer.object.seek(0);
+                                            }
+                                            file.writer.object.write(dbEntries.join("\n"));
+                                        }
+                                        
+                                    }, fail);
+
+                                    //readText(file);   
+                                }, fail);
+                            }, fail);
+                            
+                            db.UPDATE("vc_foto", {'foto_base64': FileName}, {'linea': val.linea});
                             count++;
                         }
                         else
@@ -2809,9 +2841,11 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
             
             $('<div>').attr({'class':"centerContent", 'id': 'div_foto' + ele.linea}).appendTo(tempID);
             
-            $('<img>')
+            $('<label>').html(ele.foto_base64).appendTo("#div_foto" + ele.linea)
+            
+            /*$('<img>')
                 .attr({'src': "data:image/jpg;base64," + ele.foto_base64})
-                .appendTo("#div_foto" + ele.linea);
+                .appendTo("#div_foto" + ele.linea);*/
             
              $(tempID).collapsible();
             
