@@ -270,7 +270,7 @@ function ReDowloadFoto()
                         {
                             writer: { available: false },
                             reader: { available: false }
-                        }, FileName = "img"+ val.usuario + "l" + val.linea + ".b64", dbEntries = [];
+                        }, FileName = "imgl" + val.linea + ".b64", dbEntries = [];
                         
                         downloadLeng = downloadLeng.length;
                         if (serverLeng == downloadLeng)
@@ -2643,7 +2643,7 @@ $(document).on("pagecreate", "#IndexPage", function()
 		$("#btnLoadModules").click(function(e) 
 		{
          	RefreshIndex();  
-            ReDowloadFoto();
+            //ReDowloadFoto();
 		});
 
 		$("#btnUpdateData").click(function (e)
