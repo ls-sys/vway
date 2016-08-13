@@ -2647,7 +2647,7 @@ $(document).on("pagecreate", "#IndexPage", function()
 		$("#btnLoadModules").click(function(e) 
 		{
          	RefreshIndex();  
-            ReDowloadFoto();
+            //ReDowloadFoto();
 		});
 
 		$("#btnUpdateData").click(function (e)
