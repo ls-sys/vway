@@ -2806,6 +2806,73 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
     
     if (rs.length > 0)
     {
+        
+        var fail = failCB('requestFileSystem');
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+        {
+            var fail = failCB('getFile');
+            var file = 
+                    {
+                        writer: { available: false },
+                        reader: { available: false }
+                    }, dbEntries = [];
+            
+            
+            
+
+            $(rs).each(function(i, ele)
+            {
+                $('<fieldset>')
+                    .attr({ 'data-role': 'collapsible', 'id': 'foto_' + ele.linea })
+                    .html('<legend> Photo #' + ele.linea + '</legend>')
+                    .appendTo("#GF_set");
+
+                var tempID = "#foto_" + ele.linea;
+
+                $('<div>').attr({'class':"centerContent", 'id': 'div_foto' + ele.linea}).appendTo(tempID);
+                
+                var FileName = ele.foto_base64 ;
+                
+                fs.root.getFile(FileName , {create: true, exclusive: false}, function (fileEntry)
+                {
+                    var fail = failCB('createWriter');
+                    file.entry = fileEntry;
+
+                    if (file.entry) 
+                    {
+                        file.entry.file(function (dbFile) 
+                        {
+                            var reader = new FileReader();
+                            reader.onloadend = function (evt) 
+                            {
+                                var textArray = evt.target.result.split("\n");
+
+                                dbEntries = textArray.concat(dbEntries);
+                                $('<label>').html(dbEntries[0].length + " - " + ele.foto_base64 ).appendTo("#div_foto" + ele.linea);
+                                $('<img>')
+                                    .attr({'src': "data:image/jpg;base64," + dbEntries[0]})
+                                    .appendTo("#div_foto" + ele.linea);
+                                //$('definitions').innerHTML = dbEntries.join('');
+                            }
+                            reader.readAsText(dbFile);
+
+                        }, failCB("FileReader"));
+                    }
+
+                }, fail);
+
+
+                /*$('<img>')
+                    .attr({'src': "data:image/jpg;base64," + ele.foto_base64})
+                    .appendTo("#div_foto" + ele.linea);*/
+
+                 $(tempID).collapsible();
+
+
+            });
+
+        }, fail);
+        
         $(rs).each(function(i, ele)
         {
             $('<fieldset>')
@@ -2816,47 +2883,35 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
             var tempID = "#foto_" + ele.linea;
             
             $('<div>').attr({'class':"centerContent", 'id': 'div_foto' + ele.linea}).appendTo(tempID);
-            var FileName = ele.foto_base64 + "";
-            var fail = failCB('requestFileSystem');
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
-            {
-                var fail = failCB('getFile');
-                var file = 
-                        {
-                            writer: { available: false },
-                            reader: { available: false }
-                        }, dbEntries = [];
-                
-                fs.root.getFile(ele.foto_base64 , {create: true, exclusive: false}, function (fileEntry)
-                {
-                    var fail = failCB('createWriter');
-                    file.entry = fileEntry;
-                    
-                    if (file.entry) 
-                    {
-                        file.entry.file(function (dbFile) 
-                        {
-                            var reader = new FileReader();
-                            reader.onloadend = function (evt) 
-                            {
-                                var textArray = evt.target.result.split("\n");
-                                
-                                dbEntries = textArray.concat(dbEntries);
-                                $('<label>').html(dbEntries[0].length + " - " + ele.foto_base64 ).appendTo("#div_foto" + ele.linea);
-                                $('<img>')
-                                    .attr({'src': "data:image/jpg;base64," + dbEntries[0]})
-                                    .appendTo("#div_foto" + ele.linea);
-                                //$('definitions').innerHTML = dbEntries.join('');
-                            }
-                            reader.readAsText(dbFile);
-                            
-                        }, failCB("FileReader"));
-                    }
-                     
-                }, fail);
-                
-            }, fail);
             
+            
+            fs.root.getFile(FileName , {create: true, exclusive: false}, function (fileEntry)
+            {
+                var fail = failCB('createWriter');
+                file.entry = fileEntry;
+
+                if (file.entry) 
+                {
+                    file.entry.file(function (dbFile) 
+                    {
+                        var reader = new FileReader();
+                        reader.onloadend = function (evt) 
+                        {
+                            var textArray = evt.target.result.split("\n");
+
+                            dbEntries = textArray.concat(dbEntries);
+                            $('<label>').html(dbEntries[0].length + " - " + ele.foto_base64 ).appendTo("#div_foto" + ele.linea);
+                            $('<img>')
+                                .attr({'src': "data:image/jpg;base64," + dbEntries[0]})
+                                .appendTo("#div_foto" + ele.linea);
+                            //$('definitions').innerHTML = dbEntries.join('');
+                        }
+                        reader.readAsText(dbFile);
+
+                    }, failCB("FileReader"));
+                }
+
+            }, fail);
             
             
             /*$('<img>')
