@@ -2810,7 +2810,7 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
         {
             $('<fieldset>')
                 .attr({ 'data-role': 'collapsible', 'id': 'foto_' + ele.linea })
-                .html('<legend> Photo #' + ele.linea + '</legend>')
+                .html('<legend> Photo #' + ele.linea + ' - ' + ele.foto_base64 + '</legend>')
                 .appendTo("#GF_set");
             
             var tempID = "#foto_" + ele.linea;
