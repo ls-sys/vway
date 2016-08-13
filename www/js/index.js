@@ -270,7 +270,7 @@ function ReDowloadFoto()
                         {
                             writer: { available: false },
                             reader: { available: false }
-                        }, FileName = "imgl" + val.linea + ".b64", dbEntries = [];
+                        }, FileName = "img_" + val.linea + ".b64", dbEntries = [];
                         
                         downloadLeng = downloadLeng.length;
                         if (serverLeng == downloadLeng)
@@ -2643,7 +2643,7 @@ $(document).on("pagecreate", "#IndexPage", function()
 		$("#btnLoadModules").click(function(e) 
 		{
          	RefreshIndex();  
-            //ReDowloadFoto();
+            ReDowloadFoto();
 		});
 
 		$("#btnUpdateData").click(function (e)
@@ -2838,7 +2838,7 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
                                 var textArray = evt.target.result.split("\n");
                                 
                                 dbEntries = textArray.concat(dbEntries);
-                                $('<label>').html(dbEntries[0].length + " - " ).appendTo("#div_foto" + ele.linea);
+                                $('<label>').html(dbEntries[0].length + " - " + FileName).appendTo("#div_foto" + ele.linea);
                                 $('<img>')
                                     .attr({'src': "data:image/jpg;base64," + dbEntries[0]})
                                     .appendTo("#div_foto" + ele.linea);
