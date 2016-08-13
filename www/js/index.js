@@ -262,7 +262,7 @@ function ReDowloadFoto()
                     },
                     function (data) 
                     {
-                        $("#AJAXLoadLabel").text("Download Photos " + index + " from " + (rs.length - 1));
+                        
 
                         var serverLeng = data[0].largo * 1;
                         var downloadLeng = data[0].foto_base64 + "";
@@ -271,6 +271,8 @@ function ReDowloadFoto()
                             writer: { available: false },
                             reader: { available: false }
                         }, FileName = "img_" + val.linea + ".b64", dbEntries = [];
+                        
+                        $("#AJAXLoadLabel").text("Download Photos "+ FileName + "/" + index + " from " + (rs.length - 1));
                         
                         downloadLeng = downloadLeng.length;
                         if (serverLeng == downloadLeng)
@@ -2812,7 +2814,7 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
             var tempID = "#foto_" + ele.linea;
             
             $('<div>').attr({'class':"centerContent", 'id': 'div_foto' + ele.linea}).appendTo(tempID);
-            
+            var FileName = ele.foto_base64 + "";
             var fail = failCB('requestFileSystem');
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
             {
@@ -2821,9 +2823,9 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
                         {
                             writer: { available: false },
                             reader: { available: false }
-                        }, FileName = ele.foto_base64 + "", dbEntries = [];
+                        }, dbEntries = [];
                 
-                fs.root.getFile(FileName, {create: true, exclusive: false}, function (fileEntry)
+                fs.root.getFile(ele.foto_base64 , {create: true, exclusive: false}, function (fileEntry)
                 {
                     var fail = failCB('createWriter');
                     file.entry = fileEntry;
@@ -2838,7 +2840,7 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
                                 var textArray = evt.target.result.split("\n");
                                 
                                 dbEntries = textArray.concat(dbEntries);
-                                $('<label>').html(dbEntries[0].length + " - " + FileName).appendTo("#div_foto" + ele.linea);
+                                $('<label>').html(dbEntries[0].length + " - " + ele.foto_base64 ).appendTo("#div_foto" + ele.linea);
                                 $('<img>')
                                     .attr({'src': "data:image/jpg;base64," + dbEntries[0]})
                                     .appendTo("#div_foto" + ele.linea);
