@@ -11,18 +11,6 @@ var FILENAME = 'database.db',
             alert('[FAIL] ' + msg);
         }
     };
-/*document.addEventListener('deviceready', function () 
-{
-    try
-    {
-        var fail = failCB('requestFileSystem');
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-    }
-    catch(err)
-    {
-        alert(err.message);
-    }
-}, false);*/
 
 function gotFS(fs) 
 {
@@ -282,7 +270,7 @@ function ReDowloadFoto()
                         {
                             writer: { available: false },
                             reader: { available: false }
-                        }, FileName = "img_" + val.linea + ".b64", dbEntries = [];
+                        }, FileName = "img"+ val.usuario + "l" + val.linea + ".b64", dbEntries = [];
                         
                         downloadLeng = downloadLeng.length;
                         if (serverLeng == downloadLeng)
@@ -350,22 +338,6 @@ function ReDowloadFoto()
 
         },"json");
     }
-    
-    
-    
-    
-    /*while(true)
-    {
-        if (count == Leng)
-        {
-            $("#loadingAJAX").slideUp(500);
-            break;
-        }
-        else
-        {
-            $("#AJAXLoadLabel").text("Download Photos " + count + ": "+ Leng);
-        }
-    }*/
     
 }
 
@@ -2671,7 +2643,7 @@ $(document).on("pagecreate", "#IndexPage", function()
 		$("#btnLoadModules").click(function(e) 
 		{
          	RefreshIndex();  
-            ReDowloadFoto();
+            //ReDowloadFoto();
 		});
 
 		$("#btnUpdateData").click(function (e)
