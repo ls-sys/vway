@@ -419,8 +419,9 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 				defData = defData.replace(", }", "}");
 				
 				objdefData = JSON.parse(defData);
-			
-				db.CREATE(TableName, objdefData);
+                
+                if (!db.EXISTS_TABLE(TableName))			
+				    db.CREATE(TableName, objdefData);
 
 				maxTrans++;
 
@@ -475,6 +476,7 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 
 					$("#AJAXLoadLabel").text("Descarga... " + (++DownCount) + " [" + TableName + "] " + " de " + maxTrans);
 					
+                    db.TRUNCATE(TableName);
 					db.INSERT_INTO(TableName, objDataInsert);
 					
 					db.INSERT_INTO("ListMod", [{tablaName: TableName, neadForm: Forma, sinc: 1, formTitle: PageTitle, project_id: Project_Id, object_id: Object_Id}]);				
