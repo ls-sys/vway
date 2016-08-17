@@ -189,9 +189,48 @@ function CreateListaChequeo(idFormulario, idEncuesta)
                         temp = temp.replace(/-/g, "/");
                         fotoBAse64[0].foto_base64 = temp;
                         alert(fotoBAse64[0].foto_base64.length)*/
-                        $('<img>')
-                            .attr({ 'id': "q_respuesta_img" + IDRes, 'src': "data:image/jpg;base64," + fotoBAse64[0].foto_base64 })
-                            .appendTo("#" + IDRes + '_noAplicaForm_2');
+                        
+                        var fail = failCB('requestFileSystem');
+                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+                        {
+                            var fail = failCB('getFile');
+                            var file = 
+                                    {
+                                        writer: { available: false },
+                                        reader: { available: false }
+                                    }, dbEntries = [], FileName = fotoBAse64[0].foto_base64;
+
+                            fs.root.getFile(FileName , {create: true, exclusive: false}, function (fileEntry)
+                            {
+                                var fail = failCB('createWriter');
+                                file.entry = fileEntry;
+
+                                if (file.entry) 
+                                {
+                                    file.entry.file(function (dbFile) 
+                                    {
+                                        var reader = new FileReader();
+                                        reader.onloadend = function (evt) 
+                                        {
+                                            var textArray = evt.target.result.split("\n");
+
+                                            dbEntries = textArray.concat(dbEntries);
+                                            
+                                             $('<img>')
+                                                .attr({ 'id': "q_respuesta_img" + IDRes, 'src': "data:image/jpg;base64," + dbEntries[0]})
+                                                .appendTo("#" + IDRes + '_noAplicaForm_2');
+                                            
+                                            //$('definitions').innerHTML = dbEntries.join('');
+                                        }
+                                        reader.readAsText(dbFile);
+
+                                    }, failCB("FileReader"));
+                                }
+
+                            }, fail);
+
+                        }, fail);
+                        
                         temp = null;
                     }
 
