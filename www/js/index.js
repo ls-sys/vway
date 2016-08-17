@@ -2254,7 +2254,7 @@ function ClickEvent_btnSaveData()
                     
                     if (ele.required == "S" && (InValue == undefined || InValue == null || InValue.trim() == "Empty" || InValue.trim() == ""))
                     {
-                        Mensage("El campo '" + ele.label + "' Es requerido.");
+                        Mensage("El campo '" + ele.label + "' Es requerido. / The field '" + ele.label + "' is required.");
                         throw "El campo '" + ele.label + "' Es requerido.";
                     }
                     
@@ -2271,7 +2271,7 @@ function ClickEvent_btnSaveData()
                             InValue = bakInitVal;
                         else
                         {
-                            Mensage("El campo '" + ele.label + "' Es requerido.");
+                            Mensage("El campo '" + ele.label + "' Es requerido. / The field '" + ele.label + "' is required.");
                             throw "El campo '" + ele.label + "' Es requerido.";  
                         }
                     }
@@ -2365,7 +2365,7 @@ function ClickEvent_btnSaveData()
 
                 //if (window.sessionStorage.getItem("#SiMSG") != "1")
                 
-                Mensage('Datos Guardados...');
+                Mensage('Datos Guardados... / Data Saved... ');
                 window.sessionStorage.removeItem("#SiMSG");
                 
 
@@ -2626,7 +2626,7 @@ $(document).on("pagecreate", "#IndexPage", function()
                         
                     }, "json")
                         .fail(function (qXHR, textStatus, errorThrown) {
-                            Mensage("No Coneccion.");
+                            Mensage("No Conexion. / No Connection");
                             //Mensage(qXHR.responseText);
                             console.log(qXHR);
                             console.log(textStatus);
