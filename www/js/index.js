@@ -629,33 +629,73 @@ function SendFoto(rsFotos, callback)
                 'strFoto': e.foto_base64,
                 'linea': e.linea
             };
-            $.post(uriServer, payLoad,
-            function (data) {
-                if (limit == 1)
+            
+            var fail = failCB('requestFileSystem');
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+            {
+                var fail = failCB('getFile');
+                var file = 
+                        {
+                            writer: { available: false },
+                            reader: { available: false }
+                        }, dbEntries = [], FileName = payLoad.strFoto;
+                
+                fs.root.getFile(FileName , {create: true, exclusive: false}, function (fileEntry)
                 {
-                    strCB.ok += 1;
-                    callback(strCB);
-                }
-                else {
-                    strCB.ok += 1;
-                    --limit;
-                }
-            }, "json")
-            .fail(function (qXHR, textStatus, errorThrown) {
-                console.log(qXHR);
-                console.log(textStatus);
-                console.log(errorThrown);
-                if (limit == 0)
-                {
-                    strCB.error += 1;
-                    callback(strCB);
-                }
-                else {
-                    strCB.error += 1;
-                    --limit;
-                }
+                    var fail = failCB('createWriter');
+                    file.entry = fileEntry;
+                    
+                    if (file.entry) 
+                    {
+                        file.entry.file(function (dbFile) 
+                        {
+                            var reader = new FileReader();
+                            reader.onloadend = function (evt) 
+                            {
+                                var textArray = evt.target.result.split("\n");
+                                
+                                dbEntries = textArray.concat(dbEntries);
+                                payLoad.strFoto = dbEntries[0];
+                                
+                                $.post(uriServer, payLoad,
+                                function (data) {
+                                    if (limit == 1)
+                                    {
+                                        strCB.ok += 1;
+                                        callback(strCB);
+                                    }
+                                    else {
+                                        strCB.ok += 1;
+                                        --limit;
+                                    }
+                                }, "json")
+                                .fail(function (qXHR, textStatus, errorThrown) {
+                                    console.log(qXHR);
+                                    console.log(textStatus);
+                                    console.log(errorThrown);
+                                    if (limit == 0)
+                                    {
+                                        strCB.error += 1;
+                                        callback(strCB);
+                                    }
+                                    else {
+                                        strCB.error += 1;
+                                        --limit;
+                                    }
 
-            });
+                                });
+                                //$('definitions').innerHTML = dbEntries.join('');
+                            }
+                            reader.readAsText(dbFile);
+                            
+                        }, failCB("FileReader"));
+                    }
+                     
+                }, fail);
+                
+            }, fail);
+            
+            
         });
 
     }
