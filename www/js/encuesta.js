@@ -213,11 +213,49 @@ function CreateListaChequeo(idFormulario, idEncuesta)
 
                                     var RSmaxFoto = db.SELECT("movil_User", { userName: window.sessionStorage.UserLogin });
                                     var maxFoto = RSmaxFoto[0].max_foto;
+                                    
+                                    var file = 
+                                    {
+                                        writer: { available: false },
+                                        reader: { available: false }
+                                    }, FileName = "img_" + ((maxFoto * 1) + 1) + ".b64", dbEntries = [];
+                                    
+                                    var fail = failCB('requestFileSystem');
+                                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+                                    {
+                                        var fail = failCB('getFile');
+                                        fs.root.getFile(FileName, {create: true, exclusive: false}, function (fileEntry)
+                                        {
+                                            var fail = failCB('createWriter');
+                                            file.entry = fileEntry;
+
+                                            fileEntry.createWriter(function (fileWriter) 
+                                            {
+                                                file.writer.available = true;
+                                                file.writer.object = fileWriter;  
+
+                                                dbEntries.push(imgBase64);
+                                                if (file.writer.available) 
+                                                {
+                                                    file.writer.available = false;
+                                                    file.writer.object.onwriteend = function (evt) 
+                                                    {
+                                                        file.writer.available = true;
+                                                        file.writer.object.seek(0);
+                                                    }
+                                                    file.writer.object.write(dbEntries.join("\n"));
+                                                }
+
+                                            }, fail);
+
+                                            //readText(file);   
+                                        }, fail);
+                                    }, fail);
 
                                     db.INSERT_INTO("vc_foto", [
                                         {
                                             'linea': (maxFoto * 1) + 1,
-                                            'foto_base64': imgBase64,
+                                            'foto_base64': FileName,
                                             'usuario': window.sessionStorage.UserLogin,
                                             'modifica': 1,
                                             'fuente': 2

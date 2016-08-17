@@ -733,8 +733,9 @@ function SendData2DB()
 
                     $(Columns).each(function (j, val)
                     {
-                        if (e[val] == "" || e[val] == null || e[val] == undefined)
-                            delete e[val];
+                        if (val != "id")
+                            if (e[val] == "" || e[val] == null || e[val] == undefined)
+                                delete e[val];
                     });
                     
                     TempData.push(e);
@@ -755,7 +756,7 @@ function SendData2DB()
         var payload = { "User": usrVal, "Empresa": empresaVal, "cmd": "SendDataFormMovil", "Data": ListTables };
 
         if (ListTables.length > 0)
-            $.post("http://200.30.150.165:8080/webservidor2/mediador.php", payload,
+            $.post(uriServer, payload,
             function (data)
             {
                 var listTables = data;
