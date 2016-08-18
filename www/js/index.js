@@ -1872,6 +1872,8 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                                                         file.writer.object.seek(0);
                                                     }
                                                     file.writer.object.write(dbEntries.join("\n"));
+                                                    
+                                                    db.UPDATE("vc_foto",{'modifica': 1, 'fuente': 2}, {linea: foto_Linea});
                                                 }
 
                                             }, fail);
