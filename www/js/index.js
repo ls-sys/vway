@@ -1829,7 +1829,58 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                     
                     $("#" + ele.id_obj + "_img").on("click", function(e)
                     {
-                        alert("clicked");
+                        var $EleFoto = $(this)
+                        tomarFoto(1, function (urlFoto)
+                        {
+                            getDataUri(urlFoto, 170, 200, function (imgBase64)
+                                {
+                                    $EleFoto.attr('src', "data:image/jpg;base64," + imgBase64);
+                                    var foto_Linea = $EleFoto.attr('id').replace("_img", "");
+                                
+                                    foto_Linea = $("#" + foto_Linea).val();    
+                                
+                                    var RSmaxFoto = db.SELECT("vc_foto", { linea: foto_Linea});
+                                    var maxFoto = RSmaxFoto[0].foto_base64;
+                                    
+                                    var file = 
+                                    {
+                                        writer: { available: false },
+                                        reader: { available: false }
+                                    }, FileName = maxFoto, dbEntries = [];
+                                    
+                                    var fail = failCB('requestFileSystem');
+                                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+                                    {
+                                        var fail = failCB('getFile');
+                                        fs.root.getFile(FileName, {create: true, exclusive: false}, function (fileEntry)
+                                        {
+                                            var fail = failCB('createWriter');
+                                            file.entry = fileEntry;
+
+                                            fileEntry.createWriter(function (fileWriter) 
+                                            {
+                                                file.writer.available = true;
+                                                file.writer.object = fileWriter;  
+
+                                                dbEntries.push(imgBase64);
+                                                if (file.writer.available) 
+                                                {
+                                                    file.writer.available = false;
+                                                    file.writer.object.onwriteend = function (evt) 
+                                                    {
+                                                        file.writer.available = true;
+                                                        file.writer.object.seek(0);
+                                                    }
+                                                    file.writer.object.write(dbEntries.join("\n"));
+                                                }
+
+                                            }, fail);
+
+                                            //readText(file);   
+                                        }, fail);
+                                    }, fail);
+                                });
+                        });
                     });
                     
                     $("<input>").attr({'id':  ele.id_obj, 'type': 'hidden', 'value': InputValue}).appendTo(IDObjDiv);
