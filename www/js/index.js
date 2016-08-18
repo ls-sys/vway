@@ -1826,7 +1826,58 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                     $("<img>")
                         .attr({'id':  ele.id_obj + "_img", 'src':'img/logo.png', 'style':'width: 170px; height: 200px;display: block;margin-left: auto;margin-right: auto'})
                         .appendTo(IDObjDiv);
+                    
+                    $("#" + ele.id_obj + "_img").on("click", function(e)
+                    {
+                        alert("clicked");
+                    });
+                    
                     $("<input>").attr({'id':  ele.id_obj, 'type': 'hidden', 'value': InputValue}).appendTo(IDObjDiv);
+                    
+                    rs = db.SELECT("vc_foto", {linea: InputValue});
+                    
+                    if (rs.length > 0)
+                    {
+                        var fail = failCB('requestFileSystem');
+                        var IDFoto = "#" + ele.id_obj + "_img";
+                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+                        {
+                            var fail = failCB('getFile');
+                            var file = 
+                                    {
+                                        writer: { available: false },
+                                        reader: { available: false }
+                                    }, dbEntries = [], FileName = rs[0].foto_base64;
+
+                            fs.root.getFile(FileName , {create: true, exclusive: false}, function (fileEntry)
+                            {
+                                var fail = failCB('createWriter');
+                                file.entry = fileEntry;
+
+                                if (file.entry) 
+                                {
+                                    file.entry.file(function (dbFile) 
+                                    {
+                                        var reader = new FileReader();
+                                        reader.onloadend = function (evt) 
+                                        {
+                                            var textArray = evt.target.result.split("\n");
+
+                                            dbEntries = textArray.concat(dbEntries);
+                                            
+                                            $(IDFoto).attr('src', "data:image/jpg;base64," + dbEntries[0]);
+                                            //$('definitions').innerHTML = dbEntries.join('');
+                                        }
+                                        reader.readAsText(dbFile);
+
+                                    }, failCB("FileReader"));
+                                }
+
+                            }, fail);
+
+                        }, fail);
+            
+                    }
                     
                     $(IDObjDiv).addClass("centerContent");
                     break;
@@ -1864,7 +1915,7 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                             'id': 'BTN_qEncuesta',
                             'data-role': 'button',
                             'type': 'button',
-                            'value': 'Encuesta',
+                            'value': 'Encuesta / Survey',
                             'onclick': 'LoadEncuestaFForm();'
                         })
                         .appendTo("#PageBuilder_From");
@@ -2912,9 +2963,6 @@ $(document).on("pagecreate", "#pGaleriaFotos", function()
 });
 
 $.mobile.document
-    // "Q_ENCUESTA_PRODUCTOR-menu" is the ID generated for the listview when it is created
-    // by the custom selectmenu plugin. Upon creation of the listview widget we
-    // want to prepend an input field to the list to be used for a filter.
     .on( "listviewcreate", "#Q_ENCUESTA_PRODUCTOR-menu", function( e ) {
         var input,
             listbox = $( "#Q_ENCUESTA_PRODUCTOR-listbox" ),
@@ -2935,14 +2983,6 @@ $.mobile.document
         // indicate that the generated input is to be used for the filtering.
         listview.filterable({ input: input });
     })
-    // The custom select list may show up as either a popup or a dialog,
-    // depending how much vertical room there is on the screen. If it shows up
-    // as a dialog, then the form containing the filter input field must be
-    // transferred to the dialog so that the user can continue to use it for
-    // filtering list items.
-    //
-    // After the dialog is closed, the form containing the filter input is
-    // transferred back into the popup.
     .on( "pagebeforeshow pagehide", "#Q_ENCUESTA_PRODUCTOR-dialog", function( e ) {
     
         $(this).addClass("ui-page-theme-b").removeClass("ui-page-theme-a");
