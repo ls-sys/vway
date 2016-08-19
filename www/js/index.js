@@ -1121,7 +1121,7 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
     $('<form>').html('<input id="filterTable-inpu2t" data-type="search">').appendTo("#PageBuilder_Lista");
     $("#filterTable-inpu2t").textinput();
     $('<table>').attr({ 'id': 'PageBuilder_Tabla', 'data-role': 'table', 'class': 'ui-responsive table-stroke', 'data-filter': 'true', 'data-input': '#filterTable-inpu2t' }).appendTo("#PageBuilder_Lista");
-    $('<thead>').html('<tr><th >Ver...</th></tr>').appendTo("#PageBuilder_Tabla");
+    $('<thead>').html('<tr><th >Ver / Show</th></tr>').appendTo("#PageBuilder_Tabla");
     $('<tbody>').appendTo("#PageBuilder_Tabla");
 
     //$("#PageBuilder_Lista").trigger("create");
@@ -1872,6 +1872,8 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                                                     file.writer.object.seek(0);
                                                 }
                                                 file.writer.object.write(dbEntries.join("\n"));
+                                                
+                                                ClickEvent_btnSaveData();
                                             }
 
                                         }, fail);
@@ -1891,6 +1893,8 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
 
                                 db.UPDATE("movil_User", { max_foto: ((maxFoto * 1) + 1) }, { userName: window.sessionStorage.UserLogin });
                                 window.sessionStorage.setItem("UserMaxFoto", ((maxFoto * 1) + 1));
+                                
+                                
                             });
                         });
                     });
@@ -2201,6 +2205,87 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
                     window.sessionStorage.removeItem("#IdElementTep");
                     window.sessionStorage.removeItem("#initValue$");
                     window.sessionStorage.removeItem("#PKDisable");
+                    break;
+                case "X":
+                    $("<img>")
+                        .attr({'id':  ele.id_obj + "_img", 'src':'img/logo.png', 'style':'width: 170px; height: 200px;display: block;margin-left: auto;margin-right: auto'})
+                        .appendTo(IDObjDiv);
+                    
+                    $("#" + ele.id_obj + "_img").on("click", function(e)
+                    {
+                        var $EleFoto = $(this)
+                        tomarFoto(1, function (urlFoto)
+                        {
+                            getDataUri(urlFoto, 170, 200, function (imgBase64)
+                            {
+                                $EleFoto.attr('src', "data:image/jpg;base64," + imgBase64);
+                                var foto_Linea = $EleFoto.attr('id').replace("_img", "");
+
+                                foto_Linea = $("#" + foto_Linea).val();    
+
+                                var RSmaxFoto = db.SELECT("movil_User", { userName: window.sessionStorage.UserLogin });
+                                var maxFoto = RSmaxFoto[0].max_foto;
+
+                                var file = 
+                                {
+                                    writer: { available: false },
+                                    reader: { available: false }
+                                }, FileName = "img_" + ((maxFoto * 1) + 1) + ".b64", dbEntries = [];
+
+                                var fail = failCB('requestFileSystem');
+                                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+                                {
+                                    var fail = failCB('getFile');
+                                    fs.root.getFile(FileName, {create: true, exclusive: false}, function (fileEntry)
+                                    {
+                                        var fail = failCB('createWriter');
+                                        file.entry = fileEntry;
+
+                                        fileEntry.createWriter(function (fileWriter) 
+                                        {
+                                            file.writer.available = true;
+                                            file.writer.object = fileWriter;  
+
+                                            dbEntries.push(imgBase64);
+                                            if (file.writer.available) 
+                                            {
+                                                file.writer.available = false;
+                                                file.writer.object.onwriteend = function (evt) 
+                                                {
+                                                    file.writer.available = true;
+                                                    file.writer.object.seek(0);
+                                                }
+                                                file.writer.object.write(dbEntries.join("\n"));
+                                                
+                                                ClickEvent_btnSaveData();
+                                            }
+
+                                        }, fail);
+                                    }, fail);
+                                }, fail);
+
+                                db.INSERT_INTO("vc_foto", [
+                                {
+                                    'linea': (maxFoto * 1) + 1,
+                                    'foto_base64': FileName,
+                                    'usuario': window.sessionStorage.UserLogin,
+                                    'modifica': 1,
+                                    'fuente': 2
+                                }]);
+                                
+                                $("#foto_Linea").val((maxFoto * 1) + 1);
+
+                                db.UPDATE("movil_User", { max_foto: ((maxFoto * 1) + 1) }, { userName: window.sessionStorage.UserLogin });
+                                window.sessionStorage.setItem("UserMaxFoto", ((maxFoto * 1) + 1));
+                                
+                                
+                            });
+                        });
+                    });
+                    
+                    $("<input>").attr({'id':  ele.id_obj, 'type': 'hidden', 'value': InputValue}).appendTo(IDObjDiv);
+                    
+                    $(IDObjDiv).addClass("centerContent");
                     break;
             }
             //$(idJQ).css("visibility", VisibleVar);
