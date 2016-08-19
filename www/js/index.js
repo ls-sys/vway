@@ -322,7 +322,7 @@ function ReDowloadFoto()
                                 Mensage("Photos Error = " + forotsError);
                             if (allErrors.length > 0)
                                 alert(allErrors);
-                            Mensage(allPaths);
+                           
                         }
 
 
@@ -1835,9 +1835,7 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                             getDataUri(urlFoto, 170, 200, function (imgBase64)
                             {
                                 $EleFoto.attr('src', "data:image/jpg;base64," + imgBase64);
-                                var foto_Linea = $EleFoto.attr('id').replace("_img", "");
-
-                                foto_Linea = $("#" + foto_Linea).val();    
+                                var foto_Linea = "#" + $EleFoto.attr('id').replace("_img", "");  
 
                                 var RSmaxFoto = db.SELECT("movil_User", { userName: window.sessionStorage.UserLogin });
                                 var maxFoto = RSmaxFoto[0].max_foto;
@@ -1889,7 +1887,7 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                                     'fuente': 2
                                 }]);
                                 
-                                $("#foto_Linea").val((maxFoto * 1) + 1);
+                                $(foto_Linea).val((maxFoto * 1) + 1);
 
                                 db.UPDATE("movil_User", { max_foto: ((maxFoto * 1) + 1) }, { userName: window.sessionStorage.UserLogin });
                                 window.sessionStorage.setItem("UserMaxFoto", ((maxFoto * 1) + 1));
@@ -2219,9 +2217,7 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
                             getDataUri(urlFoto, 170, 200, function (imgBase64)
                             {
                                 $EleFoto.attr('src', "data:image/jpg;base64," + imgBase64);
-                                var foto_Linea = $EleFoto.attr('id').replace("_img", "");
-
-                                foto_Linea = $("#" + foto_Linea).val();    
+                                var foto_Linea = "#" + $EleFoto.attr('id').replace("_img", "");
 
                                 var RSmaxFoto = db.SELECT("movil_User", { userName: window.sessionStorage.UserLogin });
                                 var maxFoto = RSmaxFoto[0].max_foto;
@@ -2273,7 +2269,7 @@ function BuildFormMobilNewReg(tableName, project_id, object_id, rowID)
                                     'fuente': 2
                                 }]);
                                 
-                                $("#foto_Linea").val((maxFoto * 1) + 1);
+                                $(foto_Linea).val((maxFoto * 1) + 1);
 
                                 db.UPDATE("movil_User", { max_foto: ((maxFoto * 1) + 1) }, { userName: window.sessionStorage.UserLogin });
                                 window.sessionStorage.setItem("UserMaxFoto", ((maxFoto * 1) + 1));
