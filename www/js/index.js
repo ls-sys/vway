@@ -1833,55 +1833,65 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                         tomarFoto(1, function (urlFoto)
                         {
                             getDataUri(urlFoto, 170, 200, function (imgBase64)
+                            {
+                                $EleFoto.attr('src', "data:image/jpg;base64," + imgBase64);
+                                var foto_Linea = $EleFoto.attr('id').replace("_img", "");
+
+                                foto_Linea = $("#" + foto_Linea).val();    
+
+                                var RSmaxFoto = db.SELECT("movil_User", { userName: window.sessionStorage.UserLogin });
+                                var maxFoto = RSmaxFoto[0].max_foto;
+
+                                var file = 
                                 {
-                                    $EleFoto.attr('src', "data:image/jpg;base64," + imgBase64);
-                                    var foto_Linea = $EleFoto.attr('id').replace("_img", "");
-                                
-                                    foto_Linea = $("#" + foto_Linea).val();    
-                                
-                                    var RSmaxFoto = db.SELECT("vc_foto", { linea: foto_Linea});
-                                    var maxFoto = RSmaxFoto[0].foto_base64;
-                                    
-                                    var file = 
+                                    writer: { available: false },
+                                    reader: { available: false }
+                                }, FileName = "img_" + ((maxFoto * 1) + 1) + ".b64", dbEntries = [];
+
+                                var fail = failCB('requestFileSystem');
+                                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+                                {
+                                    var fail = failCB('getFile');
+                                    fs.root.getFile(FileName, {create: true, exclusive: false}, function (fileEntry)
                                     {
-                                        writer: { available: false },
-                                        reader: { available: false }
-                                    }, FileName = maxFoto, dbEntries = [];
-                                    
-                                    var fail = failCB('requestFileSystem');
-                                    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
-                                    {
-                                        var fail = failCB('getFile');
-                                        fs.root.getFile(FileName, {create: true, exclusive: false}, function (fileEntry)
+                                        var fail = failCB('createWriter');
+                                        file.entry = fileEntry;
+
+                                        fileEntry.createWriter(function (fileWriter) 
                                         {
-                                            var fail = failCB('createWriter');
-                                            file.entry = fileEntry;
+                                            file.writer.available = true;
+                                            file.writer.object = fileWriter;  
 
-                                            fileEntry.createWriter(function (fileWriter) 
+                                            dbEntries.push(imgBase64);
+                                            if (file.writer.available) 
                                             {
-                                                file.writer.available = true;
-                                                file.writer.object = fileWriter;  
-
-                                                dbEntries.push(imgBase64);
-                                                if (file.writer.available) 
+                                                file.writer.available = false;
+                                                file.writer.object.onwriteend = function (evt) 
                                                 {
-                                                    file.writer.available = false;
-                                                    file.writer.object.onwriteend = function (evt) 
-                                                    {
-                                                        file.writer.available = true;
-                                                        file.writer.object.seek(0);
-                                                    }
-                                                    file.writer.object.write(dbEntries.join("\n"));
-                                                    
-                                                    db.UPDATE("vc_foto",{'modifica': 1, 'fuente': 2}, {linea: foto_Linea});
+                                                    file.writer.available = true;
+                                                    file.writer.object.seek(0);
                                                 }
+                                                file.writer.object.write(dbEntries.join("\n"));
+                                            }
 
-                                            }, fail);
-
-                                            //readText(file);   
                                         }, fail);
                                     }, fail);
-                                });
+                                }, fail);
+
+                                db.INSERT_INTO("vc_foto", [
+                                {
+                                    'linea': (maxFoto * 1) + 1,
+                                    'foto_base64': FileName,
+                                    'usuario': window.sessionStorage.UserLogin,
+                                    'modifica': 1,
+                                    'fuente': 2
+                                }]);
+                                
+                                $("#foto_Linea").val((maxFoto * 1) + 1);
+
+                                db.UPDATE("movil_User", { max_foto: ((maxFoto * 1) + 1) }, { userName: window.sessionStorage.UserLogin });
+                                window.sessionStorage.setItem("UserMaxFoto", ((maxFoto * 1) + 1));
+                            });
                         });
                     });
                     
