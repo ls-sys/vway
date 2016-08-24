@@ -2732,8 +2732,22 @@ $(document).ready(function (e)
     if (window.localStorage.getItem("LocalStorageDB-KannelMovil-::tables::") == undefined) {
         CreateDB("KannelMovil");
     }
-    else {
+    else 
+    {
         db = new LocalStorageDB("KannelMovil");
+        
+        var rs = db.SELECT("movil_User", {keeplogin: 1});
+
+            if (rs.length > 0)
+            {
+                var lastItem = rs.length - 1;
+
+                window.sessionStorage.setItem("UserLogin",rs[lastItem].userName);
+                window.sessionStorage.setItem("UserPais",rs[lastItem].userPais);
+                window.sessionStorage.setItem("UserEmpresa",rs[lastItem].Empresa);
+                window.sessionStorage.setItem("UserPromotor",rs[lastItem].userPromotor);
+                window.sessionStorage.setItem("UserMaxFoto",rs[lastItem].max_foto);
+            }
     }
 
     $("#loadingAJAX").width(window.innerWidth);
