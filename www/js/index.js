@@ -206,7 +206,8 @@ function CreateDB(name)
 		    userPais: '',
 		    Empresa: '',
 		    userPromotor: '',
-		    max_foto: 0
+		    max_foto: 0,
+            keeplogin: 0
 		});
 		
 		db.CREATE("ListMod",
@@ -573,19 +574,19 @@ function DropDataBase(name)
     window.sessionStorage.removeItem("GPSLongAnt");
     
     var tempPws = "";
+    var tempKeep = 0;
 
     if (rs.length > 0)
     {
         tempPws = rs[0].passWord;
+        tempKeep = rs[0].keeplogin;
     }
 
 	if (window.localStorage.getItem(tablas) != undefined)
 	{
 		$("#ulModList").empty();
 		var defDB = window.localStorage.getItem(tablas);
-		
-		defDB = JSON.parse(defDB);
-		
+        
 		$.each(defDB,function (index, val)
 		{
 			var temp = "LocalStorageDB-" + name + "-" + val;
@@ -605,7 +606,8 @@ function DropDataBase(name)
                 userPais: window.sessionStorage.UserPais,
                 Empresa: window.sessionStorage.UserEmpresa,
                 userPromotor: window.sessionStorage.UserPromotor,
-                max_foto: window.sessionStorage.UserMaxFoto
+                max_foto: window.sessionStorage.UserMaxFoto,
+                keeplogin: tempKeep
             }]);
 	}
 }
@@ -3026,13 +3028,36 @@ $(document).on("pagecreate", "#PageBuilder", function ()
 
 $(document).on("pagecreate", "#page-home", function ()
 {
-    var empresa = window.sessionStorage.getItem("UserLogin");
-    var userName = window.sessionStorage.getItem("UserEmpresa");
-
-    if (empresa != null && userName != null)
+    try
     {
-        window.location = "#IndexPage";
+        if (db != undefined)
+        {
+            var rs = db.SELECT("movil_User", {keeplogin: 1});
+
+            if (rs.length > 0)
+            {
+                var lastItem = rs.length - 1;
+
+                window.sessionStorage.setItem("UserLogin",rs[lastItem].userName);
+                window.sessionStorage.setItem("UserPais",rs[lastItem].userPais);
+                window.sessionStorage.setItem("UserEmpresa",rs[lastItem].Empresa);
+                window.sessionStorage.setItem("UserPromotor",rs[lastItem].userPromotor);
+                window.sessionStorage.setItem("UserMaxFoto",rs[lastItem].max_foto);
+            }
+        }
     }
+    finally
+    {
+        var empresa = window.sessionStorage.getItem("UserLogin");
+        var userName = window.sessionStorage.getItem("UserEmpresa");
+
+        if (empresa != null && userName != null)
+        {
+            window.location = "#IndexPage";
+        }
+    }
+    
+    
     
 });
 

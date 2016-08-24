@@ -3,6 +3,7 @@ function ValEntrada ()
 {
 	var UName = $("#tbUserName").val();
 	var UPwd  = $("#tbUserPassWord").val();
+    var keepL = $("#cbKeepLogin").is(':checked') ? 1 : 0;
 	
 	UName = UName.toUpperCase();
 	
@@ -84,7 +85,8 @@ function ValEntrada ()
 								userPais: data.usrPais,
 								Empresa: data.usrEmpresa,
 								userPromotor: data.promotor,
-								max_foto: data.max_foto
+								max_foto: data.max_foto,
+                                keeplogin: keepL
 							}
 						];
 						db.INSERT_INTO("movil_User", dataValues);
