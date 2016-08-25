@@ -587,6 +587,8 @@ function DropDataBase(name)
 		$("#ulModList").empty();
 		var defDB = window.localStorage.getItem(tablas);
         
+        defDB = JSON.parse(defDB);
+        
 		$.each(defDB,function (index, val)
 		{
 			var temp = "LocalStorageDB-" + name + "-" + val;
