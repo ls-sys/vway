@@ -2822,9 +2822,10 @@ $(document).on("pagecreate", "#IndexPage", function()
 				    callback: function (val)
 				    {
 				        if (val == 'Y')
-                        {
+                        {   var usertemp = window.sessionStorage.getItem("UserLogin");
                             window.sessionStorage.clear();
                             window.location = "#page-home";
+                            db.UPDATE("movil_User", {keeplogin: 0}, {userName: usertemp});
                             //db.TRUNCATE("movil_User");
                         }
 				    }
