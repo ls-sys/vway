@@ -2459,11 +2459,22 @@ function RefreshIndex()
 	}
 }
 
+function ValidarEditedForm()
+{
+    var mod = window.sessionStorage.getItem("#FormEdited");
+    
+    if (mod != undefined || mod != 0)
+    {
+        Mensage("Campos Modificados")
+    }
+}
+
 function ClickEvent_btnSaveData()
 {
     var rowID = window.sessionStorage.getItem("#RowID");
     var tableName = window.sessionStorage.getItem("#TableName");
     var InsertMode = window.sessionStorage.getItem("#FromMode");
+    
 
     if (rowID != null && tableName != null)
     {
@@ -2740,16 +2751,16 @@ $(document).ready(function (e)
         
         var rs = db.SELECT("movil_User", {keeplogin: 1});
 
-            if (rs.length > 0)
-            {
-                var lastItem = rs.length - 1;
+        if (rs.length > 0)
+        {
+            var lastItem = rs.length - 1;
 
-                window.sessionStorage.setItem("UserLogin",rs[lastItem].userName);
-                window.sessionStorage.setItem("UserPais",rs[lastItem].userPais);
-                window.sessionStorage.setItem("UserEmpresa",rs[lastItem].Empresa);
-                window.sessionStorage.setItem("UserPromotor",rs[lastItem].userPromotor);
-                window.sessionStorage.setItem("UserMaxFoto",rs[lastItem].max_foto);
-            }
+            window.sessionStorage.setItem("UserLogin",rs[lastItem].userName);
+            window.sessionStorage.setItem("UserPais",rs[lastItem].userPais);
+            window.sessionStorage.setItem("UserEmpresa",rs[lastItem].Empresa);
+            window.sessionStorage.setItem("UserPromotor",rs[lastItem].userPromotor);
+            window.sessionStorage.setItem("UserMaxFoto",rs[lastItem].max_foto);
+        }
     }
 
     $("#loadingAJAX").width(window.innerWidth);
@@ -2827,8 +2838,8 @@ $(document).on("pagecreate", "#IndexPage", function()
                         {   var usertemp = window.sessionStorage.getItem("UserLogin");
                             window.sessionStorage.clear();
                             window.location = "#page-home";
-                            db.UPDATE("movil_User", {keeplogin: 0}, {userName: usertemp});
-                            //db.TRUNCATE("movil_User");
+                            //db.UPDATE("movil_User", {keeplogin: 0}, {userName: usertemp});
+                            db.TRUNCATE("movil_User");
                         }
 				    }
 				});
