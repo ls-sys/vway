@@ -813,9 +813,11 @@ function SendData2DB()
                         if (val != "id")
                             if (e[val] == "" || e[val] == null || e[val] == undefined)
                                 delete e[val];
+                            /*else
+                                e[val] = utf8_encode(e[val]);*/
                     });
                     
-                    TempData.push( utf8_encode( e ));
+                    TempData.push(e);
                 });
 
                 var info = {
@@ -1982,42 +1984,48 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                     {
                         var fail = failCB('requestFileSystem');
                         var IDFoto = "#" + ele.id_obj + "_img";
-                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
+                        try
                         {
-                            var fail = failCB('getFile');
-                            var file = 
-                                    {
-                                        writer: { available: false },
-                                        reader: { available: false }
-                                    }, dbEntries = [], FileName = rs[0].foto_base64;
-
-                            fs.root.getFile(FileName , {create: true, exclusive: false}, function (fileEntry)
+                            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) 
                             {
-                                var fail = failCB('createWriter');
-                                file.entry = fileEntry;
-
-                                if (file.entry) 
-                                {
-                                    file.entry.file(function (dbFile) 
-                                    {
-                                        var reader = new FileReader();
-                                        reader.onloadend = function (evt) 
+                                var fail = failCB('getFile');
+                                var file = 
                                         {
-                                            var textArray = evt.target.result.split("\n");
+                                            writer: { available: false },
+                                            reader: { available: false }
+                                        }, dbEntries = [], FileName = rs[0].foto_base64;
 
-                                            dbEntries = textArray.concat(dbEntries);
-                                            
-                                            $(IDFoto).attr('src', "data:image/jpg;base64," + dbEntries[0]);
-                                            //$('definitions').innerHTML = dbEntries.join('');
-                                        }
-                                        reader.readAsText(dbFile);
+                                fs.root.getFile(FileName , {create: true, exclusive: false}, function (fileEntry)
+                                {
+                                    var fail = failCB('createWriter');
+                                    file.entry = fileEntry;
 
-                                    }, failCB("FileReader"));
-                                }
+                                    if (file.entry) 
+                                    {
+                                        file.entry.file(function (dbFile) 
+                                        {
+                                            var reader = new FileReader();
+                                            reader.onloadend = function (evt) 
+                                            {
+                                                var textArray = evt.target.result.split("\n");
+
+                                                dbEntries = textArray.concat(dbEntries);
+
+                                                $(IDFoto).attr('src', "data:image/jpg;base64," + dbEntries[0]);
+                                                //$('definitions').innerHTML = dbEntries.join('');
+                                            }
+                                            reader.readAsText(dbFile);
+
+                                        }, failCB("FileReader"));
+                                    }
+
+                                }, fail);
 
                             }, fail);
-
-                        }, fail);
+                        } catch(e)
+                        {
+                            
+                        }
             
                     }
                     
