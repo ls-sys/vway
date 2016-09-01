@@ -37,8 +37,8 @@ function tomarFoto(fuente, callback) {
         navigator.camera.getPicture(onSuccess, onFail,
             {
                 quality: 50,
-                targetWidth: 500,
-                targetHeight: 500,
+                //targetWidth: 500,
+                //targetHeight: 500,
                 allowEdit: true,
                 destinationType: Camera.DestinationType.FILE_URI,
                 pictureSource: fuente,
