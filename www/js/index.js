@@ -1911,7 +1911,13 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                         var $EleFoto = $(this)
                         tomarFoto(1, function (urlFoto)
                         {
-                            getDataUri(urlFoto, 170, 200, function (imgBase64)
+                            var PhotoW = window.sessionStorage.getItem("#PhotoWidth");
+                            var PhotoH = window.sessionStorage.getItem("#PhotoHeight");
+                            
+                            PhotoH = (PhotoH == undefined || PhotoH == null) ? 200 : (PhotoH * 1);
+                            PhotoW = (PhotoW == undefined || PhotoW == null) ? 170 : (PhotoW * 1);
+                            
+                            getDataUri(urlFoto, PhotoW, PhotoH, function (imgBase64)
                             {
                                 $EleFoto.attr('src', "data:image/jpg;base64," + imgBase64);
                                 var foto_Linea = "#" + $EleFoto.attr('id').replace("_img", "");  
@@ -1973,6 +1979,9 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                                 
                                 
                             });
+                            
+                            window.sessionStorage.removeItem("#PhotoWidth");
+                            window.sessionStorage.removeItem("#PhotoHeight");
                         });
                     });
                     
