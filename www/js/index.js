@@ -1984,8 +1984,8 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                             window.sessionStorage.removeItem("#PhotoHeight");
                         });
                     });
-                    //'type': 'hidden',
-                    $("<input>").attr({'id':  ele.id_obj,  'value': InputValue}).appendTo(IDObjDiv);
+                    //
+                    $("<input>").attr({'id':  ele.id_obj, 'type': 'hidden', 'value': InputValue}).appendTo(IDObjDiv);
                     
                     rs = db.SELECT("vc_foto", {linea: InputValue});
                     
