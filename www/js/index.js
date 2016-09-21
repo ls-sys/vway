@@ -1088,7 +1088,7 @@ function BuildMantenimineto(tableName, proj_Id, obj_Id)
 	var NewRegParams = "'" + tableName + "', " + proj_Id + ", " + obj_Id;
 	$('#ulSideMenu_PageBuilder').html
         (
-            '<li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left" href="#IndexPage" onClick="' + temptextOn + '">Inicio / Home page</a></li>' +
+            '<li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left" href="#IndexPage" onClick="' + temptextOn + '" id="btn_Home">Inicio / Home page</a></li>' +
             //'<li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left" onclick="ClickEvent_btnNewReg(' + NewRegParams + ')">Nuevo</a></li>' +
             '<li><a href="#PageBuilder" data-rel="close" id="btnGeoPos" class="ui-btn ui-shadow ui-icon-location ui-btn-icon-left" onclick="ClickEvent_btnGeoPos();">Obtener / get GPS</a></li>'
         );
@@ -1154,6 +1154,8 @@ function BuildMantenimineto(tableName, proj_Id, obj_Id)
             .addClass("liHijosHide")
             .removeClass("liHijosShow");
 	}
+    
+    valLeng();
 }
 
 function GetPrimaryKey(tableName, proj_Id, obj_Id)
@@ -1311,7 +1313,7 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 		}
 		else {
 		    Mensage('no data');
-		    $("#btn_Home").trigger("click");
+		    //$("#btn_Home").trigger("click");
 		}
 		
 		$("#PageBuilder_From").hide();
@@ -2826,12 +2828,27 @@ function onFaliProdGPS(error)
     $(".GPS_Alert").slideDown(500).delay(5000).slideUp(500);
 }
 
+function valLeng()
+{
+    if (window.localStorage.getItem("$en-us%") == "1")
+    {
+        var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion"];
+
+        $(listOfOBJS).each(function(i, val)
+        {
+            var lab = "label" + (i + 1);
+
+            $(val)._t(lab);
+        });
+        
+        $("#btnTraslate").addClass("ui-icon-esLogo").removeClass("ui-icon-enLogo");
+    }
+}
+
 $(document).ready(function (e) 
 {
     $(".GPS_Alert").show();
     $(".GPS_Alert").slideUp(500);
-    
-    
     
     var TimeGpsInterval = 60 * 1000;//3600 * 1000;
 
@@ -2872,8 +2889,17 @@ $(document).ready(function (e)
 	});
 
     $("#btnTraslate").click(function (event) {
-        $("#tInicio")._t("Example 3");
-        $("#btnTraslate")._t("English");
+        if (window.localStorage.getItem("$en-us%") == "1")
+        {
+            window.localStorage.removeItem("$en-us%");
+        }
+        else
+        {
+            window.localStorage.setItem("$en-us%", "1");
+        }
+        
+        location.reload();
+
     });
 
     var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel", "#msgCerrarSecion"];
@@ -2892,6 +2918,9 @@ $(document).ready(function (e)
     {
         window.location = "#page-home";
     }
+    
+    valLeng();
+    
 });
 
 $(document).on("pagecreate", "#IndexPage", function() 
