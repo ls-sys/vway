@@ -1088,9 +1088,9 @@ function BuildMantenimineto(tableName, proj_Id, obj_Id)
 	var NewRegParams = "'" + tableName + "', " + proj_Id + ", " + obj_Id;
 	$('#ulSideMenu_PageBuilder').html
         (
-            '<li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left" href="#IndexPage" onClick="' + temptextOn + '" id="btn_Home">Inicio / Home page</a></li>' +
+            '<li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left" href="#IndexPage" onClick="' + temptextOn + '" id="btn_Home">Inicio </a></li>' +
             //'<li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left" onclick="ClickEvent_btnNewReg(' + NewRegParams + ')">Nuevo</a></li>' +
-            '<li><a href="#PageBuilder" data-rel="close" id="btnGeoPos" class="ui-btn ui-shadow ui-icon-location ui-btn-icon-left" onclick="ClickEvent_btnGeoPos();">Obtener / get GPS</a></li>'
+            '<li><a href="#PageBuilder" data-rel="close" id="btnGeoPos" class="ui-btn ui-shadow ui-icon-location ui-btn-icon-left" onclick="ClickEvent_btnGeoPos();">Obtener GPS</a></li>'
         );
 
 	$('#btnNewReg').attr("onclick", "ClickEvent_btnNewReg(" + NewRegParams + ")");
