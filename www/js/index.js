@@ -2921,6 +2921,33 @@ $(document).ready(function (e)
     
     valLeng();
     
+    //alert ("hola :D");
+    try
+    {
+        // Android customization
+        //cordova.plugins.backgroundMode.setDefaults({ text:'Doing heavy tasks.'});
+        // Enable background mode
+        cordova.plugins.backgroundMode.enable();
+
+        // Called when background mode has been activated
+        cordova.plugins.backgroundMode.onactivate = function () {
+            setTimeout(function () {
+                // Modify the currently displayed notification
+                cordova.plugins.backgroundMode.configure({
+                    text:'Running in background for more than 5s now.'
+                });
+            }, 5000);
+        };
+
+        cordova.plugins.backgroundMode.onfailure = function(errorCode) {
+            alert(errorCode);
+        };
+    }
+    catch (e)
+    {
+        Mensage(e.message);
+    }
+    
 });
 
 $(document).on("pagecreate", "#IndexPage", function() 
@@ -3327,19 +3354,4 @@ $.mobile.document
         $(".ui-body-a").addClass("ui-body-b").removeClass("ui-body-a");
     });
 
-document.addEventListener('deviceready', function () {
-    // Android customization
-    cordova.plugins.backgroundMode.setDefaults({ text:'Doing heavy tasks.'});
-    // Enable background mode
-    cordova.plugins.backgroundMode.enable();
 
-    // Called when background mode has been activated
-    cordova.plugins.backgroundMode.onactivate = function () {
-        setTimeout(function () {
-            // Modify the currently displayed notification
-            cordova.plugins.backgroundMode.configure({
-                text:'Running in background for more than 5s now.'
-            });
-        }, 5000);
-    }
-}, false);
