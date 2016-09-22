@@ -29,34 +29,7 @@
   <preference name="iosPersistentFileLocation" value="Library" />
   
   <preference name="permissions" value="true" />
-	<feature name="File">
-		<param name="ios-package" value="CDVFile" />
-	</feature>
-  
-	<feature name="FileTransfer">
-		<param name="ios-package" value="CDVFileTransfer" />
-	</feature>
-	<feature name="Camera">
-		<param name="ios-package" value="CDVCamera" />
-	</feature>
-	<feature name="LocalStorage">
-		<param name="ios-package" value="CDVLocalStorage" />
-	</feature>
-	<feature name="Geolocation">
-		<param name="ios-package" value="CDVLocation" />
-	</feature>
-	<feature name="Calendar">
-		<param name="ios-package" value="CDVCalendar" />
-	</feature>
-	<feature name="Device">
-		<param name="ios-package" value="CDVDevice" />
-		<param name="android-package"
-			value="org.apache.cordova.device.Device" />
-	</feature>
-	<feature name="Capture">
-		<param name="android-package" value="org.apache.cordova.Capture" />
-		<param name="ios-package" value="CDVCapture" />
-	</feature>
+	
 
   <!--<gap:plugin name="cordova-save-image-gallery" source="npm"/>   -->
   <gap:plugin name="cordova-plugin-app-version" version="0.1.7" source="npm"/>
