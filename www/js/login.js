@@ -52,7 +52,7 @@ function ValEntrada ()
 							buttons: 
 								[
 									{
-										id: 0, 
+                                        id: 0, 
 										label: 'Cerrar', 
 										val: 'X'
 									}
@@ -69,6 +69,7 @@ function ValEntrada ()
 					window.sessionStorage.UserPais = data.usrPais;
 					window.sessionStorage.UserPromotor = data.promotor;
 					window.sessionStorage.UserMaxFoto = data.max_foto;
+                    window.localStorage.setItem("$en-us%", data.dic);
 					
 					var rs = db.SELECT("movil_User", function (row)
 					{
@@ -92,6 +93,7 @@ function ValEntrada ()
 						db.INSERT_INTO("movil_User", dataValues);
 					}
 					
+                    valLeng();
 					
 					var txtMsg = $("#tLogIn").text();
 					new Messi(txtMsg, 

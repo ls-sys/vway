@@ -2830,7 +2830,7 @@ function onFaliProdGPS(error)
 
 function valLeng()
 {
-    if (window.localStorage.getItem("$en-us%") == "1")
+    if (window.localStorage.getItem("$en-us%") == "ENG")
     {
         var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion"];
 
@@ -2889,13 +2889,13 @@ $(document).ready(function (e)
 	});
 
     $("#btnTraslate").click(function (event) {
-        if (window.localStorage.getItem("$en-us%") == "1")
+        if (window.localStorage.getItem("$en-us%") == "ENG")
         {
             window.localStorage.removeItem("$en-us%");
         }
         else
         {
-            window.localStorage.setItem("$en-us%", "1");
+            window.localStorage.setItem("$en-us%", "ENG");
         }
         
         location.reload();
@@ -2933,8 +2933,8 @@ $(document).on("pagecreate", "#IndexPage", function()
     if (window.sessionStorage.UserLogin && window.sessionStorage.UserPromotor)
     {
        
-        $("#lUserEmpresa").text("Empresa: "+ window.sessionStorage.UserEmpresa);
-        $("#lUserName").text("Usuario: " + window.sessionStorage.UserLogin + "(" + window.sessionStorage.UserPromotor + ")");
+        $("#lUserEmpresa_val").text(": " + window.sessionStorage.UserEmpresa);
+        $("#lUserName_val").text(": " + window.sessionStorage.UserLogin + "(" + window.sessionStorage.UserPromotor + ")");
 		
         window.sessionStorage.setItem("empresa", window.sessionStorage.UserEmpresa);
 	

@@ -138,12 +138,25 @@
             </div>
             <div  class="ui-btn-left ui-btn-inline">
         	   <a href="#pMenu" class="ui-btn ui-shadow ui-corner-all ui-icon-bars ui-btn-icon-notext ui-btn-b ui-btn-inline" style="width:50px; height:50px; border-radius:100%;">Menu</a>
-                <button class=" ui-btn ui-shadow ui-corner-all ui-icon-enLogo ui-btn-icon-notext ui-btn-b ui-btn-inline" id="btnTraslate" style="width:50px; height:50px; border-radius:100%;">English</button>
+                <!--<button class=" ui-btn ui-shadow ui-corner-all ui-icon-enLogo ui-btn-icon-notext ui-btn-b ui-btn-inline" id="btnTraslate" style="width:50px; height:50px; border-radius:100%;">English</button>-->
             </div>
         	<h1>Inicio Sistema </h1>
             <div class="ui-btn-right ui-btn-inline">
-                <label id="lUserName" style="font-size:12px">Usuario </label>
-                <label id="lUserEmpresa" style="font-size:12px">Empresa  </label> 
+                <table>
+                    <tr>
+                        <td><label id="lUserName" style="font-size:12px">Usuario </label></td>
+                        <td><label id="lUserName_val" style="font-size:12px">: </label></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr >
+                        <td><label id="lUserEmpresa" style="font-size:12px">Empresa  </label></td>
+                        <td><label id="lUserEmpresa_val" style="font-size:12px"> </label></td>
+                    </tr>
+                </table>
+                
+                
+                
                 <label style="font-size:12px">Ver 2.0.2</label>
             </div>
         </div>
@@ -318,7 +331,7 @@
     <label id="lLoading">Cargando / Loading</label>
     <label id="lNoData">La tabla que intenta buscar, no existe o no tiene datos </label>
     <label id="msgDropDB">Al Efectuar esta acci&oacute;n todos los datos, Ser&aacute;n Borrados; Grabe y Sincronice antes de realizar esta acci&oacute;n </label>
-    <label id="msgSendData">Esta Acci&oacute;n Env&iacute;a los datos modificados a la base de datos, Asegurese de tener conexi&oacute;n a internet. /By doing this action all saved data will be sent, make sure you have internet connection</label>
+    <label id="msgSendData">Esta Acci&oacute;n Env&iacute;a los datos modificados a la base de datos, Asegurese de tener conexi&oacute;n a internet.</label>
     <label id="msgDBSincOK">Proceso terminado con &eacute;xito, [Tablas Actualizadas: </label>
     <label id="msgErrortabel">Estas tablas no se pudieron descargar  [</label>
     <label id="msgCerrarSecion">Desea Cerrar la Sesi&oacute;n Actual? </label>
