@@ -51,7 +51,6 @@
 	<plugin name="org.apache.cordova.network-information" source="pgb" spec="~0.2.12" />
 	<plugin name="org.apache.cordova.splashscreen" source="pgb" spec="~1.0.0" />
 	<plugin name="org.apache.cordova.vibration" source="pgb" spec="~0.3.11" />
-	
   <plugin name="com.phonegap.plugin.statusbar" spec="~1.1.0" source="pgb" />
     <plugin name="de.appplant.cordova.plugin.background-mode" spec="~0.6.4" source="pgb" />
 
