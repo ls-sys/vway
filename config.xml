@@ -37,7 +37,7 @@
   <plugin name="cordova-plugin-camera"/>
 	<plugin name="org.apache.cordova.console" source="pgb" spec="~0.2.11" />
 	<plugin name="org.apache.cordova.contacts" source="pgb" spec="~0.2.13" />
-	<plugin name="org.apache.cordova.device" source="pgb" spec="~0.2.12" />
+	<plugin name="cordova-plugin-file" spec="~1.0.1" source="npm" />
 	<plugin name="org.apache.cordova.device-motion" source="pgb" spec="~0.2.10" />
 	<plugin name="org.apache.cordova.device-orientation" source="pgb" spec="~0.3.9" />
 	<plugin name="org.apache.cordova.dialogs" source="pgb" spec="~0.2.10" />
