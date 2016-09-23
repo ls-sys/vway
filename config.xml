@@ -7,11 +7,18 @@
   <!--<preference name="phonegap-version" value="3.7.0" />-->
     
     <platform name="ios">
-        <preference name="phonegap-version" value="3.9.1" />
-        <preference name="orientation" value="portrait" />
+        <preference name="phonegap-version" value="4.0.0" />
+        <preference name="orientation" value="all" />
     </platform>
-    <preference name="phonegap-version" value="cli-6.3.0" />
     
+    <platform name="android">
+      <preference name="phonegap-version" value="cli-6.3.0" />
+      <preference name="orientation" value="all" />
+    </platform>
+    <platform name="wp8">
+      <preference name="phonegap-version" value="cli-6.3.0" />
+      <preference name="orientation" value="all" />
+    </platform>
   
   <preference name="orientation" value="all"/>
   <preference name="target-device" value="universal"/>
