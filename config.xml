@@ -4,10 +4,10 @@
   <description>Aplicacion para visitas a l Exterior</description>
   <author href="http://phonegap.com" email="gs@ls-sy.com">ls-sys</author>
   <content src="index.html"/>
-  <!--<preference name="phonegap-version" value="3.7.0" />-->
+  <!--<preference name="phonegap-version" value="3.7.0" /> 4.2.0-->
     
     <platform name="ios">
-        <preference name="phonegap-version" value="4.0.0" />
+        <preference name="phonegap-version" value="3.9.1" />
         <preference name="orientation" value="all" />
     </platform>
     
