@@ -780,6 +780,66 @@ function SendFoto(rsFotos, callback)
         callback(strCB);
 }
 
+function SendGPS2Server() // TO-DO Intervala send data 
+{
+    var ListTables = [];
+    var rs = db.SELECT("promotor_gps");
+    var TempData = [];
+    
+    if (rs.length > 0)
+    {
+        $(rs).each(function (i, e)
+        {
+            delete e.modifica;
+            delete e.sinc;
+
+            var Columns = Object.keys(e);
+
+            $(Columns).each(function (j, val)
+            {
+                if (val != "id")
+                    if (e[val] == "" || e[val] == null || e[val] == undefined)
+                        delete e[val];
+            });
+
+            TempData.push(e);
+        });
+        
+        var info = {
+            "tablaName": "promotor_gps",
+            "project_id": 59,
+            "object_id": 144,
+            "data": TempData
+        };
+        
+        ListTables.push(info);
+        
+        var empresaVal = window.sessionStorage.getItem("UserEmpresa");
+        var usrVal = window.sessionStorage.getItem("UserLogin");
+        var payload = { "User": usrVal, "Empresa": empresaVal, "cmd": "SendDataFormMovil", "Data": ListTables };
+        
+        if (ListTables.length > 0)
+        {
+            $.post(uriServer, payload,
+            function (data)
+            {
+                var listTables = data;
+                
+                $(listTables).each(function (i, e) 
+                {
+                    var listOfID = e.idList;
+                    
+                    $(listOfID).each(function (j, v) 
+                    {
+                        db.DELETE(e.tableName,{ id: v });
+                    });
+                });
+                
+            },"json");
+        }
+    }
+}
+
 function SendData2DB()
 {
     $("#loadingAJAX").show();
@@ -2857,6 +2917,8 @@ $(document).ready(function (e)
         if (window.sessionStorage.UserPromotor && db.EXISTS_TABLE("promotor_gps"))
             navigator.geolocation.getCurrentPosition(onSuccessGPSPormotor,onFaliProdGPS);
     }, TimeGpsInterval);
+    
+    var idSendGSPtoServer = setInterval(SendGPS2Server(), TimeGpsInterval + 5000);
 
     if (window.localStorage.getItem("LocalStorageDB-KannelMovil-::tables::") == undefined) {
         CreateDB("KannelMovil");
