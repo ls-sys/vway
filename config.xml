@@ -7,7 +7,7 @@
   <!--<preference name="phonegap-version" value="3.7.0" /> 4.2.0 3.9.1-->
     
     <platform name="ios">
-        <preference name="phonegap-version" value="cli-6.3.0" />
+        <preference name="phonegap-version" value="3.9.1" />
         <preference name="orientation" value="all" />
     </platform>
     
