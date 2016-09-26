@@ -2983,34 +2983,36 @@ $(document).ready(function (e)
     
     valLeng();
     
-    //alert ("hola :D");
-    try
-    {
-        // Android customization
-        //cordova.plugins.backgroundMode.setDefaults({ text:'Doing heavy tasks.'});
-        // Enable background mode
-        cordova.plugins.backgroundMode.enable();
-
-        // Called when background mode has been activated
-        cordova.plugins.backgroundMode.onactivate = function () {
-            setTimeout(function () {
-                // Modify the currently displayed notification
-                cordova.plugins.backgroundMode.configure({
-                    text:'Running in background for more than 5s now.'
-                });
-            }, 5000);
-        };
-
-        cordova.plugins.backgroundMode.onfailure = function(errorCode) {
-            alert(errorCode);
-        };
-    }
-    catch (e)
-    {
-        Mensage(e.message);
-    }
+    
+    
     
 });
+
+
+document.addEventListener('deviceready', function () {
+
+    // Android customization
+    // To indicate that the app is executing tasks in background and being paused would disrupt the user.
+    // The plug-in has to create a notification while in background - like a download progress bar.
+    cordova.plugins.backgroundMode.setDefaults({ 
+        title:  'TheTitleOfYourProcess',
+        text:   'Executing background tasks.'
+    });
+
+    // Enable background mode
+    cordova.plugins.backgroundMode.enable();
+
+    // Called when background mode has been activated
+    cordova.plugins.backgroundMode.onactivate = function () {
+
+        // Set an interval of 3 seconds (3000 milliseconds)
+        setInterval(function () {
+
+            console.log("OK ok BKProeses")
+
+        }, 3000);
+    }
+}, false);
 
 $(document).on("pagecreate", "#IndexPage", function() 
 {
