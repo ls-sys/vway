@@ -782,62 +782,66 @@ function SendFoto(rsFotos, callback)
 
 function SendGPS2Server() // TO-DO Intervala send data 
 {
-    var ListTables = [];
-    var rs = db.SELECT("promotor_gps");
-    var TempData = [];
-    
-    if (rs.length > 0)
+    if (window.sessionStorage.UserPromotor && db.EXISTS_TABLE("promotor_gps"))
     {
-        $(rs).each(function (i, e)
+        var ListTables = [];
+        var rs = db.SELECT("promotor_gps");
+        var TempData = [];
+
+        if (rs.length > 0)
         {
-            delete e.modifica;
-            delete e.sinc;
-
-            var Columns = Object.keys(e);
-
-            $(Columns).each(function (j, val)
+            $(rs).each(function (i, e)
             {
-                if (val != "id")
-                    if (e[val] == "" || e[val] == null || e[val] == undefined)
-                        delete e[val];
+                delete e.modifica;
+                delete e.sinc;
+
+                var Columns = Object.keys(e);
+
+                $(Columns).each(function (j, val)
+                {
+                    if (val != "id")
+                        if (e[val] == "" || e[val] == null || e[val] == undefined)
+                            delete e[val];
+                });
+
+                TempData.push(e);
             });
 
-            TempData.push(e);
-        });
-        
-        var info = {
-            "tablaName": "promotor_gps",
-            "project_id": 59,
-            "object_id": 144,
-            "data": TempData
-        };
-        
-        ListTables.push(info);
-        
-        var empresaVal = window.sessionStorage.getItem("UserEmpresa");
-        var usrVal = window.sessionStorage.getItem("UserLogin");
-        var payload = { "User": usrVal, "Empresa": empresaVal, "cmd": "SendDataFormMovil", "Data": ListTables };
-        
-        if (ListTables.length > 0)
-        {
-            $.post(uriServer, payload,
-            function (data)
+            var info = {
+                "tablaName": "promotor_gps",
+                "project_id": 59,
+                "object_id": 144,
+                "data": TempData
+            };
+
+            ListTables.push(info);
+
+            var empresaVal = window.sessionStorage.getItem("UserEmpresa");
+            var usrVal = window.sessionStorage.getItem("UserLogin");
+            var payload = { "User": usrVal, "Empresa": empresaVal, "cmd": "SendDataFormMovil", "Data": ListTables };
+
+            if (ListTables.length > 0)
             {
-                var listTables = data;
-                
-                $(listTables).each(function (i, e) 
+                $.post(uriServer, payload,
+                function (data)
                 {
-                    var listOfID = e.idList;
-                    
-                    $(listOfID).each(function (j, v) 
+                    var listTables = data;
+
+                    $(listTables).each(function (i, e) 
                     {
-                        db.DELETE(e.tableName,{ id: v });
+                        var listOfID = e.idList;
+
+                        $(listOfID).each(function (j, v) 
+                        {
+                            db.DELETE(e.tableName,{ id: v });
+                        });
                     });
-                });
-                
-            },"json");
-        }
+
+                },"json");
+            }
+        } 
     }
+    
 }
 
 function SendData2DB()
@@ -2917,8 +2921,6 @@ $(document).ready(function (e)
         if (window.sessionStorage.UserPromotor && db.EXISTS_TABLE("promotor_gps"))
             navigator.geolocation.getCurrentPosition(onSuccessGPSPormotor,onFaliProdGPS);
     }, TimeGpsInterval);
-    
-    var idSendGSPtoServer = setInterval(SendGPS2Server(), TimeGpsInterval + 5000);
 
     if (window.localStorage.getItem("LocalStorageDB-KannelMovil-::tables::") == undefined) {
         CreateDB("KannelMovil");
@@ -3003,14 +3005,12 @@ document.addEventListener('deviceready', function () {
     cordova.plugins.backgroundMode.enable();
 
     // Called when background mode has been activated
-    cordova.plugins.backgroundMode.onactivate = function () {
-
-        // Set an interval of 3 seconds (3000 milliseconds)
-        setInterval(function () {
-
-            console.log("OK ok BKProeses")
-
-        }, 3000);
+    cordova.plugins.backgroundMode.onactivate = function () 
+    {
+        var idSendGSPtoServer = setInterval(SendGPS2Server(), (60 * 1000) + 5000);
+        cordova.plugins.backgroundMode.configure({
+                text:'Volcafe App...'
+            });
     }
 }, false);
 
