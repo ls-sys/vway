@@ -813,6 +813,8 @@ function SendGPS2Server() // TO-DO Intervala send data
                 "object_id": 144,
                 "data": TempData
             };
+            
+            console.log(info);
 
             ListTables.push(info);
 
@@ -2919,7 +2921,7 @@ $(document).ready(function (e)
     var idGPSTRack = setInterval(function ()
     {
         if (window.sessionStorage.UserPromotor && db.EXISTS_TABLE("promotor_gps"))
-            navigator.geolocation.getCurrentPosition(onSuccessGPSPormotor,onFaliProdGPS);
+            
     }, TimeGpsInterval);
 
     if (window.localStorage.getItem("LocalStorageDB-KannelMovil-::tables::") == undefined) {
