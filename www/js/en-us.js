@@ -36,7 +36,10 @@
         "label31" : "Before do this action, save and sync your data",
         "label32" : "By doing this action all saved data will be sent, make sure you have internet connection",
         "label33" : "These tables could not be downloaded. [",
-        "label34" : "Do you want to log out?"
+        "label34" : "Do you want to log out?",
+        "label35" : "Unmodified Data.",
+        "label36" : "Data Saved...<br/> Do you want to stay on this survey; or return to Home page?",
+        "label37" : "Data Saved..."
         
 	};
 	
