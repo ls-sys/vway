@@ -422,8 +422,30 @@ function saveEncuesta()
 
                     });
                 });
-
-                Mensage("Datos Guardados...");
+                
+                var Ltxt = $("#lEncuestaSeve").text();
+                var lHomePage = $("#IndexPage div[data-role='header'] h1").text();
+                var lEncuesta = $("#lHEncuestaB").text();
+                new Messi(Ltxt, 
+                {
+				    title: 'Volcafe Way',
+				    titleClass: 'anim warning',
+				    buttons:
+						[
+							{ id: 0, label: lHomePage, val: 'Y' },
+							{ id: 1, label: lEncuesta, val: 'C' }
+						],
+				    modal: true,
+				    width: (window.innerWidth - 25),
+				    callback: function (val)
+				    {
+				        if (val == 'Y')
+                        {   
+                            $("#btn_Home").trigger("click");
+                        }
+				    }
+				});
+                
             }
         }
         catch (error) {
@@ -433,6 +455,7 @@ function saveEncuesta()
         $("#AJAXLoadLabel").text("");
         $("body").css("cursor", "default");
     }, 10);
+    
 }
 
 $(document).on("pagecreate", "#DLGEncuesta", function ()

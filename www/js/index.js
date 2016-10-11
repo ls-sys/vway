@@ -780,6 +780,72 @@ function SendFoto(rsFotos, callback)
         callback(strCB);
 }
 
+function SendGPS2Server() // TO-DO Intervala send data 
+{
+    if (window.sessionStorage.UserPromotor && db.EXISTS_TABLE("promotor_gps"))
+    {
+        var ListTables = [];
+        var rs = db.SELECT("promotor_gps");
+        var TempData = [];
+
+        if (rs.length > 0)
+        {
+            $(rs).each(function (i, e)
+            {
+                delete e.modifica;
+                delete e.sinc;
+
+                var Columns = Object.keys(e);
+
+                $(Columns).each(function (j, val)
+                {
+                    if (val != "id")
+                        if (e[val] == "" || e[val] == null || e[val] == undefined)
+                            delete e[val];
+                });
+
+                TempData.push(e);
+            });
+
+            var info = {
+                "tablaName": "promotor_gps",
+                "project_id": 59,
+                "object_id": 144,
+                "data": TempData
+            };
+            
+            console.log(info);
+
+            ListTables.push(info);
+
+            var empresaVal = window.sessionStorage.getItem("UserEmpresa");
+            var usrVal = window.sessionStorage.getItem("UserLogin");
+            var payload = { "User": usrVal, "Empresa": empresaVal, "cmd": "SendDataFormMovil", "Data": ListTables };
+
+            if (ListTables.length > 0)
+            {
+                $.post(uriServer, payload,
+                function (data)
+                {
+                    var listTables = data;
+
+                    $(listTables).each(function (i, e) 
+                    {
+                        var listOfID = e.idList;
+
+                        $(listOfID).each(function (j, v) 
+                        {
+                            db.DELETE(e.tableName,{ id: v });
+                        });
+                    });
+
+                },"json");
+            }
+        } 
+    }
+    
+}
+
 function SendData2DB()
 {
     $("#loadingAJAX").show();
@@ -954,7 +1020,8 @@ function SendData2DB()
         else
         {
             $("#loadingAJAX").hide();
-            Mensage("No Datos Modificados.");
+            var texto = $("#lModoData").text();
+            Mensage(texto);
         }
         
     }
@@ -1088,9 +1155,9 @@ function BuildMantenimineto(tableName, proj_Id, obj_Id)
 	var NewRegParams = "'" + tableName + "', " + proj_Id + ", " + obj_Id;
 	$('#ulSideMenu_PageBuilder').html
         (
-            '<li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left" href="#IndexPage" onClick="' + temptextOn + '">Inicio / Home page</a></li>' +
+            '<li><a class="ui-btn ui-shadow ui-icon-home ui-btn-icon-left" href="#IndexPage" onClick="' + temptextOn + '" id="btn_Home">Inicio </a></li>' +
             //'<li><a href="#PageBuilder" data-rel="close" id="btnNewReg" class="ui-btn ui-shadow ui-icon-plus ui-btn-icon-left" onclick="ClickEvent_btnNewReg(' + NewRegParams + ')">Nuevo</a></li>' +
-            '<li><a href="#PageBuilder" data-rel="close" id="btnGeoPos" class="ui-btn ui-shadow ui-icon-location ui-btn-icon-left" onclick="ClickEvent_btnGeoPos();">Obtener / get GPS</a></li>'
+            '<li><a href="#PageBuilder" data-rel="close" id="btnGeoPos" class="ui-btn ui-shadow ui-icon-location ui-btn-icon-left" onclick="ClickEvent_btnGeoPos();">Obtener GPS</a></li>'
         );
 
 	$('#btnNewReg').attr("onclick", "ClickEvent_btnNewReg(" + NewRegParams + ")");
@@ -1154,6 +1221,8 @@ function BuildMantenimineto(tableName, proj_Id, obj_Id)
             .addClass("liHijosHide")
             .removeClass("liHijosShow");
 	}
+    
+    valLeng();
 }
 
 function GetPrimaryKey(tableName, proj_Id, obj_Id)
@@ -1311,7 +1380,7 @@ function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 		}
 		else {
 		    Mensage('no data');
-		    $("#btn_Home").trigger("click");
+		    //$("#btn_Home").trigger("click");
 		}
 		
 		$("#PageBuilder_From").hide();
@@ -2040,6 +2109,15 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                     
                     $(IDObjDiv).addClass("centerContent");
                     break;
+                case "H": // Implemtenacion del boton HTML.
+                    //TO DO
+                    var code = ele.data_source_movil;
+		            code = code.replace(/~/g, '"');
+                    
+                    window.sessionStorage.setItem("#TempLabel", Etiqueta);
+                    $.globalEval(code);
+                    window.sessionStorage.removeItem("#TempLabel");
+                    break;
 		    }
           //Add extra Evenets.  
             var ActionCode = ele.action_movil + "";
@@ -2706,7 +2784,9 @@ function ClickEvent_btnSaveData()
 
                 //if (window.sessionStorage.getItem("#SiMSG") != "1")
                 
-                Mensage('Datos Guardados... / Data Saved... ');
+                var texto = $("#lDatosSave").text();
+                
+                Mensage(texto);
                 window.sessionStorage.removeItem("#SiMSG");
                 
 
@@ -2817,12 +2897,27 @@ function onFaliProdGPS(error)
     $(".GPS_Alert").slideDown(500).delay(5000).slideUp(500);
 }
 
+function valLeng()
+{
+    if (window.localStorage.getItem("$en-us%") == "ENG")
+    {
+        var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave"];
+
+        $(listOfOBJS).each(function(i, val)
+        {
+            var lab = "label" + (i + 1);
+
+            $(val)._t(lab);
+        });
+        
+        $("#btnTraslate").addClass("ui-icon-esLogo").removeClass("ui-icon-enLogo");
+    }
+}
+
 $(document).ready(function (e) 
 {
     $(".GPS_Alert").show();
     $(".GPS_Alert").slideUp(500);
-    
-    
     
     var TimeGpsInterval = 60 * 1000;//3600 * 1000;
 
@@ -2863,11 +2958,20 @@ $(document).ready(function (e)
 	});
 
     $("#btnTraslate").click(function (event) {
-        $("#tInicio")._t("Example 3");
-        $("#btnTraslate")._t("English");
+        if (window.localStorage.getItem("$en-us%") == "ENG")
+        {
+            window.localStorage.removeItem("$en-us%");
+        }
+        else
+        {
+            window.localStorage.setItem("$en-us%", "ENG");
+        }
+        
+        location.reload();
+
     });
 
-    var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel", "#msgCerrarSecion"];
+    var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave"];
 
     $("#loadingAJAX").hide();
 
@@ -2883,7 +2987,37 @@ $(document).ready(function (e)
     {
         window.location = "#page-home";
     }
+    
+    valLeng();
+    
+    
+    
+    
 });
+
+
+document.addEventListener('deviceready', function () {
+
+    // Android customization
+    // To indicate that the app is executing tasks in background and being paused would disrupt the user.
+    // The plug-in has to create a notification while in background - like a download progress bar.
+    cordova.plugins.backgroundMode.setDefaults({ 
+        title:  'TheTitleOfYourProcess',
+        text:   'Executing background tasks.'
+    });
+
+    // Enable background mode
+    cordova.plugins.backgroundMode.enable();
+
+    // Called when background mode has been activated
+    cordova.plugins.backgroundMode.onactivate = function () 
+    {
+        var idSendGSPtoServer = setInterval(SendGPS2Server(), (60 * 1000) + 5000);
+        cordova.plugins.backgroundMode.configure({
+                text:'Volcafe App...'
+            });
+    }
+}, false);
 
 $(document).on("pagecreate", "#IndexPage", function() 
 {
@@ -2895,8 +3029,8 @@ $(document).on("pagecreate", "#IndexPage", function()
     if (window.sessionStorage.UserLogin && window.sessionStorage.UserPromotor)
     {
        
-        $("#lUserEmpresa").text("Empresa: "+ window.sessionStorage.UserEmpresa);
-        $("#lUserName").text("Usuario: " + window.sessionStorage.UserLogin + "(" + window.sessionStorage.UserPromotor + ")");
+        $("#lUserEmpresa_val").text(": " + window.sessionStorage.UserEmpresa);
+        $("#lUserName_val").text(": " + window.sessionStorage.UserLogin + "(" + window.sessionStorage.UserPromotor + ")");
 		
         window.sessionStorage.setItem("empresa", window.sessionStorage.UserEmpresa);
 	
@@ -3288,3 +3422,5 @@ $.mobile.document
     
         $(".ui-body-a").addClass("ui-body-b").removeClass("ui-body-a");
     });
+
+
