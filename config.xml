@@ -61,7 +61,7 @@
     <plugin name="cordova-plugin-splashscreen" />
     <plugin name="cordova-plugin-vibration" />
     <plugin name="cordova-plugin-statusbar" />
-    <plugin name="de.appplant.cordova.plugin.background-mode" />
+    <plugin name="cordova-plugin-background-mode" />
     
   <icon src="icon.png"/>
   <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
