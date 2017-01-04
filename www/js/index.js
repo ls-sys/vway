@@ -1932,9 +1932,8 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                                     Anio = Anio > 50 ? Anio + 1900 : Anio + 2000;
 
                                     var fecha = new Date(Mes + " " + Dia + ", " + Anio);
-                                    console.log(fecha);
+                                
                                     InputValue = fecha.getFullYear() + "-" + pad((fecha.getMonth() + 1) + "",2) + "-" + pad(fecha.getDate() + "", 2);
-                                    console.log(InputValue);
                                     
                                 }
                             }

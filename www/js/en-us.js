@@ -20,7 +20,7 @@
         "label15" : "Get GPS",
         "label16" : "Survey",
         "label17" : "New Survey",
-        "label18" : "*From",
+        "label18" : "*Form",
         "label19" : "*Producer",
         "label20" : "*Farm",
         "label21" : "*No. Survey",
