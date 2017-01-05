@@ -2920,7 +2920,7 @@ function valLeng()
 {
     if (window.localStorage.getItem("$en-us%") == "ENG")
     {
-        var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave"];
+        var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave", "#lConfProdDel"];
 
         $(listOfOBJS).each(function(i, val)
         {
@@ -2990,7 +2990,7 @@ $(document).ready(function (e)
 
     });
 
-    var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave"];
+    var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave", "#lConfProdDel"];
 
     $("#loadingAJAX").hide();
 

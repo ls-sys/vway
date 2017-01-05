@@ -39,7 +39,8 @@
         "label34" : "Do you want to log out?",
         "label35" : "Unmodified Data.",
         "label36" : "Data Saved...<br/> Do you want to stay on this survey; or return to Home page?",
-        "label37" : "Data Saved..."
+        "label37" : "Data Saved...",
+        "label38" : "Do you really want to delete this producer? <br/> This action will delete all associated data of this producer."
         
 	};
 	
