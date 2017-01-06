@@ -15,7 +15,7 @@
 		"label10" : "Menu Photo",
 		"label11" : "Download of Database <br/> from Server",
 		"label12" : "Local data base is empty Download the latest version from the server",
-		"label13" : "Loading Modules",
+		"label13" : "Load Modules",
         "label14" : "Home Page",
         "label15" : "Get GPS",
         "label16" : "Survey",
@@ -40,7 +40,10 @@
         "label35" : "Unmodified Data.",
         "label36" : "Data Saved...<br/> Do you want to stay on this survey; or return to Home page?",
         "label37" : "Data Saved...",
-        "label38" : "Do you really want to delete this producer? <br/> This action will delete all associated data of this producer."
+        "label38" : "Do you really want to delete this producer? <br/> This action will delete all associated data of this producer.",
+        "label39" : "do you want to undo the deleting of this producer to restore it?",
+        "label40" : "Eliminado!",
+        "label41" : "Restaurado!"
         
 	};
 	
