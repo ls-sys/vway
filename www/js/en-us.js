@@ -41,9 +41,9 @@
         "label36" : "Data Saved...<br/> Do you want to stay on this survey; or return to Home page?",
         "label37" : "Data Saved...",
         "label38" : "Do you really want to delete this producer? <br/> This action will delete all associated data of this producer.",
-        "label39" : "do you want to undo the deleting of this producer to restore it?",
-        "label40" : "Eliminado!",
-        "label41" : "Restaurado!"
+        "label39" : "Do you want to undo the deleting of this producer to restore it?",
+        "label40" : "Removed!",
+        "label41" : "Restored!"
         
 	};
 	
