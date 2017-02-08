@@ -149,3 +149,9 @@ tr:nth-child(even) {
 .ui-selectmenu.ui-dialog .ui-header {
     border-bottom-width: 1px;
 }
+
+.listCont {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 250px;
+}

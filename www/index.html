@@ -125,8 +125,9 @@
             <li><h2>Menu Foto </h2></li>  
             <li><a class="ui-btn ui-shadow ui-icon-arrow-d ui-btn-icon-right" href="#" data-rel="close" onclick="ReDowloadFoto();" id="btnDownloadPhoto">Actualizar Galeria de Fotos </a></li>
               <li><a class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right" href="#pGaleriaFotos" id = "btnVerPhoto">Ver Galeria de Fotos </a></li> 
-            <!--<li><a class="messi-titlebox anim error ui-btn ui-shadow ui-icon-delete ui-btn-icon-right" style="border-radius:0; font-size:17px; color:#FFFFFF" href="#" data-rel="close" id="btnDeletePhoto">Eliminar Fotos / <br/> Delete Photos</a></li>
-            <li><a onclick="tomarFoto(1, 'tempFoto');" data-rel="close" class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right">Foto</a></li>-->
+            
+            <!--<li><a class="messi-titlebox anim error ui-btn ui-shadow ui-icon-delete ui-btn-icon-right" style="border-radius:0; font-size:17px; color:#FFFFFF" href="#" data-rel="close" id="btnDeletePhoto">Eliminar Fotos / <br/> Delete Photos</a></li>-->
+            <li><a onclick="getGruposProd();" data-rel="close" class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right">Foto</a></li>
           </ul>
         </div>
         
@@ -265,6 +266,28 @@
         </div>
         <div data-role="content">
             <img src="" id="ImgTempDisplay" />
+        </div>
+    </div>
+    
+    <!--Dialogo de descarga por grupos-->
+    <div id="DLGDownload" data-role="page" data-dialog="true" data-theme="b" data-close-btn="rigth">
+        <div data-role="header">
+            <div id="" class="GPS_Alert messi-wrapper">
+            	<div class="messi-titlebox anim error">
+                	<span class="messi-title">Position is unavailable!; Check if the GPS is on!</span>
+                </div>
+            </div>
+            <h1>Grupos</h1>
+        </div>
+        <div data-role="content">
+            <div id="downLoadDiv" class="listCont">
+                <form>
+                    <input id="filterTable-inpu3t" data-type="search">
+                </form>
+                <table data-role="table" class="ui-responsive table-stroke " data-filter="true" data-input="#filterTable-inpu3t" id="DLGDownload_Tabla">
+
+                </table>
+            </div>
         </div>
     </div>
     

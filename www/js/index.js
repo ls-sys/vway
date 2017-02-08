@@ -442,7 +442,7 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 			{
 				var $xml = $(data);
 				
-				var defData = '{ "id": 0, "fuente": 0, "sinc": 0, "modifica": 0, ';
+				var defData = '{  "id": 0, "fuente": 0, "sinc": 0, "modifica": 0, ';
 				var DataInsert = "[";
 				$xml.find("ROW").each(function(index, element) 
 				{
@@ -1257,6 +1257,62 @@ function GetPrimaryKey(tableName, proj_Id, obj_Id)
 function extraWhere (jsonData)
 {
    AddWhere = jsonData;
+}
+
+function getGruposProd()
+{
+    $("#downLoadDiv").empty();
+    $("<form>").html('<input id="filterTable-inpu3t" data-type="search">').appendTo("#downLoadDiv");
+    $("#filterTable-inpu3t").textinput();
+    $('<table>').attr({ 'id': 'DLGDownload_Tabla', 'data-role': 'table', 'class': 'ui-responsive table-stroke', 'data-filter': 'true', 'data-input': '#filterTable-inpu3t' }).appendTo("#downLoadDiv");
+    $('<thead>').html('<tr></tr>').appendTo("#DLGDownload_Tabla");
+    $('<tbody>').appendTo("#DLGDownload_Tabla");
+    
+    $.post(uriServer, 
+    {
+        "cmd"       : "listGrupsProd",
+        "empresa"   : window.sessionStorage.getItem("UserEmpresa"),
+        "user"      : window.sessionStorage.getItem("UserPromotor")
+    }, 
+    function (data) 
+    {
+        rs = data.Datos;
+        
+        $('<th>').html('#').appendTo("#DLGDownload_Tabla tr:first");
+        $('<th>').html('Nombre').appendTo("#DLGDownload_Tabla tr:first");
+        $('<th>').html('Cantidad').appendTo("#DLGDownload_Tabla tr:first");
+        
+        $(rs).each(function (i, ele) 
+        {
+            var tempID = "row_" + i;
+            
+            $('<tr>').attr({'id' : tempID}).appendTo("#DLGDownload_Tabla tbody");
+            
+            tempID = "#" + tempID;
+            
+            $('<td>').html(ele.grupo).appendTo(tempID);
+            $('<td>').html(ele.Nombre).appendTo(tempID);
+            $('<td>').html(ele.cant).appendTo(tempID);
+        });
+        
+    }, "json");
+    
+    try
+    {
+        $("#DLGDownload_Tabla").table(
+            {
+                columnPopupTheme: "a",
+                refresh: null
+            });
+
+        $("#DLGDownload_Tabla").table("refresh");
+    }
+    catch(Ex)
+    {
+        $("#DLGDownload_Tabla").table("refresh");
+    }
+    
+    window.location = '#DLGDownload';
 }
 
 function DataGrid(tableName, proj_Id, obj_Id, Owhere)
@@ -3013,7 +3069,6 @@ $(document).ready(function (e)
     
     
 });
-
 
 document.addEventListener('deviceready', function () {
 
