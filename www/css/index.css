@@ -65,6 +65,10 @@ tr:nth-child(even) {
     background: #999999;
 }
 
+.selected{
+    background: #008a09;
+}
+
 .regModificado {
     background-color: darkorange;
     opacity: 0.5;

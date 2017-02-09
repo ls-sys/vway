@@ -1259,6 +1259,35 @@ function extraWhere (jsonData)
    AddWhere = jsonData;
 }
 
+function chuqueGrupo(idRow, cant)
+{
+    var valor = $(idRow+ "_val").val();
+        
+    var equa = $("#lContGrupo").html();
+    var y = eval(equa);
+    var x = Math.trunc(400 * y);
+    
+    cant *= (valor == '0')?1:-1;
+    x = x + cant;
+    
+    if (x <= 400)
+    {
+        if (valor == '0')
+        {
+            $(idRow + " td").addClass("selected");
+            $(idRow+ "_val").val("1");
+        }
+        else
+        {
+            $(idRow + " td").removeClass("selected");
+            $(idRow+ "_val").val("0");
+        }
+        
+        $("#lContGrupo").html(x + "/400");
+    }
+}
+
+
 function getGruposProd()
 {
     $("#downLoadDiv").empty();
@@ -1286,13 +1315,15 @@ function getGruposProd()
         {
             var tempID = "row_" + i;
             
-            $('<tr>').attr({'id' : tempID}).appendTo("#DLGDownload_Tabla tbody");
+            $('<tr>').attr({'id' : tempID, 'onclick': "chuqueGrupo('#"+tempID+"', " + ele.cant + ")"}).appendTo("#DLGDownload_Tabla tbody");
             
             tempID = "#" + tempID;
             
             $('<td>').html(ele.grupo).appendTo(tempID);
             $('<td>').html(ele.Nombre).appendTo(tempID);
             $('<td>').html(ele.cant).appendTo(tempID);
+            $('<input>').attr({'value': 0, 'id': "row_" + i + "_val"}).css({"visibility": "hidden", "width": "5px"}).appendTo(tempID + " td:first");
+            
         });
         
     }, "json");
