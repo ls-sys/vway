@@ -4,6 +4,7 @@ var maxTrans = 0;
 var DownCount = 0;
 var failTablesList = "";
 var AddWhere = {};
+var DLGrupo = null;
 
 var FILENAME = 'database.db',
     failCB = function (msg) {
@@ -417,6 +418,24 @@ function ReDowloadFoto()
     
 }
 
+function joinGrupos ()
+{
+    var res = "";
+    
+    
+    $(DLGrupo).each(function (i, ele)
+    {
+        if (ele != null)
+            res += ele + ", ";
+    });
+    
+    res += "$F%";
+    
+    res  = res.replace(", $F%", "");
+    
+    return res;
+}
+
 function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, PageTitle)
 {
 	var rs = db.SELECT("ListMod", function (row)
@@ -498,15 +517,18 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 				    db.CREATE(TableName, objdefData);
 
 				maxTrans++;
+                
+                var listaDL = joinGrupos();
 
 				$.post("http://200.30.150.165:8080/webservidor2/mediador.php", 
 				{
-					"cmd"		: "xmlData",
-					"Project"	: Project_Id,
-					"Object"	: Object_Id,
-					"empresa": window.sessionStorage.getItem("UserEmpresa"),
-					"usrCode": window.sessionStorage.getItem("UserPromotor"),
-					"usrPais": window.sessionStorage.getItem("UserPais")
+					"cmd"		   : "xmlData",
+					"Project"	   : Project_Id,
+					"Object"	   : Object_Id,
+					"empresa"      : window.sessionStorage.getItem("UserEmpresa"),
+					"usrCode"      : window.sessionStorage.getItem("UserPromotor"),
+					"usrPais"      : window.sessionStorage.getItem("UserPais"),
+                    "grupoDownLoad": listaDL
 				},
 				function (data)
 				{
@@ -1259,7 +1281,7 @@ function extraWhere (jsonData)
    AddWhere = jsonData;
 }
 
-function chuqueGrupo(idRow, cant)
+function chuqueGrupo(idRow, cant, grupo)
 {
     var valor = $(idRow+ "_val").val();
         
@@ -1272,15 +1294,21 @@ function chuqueGrupo(idRow, cant)
     
     if (x <= 400)
     {
+        var temp = idRow.replace("#row_", "") * 1;
+        
         if (valor == '0')
         {
             $(idRow + " td").addClass("selected");
             $(idRow+ "_val").val("1");
+             
+            DLGrupo[temp] = grupo;
         }
         else
         {
             $(idRow + " td").removeClass("selected");
             $(idRow+ "_val").val("0");
+            
+            DLGrupo[temp] = null;
         }
         
         $("#lContGrupo").html(x + "/400");
@@ -1315,7 +1343,7 @@ function getGruposProd()
         {
             var tempID = "row_" + i;
             
-            $('<tr>').attr({'id' : tempID, 'onclick': "chuqueGrupo('#"+tempID+"', " + ele.cant + ")"}).appendTo("#DLGDownload_Tabla tbody");
+            $('<tr>').attr({'id' : tempID, 'onclick': "chuqueGrupo('#"+tempID+"', " + ele.cant + ", " + ele.grupo + ")"}).appendTo("#DLGDownload_Tabla tbody");
             
             tempID = "#" + tempID;
             
@@ -1325,6 +1353,12 @@ function getGruposProd()
             $('<input>').attr({'value': 0, 'id': "row_" + i + "_val"}).css({"visibility": "hidden", "width": "5px"}).appendTo(tempID + " td:first");
             
         });
+        
+        DLGrupo = Array(rs.length);
+        for (var i = 0; i < rs.length; i++)
+        {
+           DLGrupo[i] = null; 
+        }
         
     }, "json");
     
@@ -3020,6 +3054,69 @@ function valLeng()
     }
 }
 
+function downLoadProsses ()
+{
+    try
+    {
+        if (window.sessionStorage.UserEmpresa)
+        {
+            db.TRUNCATE('Object_Movil');
+            db.TRUNCATE('Object_Det_Movil');
+
+            $.post(uriServer,
+            {
+                "cmd": "ListModules",
+                "Project": 58,
+                "User": window.sessionStorage.UserLogin
+            },
+            function (data) {
+                $("#loadingAJAX").show();
+
+                maxTrans = 0;
+                DownCount = 0;
+
+                db.INSERT_INTO("Object_Movil", data.ObjServer);
+                db.INSERT_INTO("Object_Det_Movil", data.ObjDetServer);
+
+                var rs = db.SELECT("Object_Movil");
+
+                if (rs.length > 0) {
+                    var $jqRS = $(rs);
+
+                    $jqRS.each(function (index, ele) {
+
+                        DownLoadDataSave(ele.movil_proj, ele.movil_obj, "", ele.tableName, 1, ele.formName);
+                    });
+                }
+
+                //DownLoadDataSave(55, 91, "", "UNIDAD_MEDIDA", 0, ""); 
+                DownLoadDataSave(55, 82, "", "PAIS", 0, "");
+                DownLoadDataSave(55, 83, "", "DEPARTAMENTO", 0, "");
+                DownLoadDataSave(55, 84, "", "CIUDAD", 0, "");
+                DownLoadDataSave(55, 45, "", "VC_VARIEDAD", 0, "");
+                //DownLoadDataSave(55, 100, "", "VC_ACTIVIDAD_PROMOTOR", 0, "");
+
+
+            }, "json")
+                .fail(function (qXHR, textStatus, errorThrown) {
+                    Mensage("No Conexion. / No Connection");
+                    //Mensage(qXHR.responseText);
+                    console.log(qXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                });
+
+        }
+        else {
+            window.location = "#LogInDialog";
+        }
+    }
+    catch (Error)
+    {
+        Mensage(Error);
+    }
+}
+
 $(document).ready(function (e) 
 {
     $(".GPS_Alert").show();
@@ -3175,68 +3272,10 @@ $(document).on("pagecreate", "#IndexPage", function()
            
             
         });
-		
+        
         $("#btnDBDown").click(function(e) 
         {
-            try
-            {
-                if (window.sessionStorage.UserEmpresa)
-                {
-                    db.TRUNCATE('Object_Movil');
-                    db.TRUNCATE('Object_Det_Movil');
-
-                    $.post(uriServer,
-                    {
-                        "cmd": "ListModules",
-                        "Project": 58,
-                        "User": window.sessionStorage.UserLogin
-                    },
-                    function (data) {
-                        $("#loadingAJAX").show();
-
-                        maxTrans = 0;
-                        DownCount = 0;
-
-                        db.INSERT_INTO("Object_Movil", data.ObjServer);
-                        db.INSERT_INTO("Object_Det_Movil", data.ObjDetServer);
-
-                        var rs = db.SELECT("Object_Movil");
-
-                        if (rs.length > 0) {
-                            var $jqRS = $(rs);
-
-                            $jqRS.each(function (index, ele) {
-
-                                DownLoadDataSave(ele.movil_proj, ele.movil_obj, "", ele.tableName, 1, ele.formName);
-                            });
-                        }
-
-                        //DownLoadDataSave(55, 91, "", "UNIDAD_MEDIDA", 0, ""); 
-                        DownLoadDataSave(55, 82, "", "PAIS", 0, "");
-                        DownLoadDataSave(55, 83, "", "DEPARTAMENTO", 0, "");
-                        DownLoadDataSave(55, 84, "", "CIUDAD", 0, "");
-                        DownLoadDataSave(55, 45, "", "VC_VARIEDAD", 0, "");
-                        //DownLoadDataSave(55, 100, "", "VC_ACTIVIDAD_PROMOTOR", 0, "");
-
-                        
-                    }, "json")
-                        .fail(function (qXHR, textStatus, errorThrown) {
-                            Mensage("No Conexion. / No Connection");
-                            //Mensage(qXHR.responseText);
-                            console.log(qXHR);
-                            console.log(textStatus);
-                            console.log(errorThrown);
-                        });
-
-                }
-                else {
-                    window.location = "#LogInDialog";
-                }
-            }
-            catch (Error)
-            {
-                Mensage(Error);
-            }
+            getGruposProd();
         });
 		
 		$("#btnLoadModules").click(function(e) 
