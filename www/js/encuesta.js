@@ -621,6 +621,8 @@ $(document).on("pagecreate", "#DLGEncuesta", function ()
             throw "El campos con * son requeridos.";
         }
         
+        $("#btn_CrearEncuestaSC").prop('disabled', false);
+        
         $("body").css("cursor", "wait");
         $("#loadingAJAX").show();
         $("#AJAXLoadLabel").text("Guardando Datos");
@@ -632,6 +634,7 @@ $(document).on("pagecreate", "#DLGEncuesta", function ()
         $("#loadingAJAX").slideUp(500);
         $("#AJAXLoadLabel").text("");
         $("body").css("cursor", "default");
+        $("#btn_CrearEncuestaSC").prop('disabled', true);
     });
     
 });

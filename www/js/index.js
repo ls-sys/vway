@@ -4,6 +4,7 @@ var maxTrans = 0;
 var DownCount = 0;
 var failTablesList = "";
 var AddWhere = {};
+var DLGrupo = null;
 
 var FILENAME = 'database.db',
     failCB = function (msg) {
@@ -417,6 +418,24 @@ function ReDowloadFoto()
     
 }
 
+function joinGrupos ()
+{
+    var res = "";
+    
+    
+    $(DLGrupo).each(function (i, ele)
+    {
+        if (ele != null)
+            res += ele + ", ";
+    });
+    
+    res += "$F%";
+    
+    res  = res.replace(", $F%", "");
+    
+    return res;
+}
+
 function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, PageTitle)
 {
 	var rs = db.SELECT("ListMod", function (row)
@@ -442,7 +461,7 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 			{
 				var $xml = $(data);
 				
-				var defData = '{ "id": 0, "fuente": 0, "sinc": 0, "modifica": 0, ';
+				var defData = '{  "id": 0, "fuente": 0, "sinc": 0, "modifica": 0, ';
 				var DataInsert = "[";
 				$xml.find("ROW").each(function(index, element) 
 				{
@@ -498,15 +517,18 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 				    db.CREATE(TableName, objdefData);
 
 				maxTrans++;
+                
+                var listaDL = joinGrupos();
 
 				$.post("http://200.30.150.165:8080/webservidor2/mediador.php", 
 				{
-					"cmd"		: "xmlData",
-					"Project"	: Project_Id,
-					"Object"	: Object_Id,
-					"empresa": window.sessionStorage.getItem("UserEmpresa"),
-					"usrCode": window.sessionStorage.getItem("UserPromotor"),
-					"usrPais": window.sessionStorage.getItem("UserPais")
+					"cmd"		   : "xmlData",
+					"Project"	   : Project_Id,
+					"Object"	   : Object_Id,
+					"empresa"      : window.sessionStorage.getItem("UserEmpresa"),
+					"usrCode"      : window.sessionStorage.getItem("UserPromotor"),
+					"usrPais"      : window.sessionStorage.getItem("UserPais"),
+                    "grupoDownLoad": listaDL
 				},
 				function (data)
 				{
@@ -1259,6 +1281,105 @@ function extraWhere (jsonData)
    AddWhere = jsonData;
 }
 
+function chuqueGrupo(idRow, cant, grupo)
+{
+    var valor = $(idRow+ "_val").val();
+        
+    var equa = $("#lContGrupo").html();
+    var y = eval(equa);
+    var x = Math.trunc(400 * y);
+    
+    cant *= (valor == '0')?1:-1;
+    x = x + cant;
+    
+    if (x <= 400)
+    {
+        var temp = idRow.replace("#row_", "") * 1;
+        
+        if (valor == '0')
+        {
+            $(idRow + " td").addClass("selected");
+            $(idRow+ "_val").val("1");
+             
+            DLGrupo[temp] = grupo;
+        }
+        else
+        {
+            $(idRow + " td").removeClass("selected");
+            $(idRow+ "_val").val("0");
+            
+            DLGrupo[temp] = null;
+        }
+        
+        $("#lContGrupo").html(x + "/400");
+    }
+}
+
+
+function getGruposProd()
+{
+    $("#downLoadDiv").empty();
+    $("<form>").html('<input id="filterTable-inpu3t" data-type="search">').appendTo("#downLoadDiv");
+    $("#filterTable-inpu3t").textinput();
+    $('<table>').attr({ 'id': 'DLGDownload_Tabla', 'data-role': 'table', 'class': 'ui-responsive table-stroke', 'data-filter': 'true', 'data-input': '#filterTable-inpu3t' }).appendTo("#downLoadDiv");
+    $('<thead>').html('<tr></tr>').appendTo("#DLGDownload_Tabla");
+    $('<tbody>').appendTo("#DLGDownload_Tabla");
+    
+    $.post(uriServer, 
+    {
+        "cmd"       : "listGrupsProd",
+        "empresa"   : window.sessionStorage.getItem("UserEmpresa"),
+        "user"      : window.sessionStorage.getItem("UserPromotor")
+    }, 
+    function (data) 
+    {
+        rs = data.Datos;
+        
+        $('<th>').html('#').appendTo("#DLGDownload_Tabla tr:first");
+        $('<th>').html('Nombre').appendTo("#DLGDownload_Tabla tr:first");
+        $('<th>').html('Cantidad').appendTo("#DLGDownload_Tabla tr:first");
+        
+        $(rs).each(function (i, ele) 
+        {
+            var tempID = "row_" + i;
+            
+            $('<tr>').attr({'id' : tempID, 'onclick': "chuqueGrupo('#"+tempID+"', " + ele.cant + ", " + ele.grupo + ")"}).appendTo("#DLGDownload_Tabla tbody");
+            
+            tempID = "#" + tempID;
+            
+            $('<td>').html(ele.grupo).appendTo(tempID);
+            $('<td>').html(ele.Nombre).appendTo(tempID);
+            $('<td>').html(ele.cant).appendTo(tempID);
+            $('<input>').attr({'value': 0, 'id': "row_" + i + "_val"}).css({"visibility": "hidden", "width": "5px"}).appendTo(tempID + " td:first");
+            
+        });
+        
+        DLGrupo = Array(rs.length);
+        for (var i = 0; i < rs.length; i++)
+        {
+           DLGrupo[i] = null; 
+        }
+        
+    }, "json");
+    
+    try
+    {
+        $("#DLGDownload_Tabla").table(
+            {
+                columnPopupTheme: "a",
+                refresh: null
+            });
+
+        $("#DLGDownload_Tabla").table("refresh");
+    }
+    catch(Ex)
+    {
+        $("#DLGDownload_Tabla").table("refresh");
+    }
+    
+    window.location = '#DLGDownload';
+}
+
 function DataGrid(tableName, proj_Id, obj_Id, Owhere)
 {
     var ComeFForm = window.sessionStorage.getItem("#tf$");
@@ -1919,6 +2040,25 @@ function BuildFormMobil(tableName, project_id, object_id, rowID)
                                 
 		                        InputValue = fecha.getFullYear() + "-" + pad((fecha.getMonth() + 1) + "",2) + "-" + pad(fecha.getDate() + "", 2);
 		                    }
+                            else
+                            {
+                                var FechaSplitIOS = InputValue.split("-");
+                                
+                                if (FechaSplitIOS.length > 0)
+                                {
+                                    var Dia = FechaSplitIOS[0] * 1;
+                                    var Mes = FechaSplitIOS[1];
+                                    var Anio = (FechaSplitIOS[2] * 1) % 100;
+
+                                    Anio = Anio > 50 ? Anio + 1900 : Anio + 2000;
+
+                                    var fecha = new Date(Mes + " " + Dia + ", " + Anio);
+                                
+                                    InputValue = fecha.getFullYear() + "-" + pad((fecha.getMonth() + 1) + "",2) + "-" + pad(fecha.getDate() + "", 2);
+                                    
+                                }
+                            }
+                                
 
                             
 		                    $('<input>')
@@ -2901,7 +3041,7 @@ function valLeng()
 {
     if (window.localStorage.getItem("$en-us%") == "ENG")
     {
-        var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave"];
+        var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave", "#lConfProdDel", "#lConfProdDes", "#lMensDel", "#lMensDes"];
 
         $(listOfOBJS).each(function(i, val)
         {
@@ -2911,6 +3051,69 @@ function valLeng()
         });
         
         $("#btnTraslate").addClass("ui-icon-esLogo").removeClass("ui-icon-enLogo");
+    }
+}
+
+function downLoadProsses ()
+{
+    try
+    {
+        if (window.sessionStorage.UserEmpresa)
+        {
+            db.TRUNCATE('Object_Movil');
+            db.TRUNCATE('Object_Det_Movil');
+
+            $.post(uriServer,
+            {
+                "cmd": "ListModules",
+                "Project": 58,
+                "User": window.sessionStorage.UserLogin
+            },
+            function (data) {
+                $("#loadingAJAX").show();
+
+                maxTrans = 0;
+                DownCount = 0;
+
+                db.INSERT_INTO("Object_Movil", data.ObjServer);
+                db.INSERT_INTO("Object_Det_Movil", data.ObjDetServer);
+
+                var rs = db.SELECT("Object_Movil");
+
+                if (rs.length > 0) {
+                    var $jqRS = $(rs);
+
+                    $jqRS.each(function (index, ele) {
+
+                        DownLoadDataSave(ele.movil_proj, ele.movil_obj, "", ele.tableName, 1, ele.formName);
+                    });
+                }
+
+                //DownLoadDataSave(55, 91, "", "UNIDAD_MEDIDA", 0, ""); 
+                DownLoadDataSave(55, 82, "", "PAIS", 0, "");
+                DownLoadDataSave(55, 83, "", "DEPARTAMENTO", 0, "");
+                DownLoadDataSave(55, 84, "", "CIUDAD", 0, "");
+                DownLoadDataSave(55, 45, "", "VC_VARIEDAD", 0, "");
+                //DownLoadDataSave(55, 100, "", "VC_ACTIVIDAD_PROMOTOR", 0, "");
+
+
+            }, "json")
+                .fail(function (qXHR, textStatus, errorThrown) {
+                    Mensage("No Conexion. / No Connection");
+                    //Mensage(qXHR.responseText);
+                    console.log(qXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                });
+
+        }
+        else {
+            window.location = "#LogInDialog";
+        }
+    }
+    catch (Error)
+    {
+        Mensage(Error);
     }
 }
 
@@ -2971,7 +3174,7 @@ $(document).ready(function (e)
 
     });
 
-    var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave"];
+    var listaOb = ["#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#lNoData", "#msgDropDB", "#msgSendData", "#msgDBSincOK", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave", "#lConfProdDel", "#lConfProdDes", "#lMensDel", "#lMensDes"];
 
     $("#loadingAJAX").hide();
 
@@ -2994,7 +3197,6 @@ $(document).ready(function (e)
     
     
 });
-
 
 document.addEventListener('deviceready', function () {
 
@@ -3070,68 +3272,10 @@ $(document).on("pagecreate", "#IndexPage", function()
            
             
         });
-		
+        
         $("#btnDBDown").click(function(e) 
         {
-            try
-            {
-                if (window.sessionStorage.UserEmpresa)
-                {
-                    db.TRUNCATE('Object_Movil');
-                    db.TRUNCATE('Object_Det_Movil');
-
-                    $.post(uriServer,
-                    {
-                        "cmd": "ListModules",
-                        "Project": 58,
-                        "User": window.sessionStorage.UserLogin
-                    },
-                    function (data) {
-                        $("#loadingAJAX").show();
-
-                        maxTrans = 0;
-                        DownCount = 0;
-
-                        db.INSERT_INTO("Object_Movil", data.ObjServer);
-                        db.INSERT_INTO("Object_Det_Movil", data.ObjDetServer);
-
-                        var rs = db.SELECT("Object_Movil");
-
-                        if (rs.length > 0) {
-                            var $jqRS = $(rs);
-
-                            $jqRS.each(function (index, ele) {
-
-                                DownLoadDataSave(ele.movil_proj, ele.movil_obj, "", ele.tableName, 1, ele.formName);
-                            });
-                        }
-
-                        //DownLoadDataSave(55, 91, "", "UNIDAD_MEDIDA", 0, ""); 
-                        DownLoadDataSave(55, 82, "", "PAIS", 0, "");
-                        DownLoadDataSave(55, 83, "", "DEPARTAMENTO", 0, "");
-                        DownLoadDataSave(55, 84, "", "CIUDAD", 0, "");
-                        DownLoadDataSave(55, 45, "", "VC_VARIEDAD", 0, "");
-                        //DownLoadDataSave(55, 100, "", "VC_ACTIVIDAD_PROMOTOR", 0, "");
-
-                        
-                    }, "json")
-                        .fail(function (qXHR, textStatus, errorThrown) {
-                            Mensage("No Conexion. / No Connection");
-                            //Mensage(qXHR.responseText);
-                            console.log(qXHR);
-                            console.log(textStatus);
-                            console.log(errorThrown);
-                        });
-
-                }
-                else {
-                    window.location = "#LogInDialog";
-                }
-            }
-            catch (Error)
-            {
-                Mensage(Error);
-            }
+            getGruposProd();
         });
 		
 		$("#btnLoadModules").click(function(e) 

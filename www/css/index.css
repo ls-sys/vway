@@ -65,6 +65,10 @@ tr:nth-child(even) {
     background: #999999;
 }
 
+.selected{
+    background: #008a09;
+}
+
 .regModificado {
     background-color: darkorange;
     opacity: 0.5;
@@ -148,4 +152,10 @@ tr:nth-child(even) {
 }
 .ui-selectmenu.ui-dialog .ui-header {
     border-bottom-width: 1px;
+}
+
+.listCont {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 250px;
 }
