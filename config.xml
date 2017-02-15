@@ -19,7 +19,7 @@
       <preference name="phonegap-version" value="cli-6.3.0" />
       <preference name="orientation" value="all" />
     </platform>
-  
+
     <preference name="orientation" value="all"/>
     <preference name="target-device" value="universal"/>
     <preference name="fullscreen" value="false"/>
