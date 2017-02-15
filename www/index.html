@@ -125,8 +125,9 @@
             <li><h2>Menu Foto </h2></li>  
             <li><a class="ui-btn ui-shadow ui-icon-arrow-d ui-btn-icon-right" href="#" data-rel="close" onclick="ReDowloadFoto();" id="btnDownloadPhoto">Actualizar Galeria de Fotos </a></li>
               <li><a class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right" href="#pGaleriaFotos" id = "btnVerPhoto">Ver Galeria de Fotos </a></li> 
+            
             <!--<li><a class="messi-titlebox anim error ui-btn ui-shadow ui-icon-delete ui-btn-icon-right" style="border-radius:0; font-size:17px; color:#FFFFFF" href="#" data-rel="close" id="btnDeletePhoto">Eliminar Fotos / <br/> Delete Photos</a></li>
-            <li><a onclick="tomarFoto(1, 'tempFoto');" data-rel="close" class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right">Foto</a></li>-->
+            <li><a onclick="getGruposProd();" data-rel="close" class="ui-btn ui-shadow ui-icon-camera ui-btn-icon-right">Foto</a></li>-->
           </ul>
         </div>
         
@@ -154,10 +155,7 @@
                         <td><label id="lUserEmpresa_val" style="font-size:12px"> </label></td>
                     </tr>
                 </table>
-                
-                
-                
-                <label style="font-size:12px">Ver 2.0.5</label>
+                <label style="font-size:12px">Ver 3.0.0</label>
             </div>
         </div>
         
@@ -271,6 +269,34 @@
         </div>
     </div>
     
+    <!--Dialogo de descarga por grupos-->
+    <div id="DLGDownload" data-role="page" data-dialog="true" data-theme="b" data-close-btn="rigth">
+        <div data-role="header">
+            <div id="" class="GPS_Alert messi-wrapper">
+            	<div class="messi-titlebox anim error">
+                	<span class="messi-title">Position is unavailable!; Check if the GPS is on!</span>
+                </div>
+            </div>
+            <h1>Grupos</h1>
+        </div>
+        <div data-role="content">
+            <div id="downLoadDiv" class="listCont">
+                <form>
+                    <input id="filterTable-inpu3t" data-type="search">
+                </form>
+                <table data-role="table" class="ui-responsive table-stroke " data-filter="true" data-input="#filterTable-inpu3t" id="DLGDownload_Tabla">
+
+                </table>
+            </div>
+            <hr/>
+            <label id="lContGrupo" class="right">0/400</label>
+            <br/>
+            <button class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-d ui-btn-icon-left ui-btn-b " style="background-color:green" onclick="downLoadProsses();window.location='#IndexPage';">Descargar Grupos</button>
+            <a class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-left ui-btn-b " style="background-color:red" href="#IndexPage">Cancelar</a>
+        </div>
+        
+    </div>
+    
     <!--Dialogo para la crear encuesta -->
     <div id="DLGEncuesta" data-role="page" data-dialog="true" data-theme="b" data-close-btn="right">
         <div data-role="header">
@@ -296,7 +322,7 @@
             <input type="date" id="Q_ENCUESTA_FECHA" />
             <label for="Q_ENCUESTA_NOTA">Nota </label>
             <input type="text" id="Q_ENCUESTA_NOTA" />
-            <button id="btn_CrearEncuestaSC"></button>
+            <button id="btn_CrearEncuestaSC">Crear Encuesta</button>
             <!--<input type="button" value="Crear Encuesta" />-->
             <input type="hidden" id="Q_ENCUESTA_PROMOTOR" />
             <input type="hidden" id="Q_ENCUESTA_ENCUESTADOR" />
@@ -338,6 +364,10 @@
     <label id="lModoData">No Datos Modificados.</label>
     <label id="lEncuestaSeve">Datos Guardados... <br/> ¿Usted desea permanecer, en esta encuesta; o volver a la página de inicio?</label>
     <label id="lDatosSave">Datos Guardados...</label>
+    <label id="lConfProdDel">Esta seguro de que desea eliminar el productor? <br/> Esta accion eliminara toda la data asociada a este productor.</label>
+    <label id="lConfProdDes">Desea deshacer la eliminacion del productor para restaurarlo?</label>
+    <label id="lMensDel">Eliminado!</label>
+    <label id="lMensDes">Restaurado!</label>
     
 </body>
 </html>

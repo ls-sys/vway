@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.ls.vway" version="2.0.5">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.ls.vway" version="3.0.0">
     <name>Volcafe Way</name>
     <description>Aplicacion para visitas al Exterior</description>
     <author href="http://ls-sys.com" email="gs@ls-sy.com">ls-sys</author>
     <content src="index.html"/>
-  <!--<preference name="phonegap-version" value="3.7.0" /> 4.2.0 3.9.1-->
+    <!--<preference name="phonegap-version" value="cli-6.5.0" /> 4.2.0 3.9.1-->
     
     <platform name="ios">
         <preference name="phonegap-version" value="3.9.1" />
@@ -42,41 +42,29 @@
 
     <preference name="permissions" value="true" />
 	
-    <plugin name="cordova-plugin-battery-status" source="pgb"/>
-    <plugin name="cordova-plugin-camera" source="pgb"/>
-    <plugin name="cordova-plugin-media-capture" source="pgb"/>
-    <plugin name="cordova-plugin-console" source="pgb"/>
-    <plugin name="cordova-plugin-contacts" source="pgb"/>
-    <plugin name="cordova-plugin-device" source="pgb"/>
-    <plugin name="cordova-plugin-device-motion" source="pgb"/>
-    <plugin name="cordova-plugin-device-orientation" source="pgb"/>
-    <plugin name="cordova-plugin-dialogs" source="pgb"/>
-    <plugin name="cordova-plugin-file" source="pgb"/>
-    <plugin name="cordova-plugin-file-transfer" source="pgb"/>
-    <plugin name="cordova-plugin-geolocation" source="pgb"/>
-    <plugin name="cordova-plugin-globalization" source="pgb"/>
-    <plugin name="cordova-plugin-inappbrowser" source="pgb"/>
-    <plugin name="cordova-plugin-media" source="pgb"/>
-    <plugin name="cordova-plugin-network-information" source="pgb"/>
-    <plugin name="cordova-plugin-splashscreen" source="pgb"/>
-    <plugin name="cordova-plugin-vibration" source="pgb"/>
-    <plugin name="com.phonegap.plugin.statusbar" spec="~1.1.0" source="pgb" />
-    <plugin name="de.appplant.cordova.plugin.background-mode" source="pgb"/>
+    <plugin name="cordova-plugin-battery-status" />
+    <plugin name="cordova-plugin-camera" />
+    <plugin name="cordova-plugin-media-capture" />
+    <plugin name="cordova-plugin-console" />
+    <plugin name="cordova-plugin-contacts" />
+    <plugin name="cordova-plugin-device" />
+    <plugin name="cordova-plugin-device-motion" />
+    <plugin name="cordova-plugin-device-orientation" />
+    <plugin name="cordova-plugin-dialogs" />
+    <plugin name="cordova-plugin-file"/>
+    <plugin name="cordova-plugin-file-transfer" />
+    <plugin name="cordova-plugin-geolocation" />
+    <plugin name="cordova-plugin-globalization" />
+    <plugin name="cordova-plugin-inappbrowser" />
+    <plugin name="cordova-plugin-media"/>
+    <plugin name="cordova-plugin-network-information" />
+    <plugin name="cordova-plugin-splashscreen" />
+    <plugin name="cordova-plugin-vibration" />
+    <plugin name="cordova-plugin-statusbar" />
+    <plugin name="cordova-plugin-background-mode" />
+    <plugin name="cordova-plugin-screen-orientation" />
     
   <icon src="icon.png"/>
-  <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
-  <icon src="www/res/icon/android/icon-48-mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
-  <icon src="www/res/icon/android/icon-72-hdpi.png" gap:platform="android" gap:qualifier="hdpi"/>
-  <icon src="www/res/icon/android/icon-96-xhdpi.png" gap:platform="android" gap:qualifier="xhdpi"/>
-  <icon src="www/res/icon/blackberry/icon-80.png" gap:platform="blackberry"/>
-  <icon src="www/res/icon/blackberry/icon-80.png" gap:platform="blackberry" gap:state="hover"/>
-  <icon src="www/res/icon/ios/icon-57.png" gap:platform="ios" width="57" height="57"/>
-  <icon src="www/res/icon/ios/icon-72.png" gap:platform="ios" width="72" height="72"/>
-  <icon src="www/res/icon/ios/icon-57-2x.png" gap:platform="ios" width="114" height="114"/>
-  <icon src="www/res/icon/ios/icon-72-2x.png" gap:platform="ios" width="144" height="144"/>
-  <icon src="www/res/icon/webos/icon-64.png" gap:platform="webos"/>
-  <icon src="www/res/icon/windows-phone/icon-48.png" gap:platform="winphone"/>
-  <icon src="www/res/icon/windows-phone/icon-173-tile.png" gap:platform="winphone" gap:role="background"/>
   <gap:splash src="www/res/screen/android/screen-ldpi-portrait.png" gap:platform="android" gap:qualifier="port-ldpi"/>
   <gap:splash src="www/res/screen/android/screen-mdpi-portrait.png" gap:platform="android" gap:qualifier="port-mdpi"/>
   <gap:splash src="www/res/screen/android/screen-hdpi-portrait.png" gap:platform="android" gap:qualifier="port-hdpi"/>
@@ -86,7 +74,6 @@
   <gap:splash src="www/res/screen/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960"/>
   <gap:splash src="www/res/screen/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136"/>
   <gap:splash src="www/res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/>
-
   <gap:splash src="www/res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768"/>
   <gap:splash src="www/res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone"/>
   <access origin="*"/>
