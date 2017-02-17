@@ -880,11 +880,18 @@ function SendData2DB()
         && row.tablaName != 'vc_foto'
     });
     var ListTables = [];
+    var uniqueNames = [];
     if (rs.length > 0)
     {
-        $(rs).each(function (index, ele)
+        $.each(rs, function (i, el)
         {
-            var rsData = db.SELECT(ele.tablaName, { modifica: 1, sinc: 0 });
+            if ($.inArray(el.tablaName, uniqueNames) === -1)
+                uniqueNames.push(el.tablaName);
+        });
+        
+        $(uniqueNames).each(function (index, ele)
+        {
+            var rsData = db.SELECT(ele, { modifica: 1, sinc: 0 });
             var TempData = [];
 
             if (rsData.length > 0)
@@ -909,9 +916,7 @@ function SendData2DB()
                 });
 
                 var info = {
-                    "tablaName": ele.tablaName,
-                    "project_id": ele.project_id,
-                    "object_id": ele.object_id,
+                    "tablaName": ele,
                     "data": TempData
                 };
 
@@ -1314,7 +1319,6 @@ function chuqueGrupo(idRow, cant, grupo)
         $("#lContGrupo").html(x + "/400");
     }
 }
-
 
 function getGruposProd()
 {
