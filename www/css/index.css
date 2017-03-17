@@ -159,3 +159,12 @@ tr:nth-child(even) {
     -webkit-overflow-scrolling: touch;
     max-height: 250px;
 }
+
+.zelda {
+    height: auto;
+    width: auto;
+    margin: 1px;
+    border-color: white;
+    display: table-cell;
+    vertical-align: middle;
+}

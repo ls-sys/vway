@@ -1340,8 +1340,8 @@ function getGruposProd()
         rs = data.Datos;
         
         $('<th>').html('#').appendTo("#DLGDownload_Tabla tr:first");
-        $('<th>').html('Nombre').appendTo("#DLGDownload_Tabla tr:first");
-        $('<th>').html('Cantidad').appendTo("#DLGDownload_Tabla tr:first");
+        $('<th>').html(data.Headers[0].nombre).appendTo("#DLGDownload_Tabla tr:first");
+        $('<th>').html(data.Headers[0].cant).appendTo("#DLGDownload_Tabla tr:first");
         
         $(rs).each(function (i, ele) 
         {
@@ -3045,7 +3045,7 @@ function valLeng()
 {
     if (window.localStorage.getItem("$en-us%") == "ENG")
     {
-        var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave", "#lConfProdDel", "#lConfProdDes", "#lMensDel", "#lMensDes"];
+        var listOfOBJS = ["#pMenu h2:first-child", "#btnUpdateData", "#btnLogOut","#btn_NewEncuestaDLG", "#btnDownloadPhoto", "#btnVerPhoto", "#lUserEmpresa", "#lUserName", "#IndexPage div[data-role='header'] h1", "#ulSideMenu h2:first-child", "#btnDBDown", "#ldMessageNoDB", "#btnLoadModules", "#btn_Home", "#btnGeoPos", "#lHEncuestaB", "#DLGEncuesta div[data-role='header'] h1", "label[for='Q_ENCUESTA_FORMULARIO']", "label[for='Q_ENCUESTA_PRODUCTOR']", "label[for='Q_ENCUESTA_FINCA']", "label[for='Q_ENCUESTA_ENCUESTA']", "label[for='Q_ENCUESTA_COSECHA']","label[for='Q_ENCUESTA_FECHA']", "label[for='Q_ENCUESTA_NOTA']", "#btn_CrearEncuestaSC", "#Texto1", "#tErrorLogin", "#tLogIn", "#tNoInternet", "#lLoading", "#msgDropDB", "#msgSendData", "#msgErrortabel", "#msgCerrarSecion", "#lModoData", "#lEncuestaSeve", "#lDatosSave", "#lConfProdDel", "#lConfProdDes", "#lMensDel", "#lMensDes", "#btnGruposDWL", "#DLGDownload div[data-role='header'] h1"];
 
         $(listOfOBJS).each(function(i, val)
         {

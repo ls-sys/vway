@@ -43,7 +43,9 @@
         "label38" : "Do you really want to delete this producer? <br/> This action will delete all associated data of this producer.",
         "label39" : "Do you want to undo the deleting of this producer to restore it?",
         "label40" : "Removed!",
-        "label41" : "Restored!"
+        "label41" : "Restored!",
+        "label42" : "Download by Groups",
+        "label43" : "Groups"
         
 	};
 	
