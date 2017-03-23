@@ -513,8 +513,10 @@ function DownLoadDataSave(Project_Id, Object_Id, strWhere, TableName, Forma, Pag
 				
 				objdefData = JSON.parse(defData);
                 
-                if (!db.EXISTS_TABLE(TableName))			
-				    db.CREATE(TableName, objdefData);
+                if (db.EXISTS_TABLE(TableName))			
+                    db.DROP(TableName);
+				
+                db.CREATE(TableName, objdefData);
 
 				maxTrans++;
                 
@@ -2797,8 +2799,11 @@ function ClickEvent_btnSaveData()
         var defTable = db.DESCRIBE(tableName);
         
         if (rs.length > 0) {
-            var pID = rs[0].project_id;
-            var oID = rs[0].object_id;
+            /*var pID = rs[0].project_id;
+            var oID = rs[0].object_id;*/
+            
+            var pID = window.sessionStorage.getItem("#Project_id")
+            var oID = window.sessionStorage.getItem("#Object_id")
 
             var rsDef = db.SELECT("def_tables_movil", function (row) {
                 return row.project_id == pID &&
